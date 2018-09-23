@@ -37,7 +37,8 @@ func echo(w http.ResponseWriter, r *http.Request) {
 
 func loadTemplate() (*template.Template) {
 //var homeTemplate = template.ParseFiles.Must(template.New("").Parse()
-	websockets, err := template.ParseFiles("websockets.html")
+	websockets, err := template.ParseFiles(
+		"websockets.html")
 	if err != nil {
 		log.Println("template:", err)
 		return nil
@@ -56,12 +57,17 @@ func home(w http.ResponseWriter, r *http.Request) {
 	data := PageData {
 		SocketAddress: "ws://"+r.Host+"/echo",
 	}
-	homeTemplate.Execute(w, data)
+	err := homeTemplate.Execute(w, data)
+	if err != nil {
+		log.Println("template execute:", err)
+	}
 }
 
 func main() {
 	flag.Parse()
 	log.SetFlags(0)
+	fs := http.FileServer(http.Dir("scripts"))
+	http.Handle("/scripts/", http.StripPrefix("/scripts/", fs))
 	http.HandleFunc("/echo", echo)
 	http.HandleFunc("/", home)
 	log.Fatal(http.ListenAndServe(*addr, nil))
