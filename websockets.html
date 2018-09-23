@@ -16,7 +16,7 @@ window.addEventListener("load", function(evt) {
         if (ws) {
             return false;
         }
-        ws = new WebSocket("{{.}}");
+        ws = new WebSocket("{{.SocketAddress}}");
         ws.onopen = function(evt) {
             print("OPEN");
         }

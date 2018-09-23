@@ -47,8 +47,16 @@ func loadTemplate() (*template.Template) {
 
 var homeTemplate = loadTemplate()
 
+
+//PageData is a structure to store template data
+type PageData struct {
+	SocketAddress string
+}
 func home(w http.ResponseWriter, r *http.Request) {
-	homeTemplate.Execute(w, "ws://"+r.Host+"/echo")
+	data := PageData {
+		SocketAddress: "ws://"+r.Host+"/echo",
+	}
+	homeTemplate.Execute(w, data)
 }
 
 func main() {
