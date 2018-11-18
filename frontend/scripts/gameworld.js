@@ -21,12 +21,24 @@ function TileData(id, image, nrows, ncols, xsize, ysize) {
     }
 }
 
+//loads tile atlases - based on the json tileData arg
+//which contains a sequence of:
+// id: identifier for the tile atlas
+// image: the url of the image file to load
+// nrows: the number of tile rows in the specified image
+// ncols: the number of tile columns in the specified image
+// xsize: the number of pixels that span the width of each column
+// ysize: the number of pixels that span the height of each row
+//calls the parameterless 
 function loadTileData(tileData, callback) {
 
     var n,
         result = {},
         count  = tileData.length,
-        onload = function() { if (--count == 0) callback(result); };
+        onload = function() {
+             if (--count == 0)
+             callback(result);
+            };
   
     for(n = 0 ; n < tileData.length ; n++) {
         var id = tileData[n]["id"];
@@ -47,18 +59,25 @@ function loadTileData(tileData, callback) {
   }
 
 
-function SideScrollGameWorld(worldConfig){
+function TileBasedGameWorld(worldConfig){
     this.WorldConfig = JSON.parse(worldConfig);
-    this.numCols = this.WorldConfig["x_size"];
-    this.numRows = this.WorldConfig["y_size"];
+    this.numCols = this.WorldConfig["numcols"];
+    this.numRows = this.WorldConfig["numrows"];
+    //the final x render size of each tile 
     this.grid_size_x = this.WorldConfig["grid_size_x"];
+    //the final y render size of each tile
     this.grid_size_y = this.WorldConfig["grid_size_y"];
-
-    this.getGridData()
-
+    //a collection of layers
+    this.grid_data = this.WorldConfig["grid_data"];
+    this.getCoordinateX = function(col){
+        return col*this.grid_size_x;
+    }
+    this.getCoordinateY = function(row){
+        return row*this.grid_size_y;
+    }
 }
 
-function SideScrollCanvasView(canvas){
+function TileCanvasView(canvas){
     this.canvas = canvas;
     this.context = canvas.getContext("2d")
     this.size_x = canvas.width;
@@ -70,8 +89,27 @@ function SideScrollCanvasView(canvas){
         this.context.clearRect(0, 0, this.size_x, this.size_y);
     }
 
-    this.render = function(){
+    //render function
+    //renders each item in gameworld grid_data sequentially
+    this.render = function(gameworld, tileDataDict){
 
+        //render all layers
+        for(i = 0; i<gameworld.grid_data.length; i++){
+            var griddata = gameworld.grid_data[i];
+            var tileData = tileDataDict[ griddata["tile_data_id"]];
+            
+            for(j = 0; j<griddata.length; j++){
+                tileData.draw(
+                    this.context,
+                    griddata["tile_row"],
+                    griddata["tile_col"],
+                    griddata["world_row_x"] * world.grid_size_x - this.offset_x,
+                    griddata["world_col_y"] * world.grid_size_y - this.offset_y,
+                    gameworld.grid_size_x,
+                    gameworld.grid_size_y
+                );
+            }
+        }
     }
 
     this.focusOn = function(actor){

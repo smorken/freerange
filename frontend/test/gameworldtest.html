@@ -12,17 +12,7 @@
             b.appendChild(testElement);
             return canvas;
         }
-        function displayResult(result){
-            var testCanvas = appendTest();
-            var context = testCanvas.getContext("2d");
-            result[1].draw(context,0,0,0,0,40,40);
-            result[1].draw(context,0,0,40,0,40,40);
-            result[1].draw(context,1,1,0,40,40,40);
-            result[1].draw(context,1,0,40,40,40,40);
-            
-        }
-        function run(){
-            //debugger;
+        function createTestTileData(callback){
             loadTileData([
                 {
                     "id": 1,
@@ -32,7 +22,40 @@
                     "xsize": 56,
                     "ysize": 56 
                 }
-            ],displayResult);
+            ],callback);
+        }
+        function test1(){
+
+            var displayResult = function (result){
+            var testCanvas = appendTest();
+            var context = testCanvas.getContext("2d");
+            result[1].draw(context,0,0,0,0,40,40);
+            result[1].draw(context,0,0,40,0,40,40);
+            result[1].draw(context,1,1,0,40,40,40);
+            result[1].draw(context,1,0,40,40,40,40);
+            
+            }
+            debugger;
+            createTestTileData(displayResult);
+        }
+
+        function test2(){
+            var gw = new TileBasedGameWorld(
+                {
+                    "x_size": 10,
+                    "y_size": 10,
+                    "numcols": 10,
+                    "numrows": 10,
+                    "grid_size_x": 15,
+                    "grid_size_y": 15,
+                    "grid_data": [
+                        {"tile_row": 3, "tile_col": 2, "world_row_x": 2, "world_col_x": 1}
+                    ] 
+                }
+            )
+        }
+        function run(){
+            test1();
 
             
         
