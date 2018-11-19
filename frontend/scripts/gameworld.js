@@ -27,9 +27,9 @@ function TileData(id, image, nrows, ncols, xsize, ysize) {
 // image: the url of the image file to load
 // nrows: the number of tile rows in the specified image
 // ncols: the number of tile columns in the specified image
-// xsize: the number of pixels that span the width of each column
+// xsize: the number of pixls that span the width of each column
 // ysize: the number of pixels that span the height of each row
-//calls the parameterless 
+//calls callback function when all images are loaded.  
 function loadTileData(tileData, callback) {
 
     var n,
@@ -58,22 +58,57 @@ function loadTileData(tileData, callback) {
     }  
   }
 
+function WorldGridLayer(nrows, ncols, tile_atlas_id){
+    this.numRows = nrows
+    this.numCols = ncols
+    this.tile_atlas_id = tile_atlas_id
+    this.data = {}
+
+    this.getvalue = function(row, col){
+        if(row in this.data && col in this.data[row]){
+            return this.data[row][col]
+        }
+    }
+    // updates this layers data with x,y,value triples
+    // ex: value = [[0,0,d(0,0)],[0,1,d(0,1), ... ]
+    this.update = function(value){
+        for(i = 0; i<value.length; i++){
+            this.data[value[0]][value[1]] = value[2]
+        }
+    }
+
+}
 
 function TileBasedGameWorld(worldConfig){
     this.WorldConfig = JSON.parse(worldConfig);
+    //the number of columns in the world
     this.numCols = this.WorldConfig["numcols"];
+    //the number of rows in the world
     this.numRows = this.WorldConfig["numrows"];
     //the final x render size of each tile 
     this.grid_size_x = this.WorldConfig["grid_size_x"];
     //the final y render size of each tile
     this.grid_size_y = this.WorldConfig["grid_size_y"];
     //a collection of layers
-    this.grid_data = this.WorldConfig["grid_data"];
+    this.layers = []
+
+    this.addLayer = function(layer){
+        this.layers.push(layer)
+    }
+    //get the origin x coordinate of the specified column
     this.getCoordinateX = function(col){
         return col*this.grid_size_x;
     }
+
+    //get the origin y coordinate of the specified row
     this.getCoordinateY = function(row){
         return row*this.grid_size_y;
+    }
+
+    this.render = function(drawBounds, tileAtasCollection){
+        
+
+
     }
 }
 
@@ -93,11 +128,12 @@ function TileCanvasView(canvas){
     //renders each item in gameworld grid_data sequentially
     this.render = function(gameworld, tileDataDict){
 
+        var bounds = this.drawBounds(gameworld)
         //render all layers
         for(i = 0; i<gameworld.grid_data.length; i++){
             var griddata = gameworld.grid_data[i];
-            var tileData = tileDataDict[ griddata["tile_data_id"]];
-            
+            var tileData = tileDataDict[ griddata["tile_atlas_id"]];
+                        
             for(j = 0; j<griddata.length; j++){
                 tileData.draw(
                     this.context,
@@ -117,22 +153,12 @@ function TileCanvasView(canvas){
         offset_y = actor.y_position - this.size_y/2
     }
     
-    //gets the index of the minimum visible column
-    this.minVisibleColumn() = function(world){
-        return Math.floor(this.offset_x/world.grid_size_x)
+    this.drawBounds() = function(world){
+        return {
+            "x1": Math.floor(this.offset_x/world.grid_size_x),
+            "x2": Math.floor((this.offset_x + size_x)/world.grid_size_x),
+            "y1": Math.floor(this.offset_y/world.grid_size_y),
+            "y2": Math.floor((this.offset_y + size_y)/world.grid_size_y)
+        }
     }
-
-    //gets the index of the minimum visible row
-    this.minVisibleRow() = function(world){
-        return Math.floor(this.offset_y/world.grid_size_y)
-    }
-
-    this.maxVisibleColumn() = function(world){
-        return Math.floor((this.offset_x + size_x)/world.grid_size_x)
-    }
-
-    this.maxVisibleRow() = function(world){
-        return Math.floor((this.offset_y + size_y)/world.grid_size_y)
-    }
-
 }
