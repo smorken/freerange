@@ -1,4 +1,4 @@
-function TileData(id, image, nrows, ncols, xsize, ysize) {
+function TileAtlas(id, image, nrows, ncols, xsize, ysize) {
     this.id = id;
     this.image = image;
     this.nrows = nrows;
@@ -30,35 +30,42 @@ function TileData(id, image, nrows, ncols, xsize, ysize) {
 // xsize: the number of pixls that span the width of each column
 // ysize: the number of pixels that span the height of each row
 //calls callback function when all images are loaded.  
-function loadTileData(tileData, callback) {
+function loadTileAtlas(tileAtlas, callback) {
 
     var n,
         result = {},
-        count  = tileData.length,
+        count  = tileAtlas.length,
         onload = function() {
              if (--count == 0)
              callback(result);
             };
   
-    for(n = 0 ; n < tileData.length ; n++) {
-        var id = tileData[n]["id"];
+    for(n = 0 ; n < tileAtlas.length ; n++) {
+        var id = tileAtlas[n]["id"];
         if(id in result){
             throw `duplicate tile data id: ${id}`
         }
         var image = new Image();
-        result[id] = new TileData(
+        result[id] = new TileAtlas(
             id,
             image,
-            tileData[n]["nrows"],
-            tileData[n]["ncols"],
-            tileData[n]["xsize"],
-            tileData[n]["ysize"]);
+            tileAtlas[n]["nrows"],
+            tileAtlas[n]["ncols"],
+            tileAtlas[n]["xsize"],
+            tileAtlas[n]["ysize"]);
         result[id].image.addEventListener("load", onload);
-        result[id].image.src = tileData[n]["src"];
+        result[id].image.src = tileAtlas[n]["src"];
     }  
   }
 
+
+
 function WorldGridLayer(nrows, ncols, tile_atlas_id){
+
+    //fields for data in each cell
+    const TileAtlasRow_Field = 0
+    const TileAtlasColumn_Field = 0
+
     this.numRows = nrows
     this.numCols = ncols
     this.tile_atlas_id = tile_atlas_id
@@ -68,12 +75,37 @@ function WorldGridLayer(nrows, ncols, tile_atlas_id){
         if(row in this.data && col in this.data[row]){
             return this.data[row][col]
         }
+        return undefined
     }
     // updates this layers data with x,y,value triples
     // ex: value = [[0,0,d(0,0)],[0,1,d(0,1), ... ]
     this.update = function(value){
         for(i = 0; i<value.length; i++){
             this.data[value[0]][value[1]] = value[2]
+        }
+    }
+
+    //render this grid to the specified context using the specified tile atlas collection
+    // @param canvasView an instance of TileCanvasView
+    // @world TileBasedGameWorld instance
+    // @param tile_atlas_collection a dictionary of tile atlas objects    
+    this.render = function(canvasView, world, tile_atlas_collection){
+        tile_atlas = tile_atlas_collection[this.tile_atlas_id]
+        bounds = canvasView.getDrawBounds()
+        for(row = bounds[0]; row<bounds[1]; row++){
+            for(col = bounds[2]; col<bounds[3]; col++){
+                cell_data = this.getvalue(row,col)
+
+                tile_atlas.draw(
+                    canvasView.context,
+                    cell_data[TileAtlasRow_Field],
+                    cell_data[TileAtlasColumn_Field],
+                    row * world.grid_size_x - canvasView.offset_x,
+                    col * world.grid_size_y - canvasView.offset_y,
+                    gameworld.grid_size_x,
+                    gameworld.grid_size_y
+                );
+            }
         }
     }
 
@@ -95,21 +127,21 @@ function TileBasedGameWorld(worldConfig){
     this.addLayer = function(layer){
         this.layers.push(layer)
     }
-    //get the origin x coordinate of the specified column
-    this.getCoordinateX = function(col){
-        return col*this.grid_size_x;
+
+    this.render = function(canvasView, tileAtlasCollection){
+        for(i =0; i<this.layers.length; i++){
+            this.layers[i].render(canvasView, this, tileAtlasCollection)
+        }
     }
+    //get the origin x coordinate of the specified column
+    //this.getCoordinateX = function(col){
+    //    return col*this.grid_size_x;
+    //}
 
     //get the origin y coordinate of the specified row
-    this.getCoordinateY = function(row){
-        return row*this.grid_size_y;
-    }
-
-    this.render = function(drawBounds, tileAtasCollection){
-        
-
-
-    }
+    //this.getCoordinateY = function(row){
+    //   return row*this.grid_size_y;
+    //}
 }
 
 function TileCanvasView(canvas){
@@ -124,41 +156,18 @@ function TileCanvasView(canvas){
         this.context.clearRect(0, 0, this.size_x, this.size_y);
     }
 
-    //render function
-    //renders each item in gameworld grid_data sequentially
-    this.render = function(gameworld, tileDataDict){
-
-        var bounds = this.drawBounds(gameworld)
-        //render all layers
-        for(i = 0; i<gameworld.grid_data.length; i++){
-            var griddata = gameworld.grid_data[i];
-            var tileData = tileDataDict[ griddata["tile_atlas_id"]];
-                        
-            for(j = 0; j<griddata.length; j++){
-                tileData.draw(
-                    this.context,
-                    griddata["tile_row"],
-                    griddata["tile_col"],
-                    griddata["world_row_x"] * world.grid_size_x - this.offset_x,
-                    griddata["world_col_y"] * world.grid_size_y - this.offset_y,
-                    gameworld.grid_size_x,
-                    gameworld.grid_size_y
-                );
-            }
-        }
-    }
-
     this.focusOn = function(actor){
         offset_x = actor.x_position - this.size_x/2
         offset_y = actor.y_position - this.size_y/2
     }
     
-    this.drawBounds() = function(world){
-        return {
-            "x1": Math.floor(this.offset_x/world.grid_size_x),
-            "x2": Math.floor((this.offset_x + size_x)/world.grid_size_x),
-            "y1": Math.floor(this.offset_y/world.grid_size_y),
-            "y2": Math.floor((this.offset_y + size_y)/world.grid_size_y)
-        }
+    //gets the draw bounds of this canvas view in world coordinates
+    this.getDrawBounds() = function(world){
+        return [
+            Math.floor(this.offset_y/world.grid_size_y),
+            Math.floor((this.offset_y + size_y)/world.grid_size_y),
+            Math.floor(this.offset_x/world.grid_size_x),
+            Math.floor((this.offset_x + size_x)/world.grid_size_x)
+        ]
     }
 }
