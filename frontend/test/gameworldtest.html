@@ -13,7 +13,7 @@
             return canvas;
         }
         function createTestTileData(callback){
-            loadTileData([
+            loadTileAtlas([
                 {
                     "id": 1,
                     "src":"testgrid.png",
@@ -34,23 +34,45 @@
                 result[1].draw(context,1,1,0,40,40,40);
                 result[1].draw(context,1,0,40,40,40,40);
             }
-            debugger;
+
+
+            //debugger;
             createTestTileData(displayResult);
         }
 
         function test2(){
-            var gw = new TileBasedGameWorld(
-                {
-                    "numcols": 10,
-                    "numrows": 10,
-                    "grid_size_x": 15,
-                    "grid_size_y": 15
+            var displayResult = function(result){
+                var testCanvas = appendTest();
+                var gw = new WorldGridLayer(10,10,1)
+                gw.update([
+                    [1,1,[2,2]] //draws tile(2,2) at position 1,1
+                ])
+
+                function mockCanvasView(){
+                    this.context = testCanvas.getContext("2d");
+                    this.getDrawBounds = function(){
+                        return [0,10,0,10];
+                    }
+                    this.offset_x = 0;
+                    this.offset_y = 0;
                 }
-            )
+
+                function mockWorld(){
+                    this.grid_size_x = 20;
+                    this.grid_size_y = 15;
+                }
+                gw.render(
+                    new mockCanvasView(),
+                    new mockWorld(),
+                    result
+                )
+            }
+
+            createTestTileData(displayResult)
         }
         function run(){
             test1();
-
+            test2();    
             
         
         }
@@ -61,3 +83,4 @@
     hello
 </body>
 </html>
+
