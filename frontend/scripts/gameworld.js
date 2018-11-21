@@ -64,7 +64,7 @@ function WorldGridLayer(nrows, ncols, tile_atlas_id){
 
     //fields for data in each cell
     const TileAtlasRow_Field = 0;
-    const TileAtlasColumn_Field = 0;
+    const TileAtlasColumn_Field = 1;
 
     this.numRows = nrows;
     this.numCols = ncols;
@@ -79,8 +79,9 @@ function WorldGridLayer(nrows, ncols, tile_atlas_id){
     }
     // updates this layers data with x,y,value triples
     // ex: value = [[0,0,d(0,0)],[0,1,d(0,1), ... ]
-    this.update = function(value){
-        for(i = 0; i<value.length; i++){
+    this.update = function(values){
+        for(i = 0; i<values.length; i++){
+            value = values[i];
             if(value[0] in this.data){
                 this.data[value[0]][value[1]] = value[2];
             }
@@ -103,7 +104,7 @@ function WorldGridLayer(nrows, ncols, tile_atlas_id){
             for(col = bounds[2]; col<bounds[3]; col++){
 
                 cell_data = this.getvalue(row,col);
-                debugger;
+                
                 if(cell_data){
                     tile_atlas.draw(
                         canvasView.context,

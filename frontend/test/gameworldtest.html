@@ -43,9 +43,19 @@
         function test2(){
             var displayResult = function(result){
                 var testCanvas = appendTest();
+                
                 var gw = new WorldGridLayer(10,10,1)
                 gw.update([
-                    [1,1,[2,2]] //draws tile(2,2) at position 1,1
+                    [0,0,[0,0]],
+                    [1,1,[0,1]],
+                    [2,2,[0,2]],
+                    [3,3,[0,3]],
+                    [4,4,[0,4]],
+                    [5,5,[1,0]],
+                    [6,6,[1,1]],
+                    [7,7,[1,2]],
+                    [8,8,[1,3]],
+                    [9,9,[1,4]] //draws tile(2,2) at position 1,1
                 ])
 
                 function mockCanvasView(){
@@ -58,9 +68,11 @@
                 }
 
                 function mockWorld(){
-                    this.grid_size_x = 20;
-                    this.grid_size_y = 15;
+                    this.grid_size_x = 25;
+                    this.grid_size_y = 25;
                 }
+                testCanvas.height = 25*10;
+                testCanvas.width = 25*10;
                 gw.render(
                     new mockCanvasView(),
                     new mockWorld(),
@@ -71,8 +83,9 @@
             createTestTileData(displayResult)
         }
         function run(){
+            test2();   
             test1();
-            test2();    
+             
             
         
         }
