@@ -1,5 +1,5 @@
 
-function canvasview_test_render(testCanvas){
+function canvasview_test_render(test){
     var displayResult = function(result){
         function mockGridLayer(){
             this.getvalue = function(row, col){

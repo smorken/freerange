@@ -7,6 +7,14 @@ function createTestTileData(callback){
             "ncols": 5,
             "xsize": 56,
             "ysize": 56 
+        },
+        {
+            "id": 3,
+            "src": "testgrid2.png",
+            "nrows": 5,
+            "ncols": 5,
+            "xsize": 56,
+            "ysize": 56 
         }
     ],callback);
 }
@@ -26,3 +34,19 @@ function tileatlas_test_basic_drawing(testCanvas){
     //debugger;
     createTestTileData(displayResult);
 }
+
+function tileatlas_test_2_layers(testCanvas){
+
+    var displayResult = function (result){
+        var context = testCanvas.getContext("2d");
+        result[1].draw(context,0,0,0,0,40,40);
+        result[3].draw(context,0,0,40,0,40,40);
+        result[1].draw(context,1,1,0,40,40,40);
+        result[3].draw(context,1,0,40,40,40,40);
+    }
+
+
+    //debugger;
+    createTestTileData(displayResult);
+}
+

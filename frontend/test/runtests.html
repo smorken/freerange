@@ -13,8 +13,9 @@
     <script src="../scripts/gridlayer.js"></script>
     <script>
         function run(){
-            tileatlas_test_basic_drawing(appendTest());
-            canvasview_test_render(appendTest());          
+            tileatlas_test_basic_drawing(createTest());
+            tileatlas_test_2_layers(createTest());
+            canvasview_test_render(createTest());          
         }
         window.onload = run
         </script>
