@@ -3,20 +3,18 @@
 <head>
 <meta charset="utf-8">
     <script src="test.js"></script>
-    <script src="gridlayer_test.js"></script>
-    <script src="tileatlas_test.js"></script>
 
-    <script src="../scripts/gridlayer.js"></script>
+    <script src="tileatlas_test.js"></script>
+    <script src="canvasview_test.js"></script>
+
+
     <script src="../scripts/tileatlas.js"></script>
-    
+    <script src="../scripts/canvasview.js"></script>
+    <script src="../scripts/gridlayer.js"></script>
     <script>
         function run(){
-            test2(appendTest());
-            debugger;   
             tileatlas_test_basic_drawing(appendTest());
-             
-            
-        
+            canvasview_test_render(appendTest());          
         }
         window.onload = run
         </script>

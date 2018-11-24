@@ -1,8 +1,6 @@
 function GridLayer(nrows, ncols, tile_atlas_id){
 
-    //fields for data in each cell
-    const TileAtlasRow_Field = 0;
-    const TileAtlasColumn_Field = 1;
+
 
     this.numRows = nrows;
     this.numCols = ncols;
@@ -28,33 +26,6 @@ function GridLayer(nrows, ncols, tile_atlas_id){
                 this.data[value[0]][value[1]] = value[2];
             }
 
-        }
-    }
-
-    //render this grid to the specified context using the specified tile atlas collection
-    // @param canvasView an instance of TileCanvasView
-    // @world TileBasedGameWorld instance
-    // @param tile_atlas_collection a dictionary of tile atlas objects    
-    this.render = function(canvasView, world, tile_atlas_collection){
-        tile_atlas = tile_atlas_collection[this.tile_atlas_id]
-        bounds = canvasView.getDrawBounds();
-        for(row = bounds[0]; row<bounds[1]; row++){
-            for(col = bounds[2]; col<bounds[3]; col++){
-
-                cell_data = this.getvalue(row,col);
-                
-                if(cell_data){
-                    tile_atlas.draw(
-                        canvasView.context,
-                        cell_data[TileAtlasRow_Field],
-                        cell_data[TileAtlasColumn_Field],
-                        row * world.grid_size_x - canvasView.offset_x,
-                        col * world.grid_size_y - canvasView.offset_y,
-                        world.grid_size_x,
-                        world.grid_size_y
-                    );
-                }
-            }
         }
     }
 }
