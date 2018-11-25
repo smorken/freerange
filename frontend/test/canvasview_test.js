@@ -8,10 +8,10 @@ function canvasview_test_render(test){
             }
             this.tile_atlas_id = 1
         }
-        testCanvas = test.getCanvas();
+        var testCanvas = test.getCanvas();
         testCanvas.height = 27*10;
         testCanvas.width = 27*10;
-        canvasView = new CanvasView(testCanvas)
+        var canvasView = new CanvasView(testCanvas);
         canvasView.render(
             new mockGridLayer(), 25, 25, result);
     }
@@ -28,10 +28,10 @@ function canvasview_test_render_and_clear(test){
             }
             this.tile_atlas_id = 1
         }
-        testCanvas = test.getCanvas();
-        testCanvas.height = 27*10;
-        testCanvas.width = 27*10;
-        canvasView = new CanvasView(testCanvas)
+        var testCanvas = test.getCanvas();
+        testCanvas.height = 50;
+        testCanvas.width = 50;
+        var canvasView = new CanvasView(testCanvas)
 
         var clear = function() {
             canvasView.clear();
