@@ -1,10 +1,10 @@
 
 function GridLayerCollection(worldConfig){
     this.WorldConfig = JSON.parse(worldConfig);
-    //the number of columns in the world
-    this.numCols = this.WorldConfig["numcols"];
-    //the number of rows in the world
-    this.numRows = this.WorldConfig["numrows"];
+    //the number of cols for the grids in the collection
+    this.x_size = this.WorldConfig["x_size"];
+    //the number of rows for the grids in the collection
+    this.y_size = this.WorldConfig["y_size"];
     //the final x render size of each tile 
     this.grid_size_x = this.WorldConfig["grid_size_x"];
     //the final y render size of each tile
@@ -21,13 +21,4 @@ function GridLayerCollection(worldConfig){
             this.layers[i].render(canvasView, this, tileAtlasCollection);
         }
     }
-    //get the origin x coordinate of the specified column
-    //this.getCoordinateX = function(col){
-    //    return col*this.grid_size_x;
-    //}
-
-    //get the origin y coordinate of the specified row
-    //this.getCoordinateY = function(row){
-    //   return row*this.grid_size_y;
-    //}
 }

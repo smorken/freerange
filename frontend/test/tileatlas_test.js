@@ -28,9 +28,9 @@ function tileatlas_test_basic_drawing(test){
         testCanvas.height = 80;
         var context = testCanvas.getContext("2d");
         result[1].draw(context,0,0,0,0,40,40);
-        result[1].draw(context,0,0,40,0,40,40);
-        result[1].draw(context,1,1,0,40,40,40);
-        result[1].draw(context,1,0,40,40,40,40);
+        result[1].draw(context,1,0,40,0,40,40);
+        result[1].draw(context,2,0,0,40,40,40);
+        result[1].draw(context,3,0,40,40,40,40);
     }
 
 
@@ -46,14 +46,14 @@ function tileatlas_test_2_layers(test){
         testCanvas.height = 160;
         var context = testCanvas.getContext("2d");
         result[1].draw(context,0,0,0,0,40,40);
-        result[1].draw(context,0,0,40,0,40,40);
-        result[1].draw(context,1,1,0,40,40,40);
-        result[1].draw(context,1,0,40,40,40,40);
+        result[1].draw(context,1,0,40,0,40,40);
+        result[1].draw(context,2,0,0,40,40,40);
+        result[1].draw(context,3,0,40,40,40,40);
         //result 3 is intentional to check the dictionary is working
-        result[3].draw(context,0,0,0,80,40,40); 
-        result[3].draw(context,0,0,40,80,40,40);
+        result[3].draw(context,4,0,0,80,40,40); 
+        result[3].draw(context,0,1,40,80,40,40);
         result[3].draw(context,1,1,0,120,40,40);
-        result[3].draw(context,1,0,40,120,40,40);
+        result[3].draw(context,2,1,40,120,40,40);
     }
 
 

@@ -1,15 +1,15 @@
-function GridLayer(nrows, ncols, tile_atlas_id){
+function GridLayer(n_x, n_y, tile_atlas_id){
 
 
 
-    this.numRows = nrows;
-    this.numCols = ncols;
+    this.N_X = n_x;
+    this.N_Y = n_y;
     this.tile_atlas_id = tile_atlas_id;
     this.data = {};
 
-    this.getvalue = function(row, col){
-        if(row in this.data && col in this.data[row]){
-            return this.data[row][col];
+    this.getvalue = function(x, y){
+        if(x in this.data && y in this.data[x]){
+            return this.data[x][y];
         }
         return undefined;
     }

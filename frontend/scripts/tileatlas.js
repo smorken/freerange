@@ -6,7 +6,7 @@ function TileAtlas(id, image, nrows, ncols, xsize, ysize) {
     this.xsize = xsize;
     this.ysize = ysize;
 
-    this.draw = function(context, tile_row, tile_col, canvas_x_postion,
+    this.draw = function(context, tile_col, tile_row, canvas_x_postion,
         canvas_y_position, canvas_x_size, canvas_y_size ){
         context.drawImage(
             this.image, //img - Specifies the image, canvas, or video element to use	 

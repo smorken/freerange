@@ -1,6 +1,6 @@
 //fields for data in each cell
-const TileAtlasRow_Field = 0;
-const TileAtlasColumn_Field = 1;
+const TileAtlasX_Field = 0;
+const TileAtlasY_Field = 1;
 
 class CanvasView {
 
@@ -40,10 +40,10 @@ class CanvasView {
     //gets the draw bounds of this canvas view in world coordinates
     getDrawBounds(cell_size_x, cell_size_y){
         return [
-            Math.floor(this.offset_y / cell_size_y),
-            Math.ceil((this.offset_y + this.size_y())/cell_size_y),
             Math.floor(this.offset_x / cell_size_x),
-            Math.ceil((this.offset_x + this.size_x())/cell_size_x)
+            Math.ceil((this.offset_x + this.size_x())/cell_size_x),
+            Math.floor(this.offset_y / cell_size_y),
+            Math.ceil((this.offset_y + this.size_y())/cell_size_y)
         ];
     }
 
@@ -55,18 +55,18 @@ class CanvasView {
     render(gridlayer, sz_x, sz_y, tile_atlas_collection){
         var tile_atlas = tile_atlas_collection[gridlayer.tile_atlas_id]
         var bounds = this.getDrawBounds(sz_x, sz_y);
-        for(var col = bounds[0]; col<bounds[1]; col++){
-            for(var row = bounds[2]; row<bounds[3]; row++){
+        for(var x = bounds[0]; x<bounds[1]; x++){
+            for(var y = bounds[2]; y<bounds[3]; y++){
 
-                var cell_data = gridlayer.getvalue(row,col);
+                var cell_data = gridlayer.getvalue(y,x);
                 
                 if(cell_data){
                     tile_atlas.draw(
                         this.context,
-                        cell_data[TileAtlasRow_Field],
-                        cell_data[TileAtlasColumn_Field],
-                        row * sz_y - this.offset_y,
-                        col * sz_x - this.offset_x,
+                        cell_data[TileAtlasX_Field],
+                        cell_data[TileAtlasY_Field],
+                        x * sz_x - this.offset_x,
+                        y * sz_y - this.offset_y,
                         sz_x,
                         sz_y
                     );
