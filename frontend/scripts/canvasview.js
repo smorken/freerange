@@ -1,28 +1,42 @@
 
-function CanvasView(canvas){
+class CanvasView {
 
-    //fields for data in each cell
-    const TileAtlasRow_Field = 0;
-    const TileAtlasColumn_Field = 1;
+    constructor(canvas){
+        //fields for data in each cell
+        const TileAtlasRow_Field = 0;
+        const TileAtlasColumn_Field = 1;
 
-    this.canvas = canvas;
-    this.context = canvas.getContext("2d")
-    this.size_x = canvas.width;
-    this.size_y = canvas.height;
-    this.offset_x = 0;
-    this.offset_y = 0;
+        this.canvas = canvas;
+        this.context = canvas.getContext("2d")
 
-    this.clear = function() {
+        this.offset_x = 0;
+        this.offset_y = 0;
+    }
+
+    get size_x(){
+        return this.canvas.size_x;
+    }
+
+    get size_y(){
+        return this.canvas.size_y;
+    }
+
+    clear = function() {
         this.context.clearRect(0, 0, this.size_x, this.size_y);
     }
 
-    this.focusOn = function(actor){
-        offset_x = actor.x_position - this.size_x/2;
-        offset_y = actor.y_position - this.size_y/2;
+    focusOn = function(actor){
+        this.offset_x = actor.x_position - this.size_x/2;
+        this.offset_y = actor.y_position - this.size_y/2;
+    }
+
+    setOffset(x,y){
+        this.offset_x = x;
+        this.offset_y = y;
     }
     
     //gets the draw bounds of this canvas view in world coordinates
-    this.getDrawBounds = function(cell_size_x, cell_size_y){
+    getDrawBounds = function(cell_size_x, cell_size_y){
         return [
             Math.floor(this.offset_y / cell_size_y),
             Math.ceil((this.offset_y + this.size_y)/cell_size_y),
@@ -36,7 +50,7 @@ function CanvasView(canvas){
     // @param sz_x the rendered size of each column in pixels
     // @param sz_y the rendered size of each row in pixels
     // @param tile_atlas_collection a dictionary of tile atlas objects    
-    this.render = function(gridlayer, sz_x, sz_y, tile_atlas_collection){
+    render = function(gridlayer, sz_x, sz_y, tile_atlas_collection){
         tile_atlas = tile_atlas_collection[gridlayer.tile_atlas_id]
         bounds = this.getDrawBounds(sz_x, sz_y);
         for(row = bounds[0]; row<bounds[1]; row++){
