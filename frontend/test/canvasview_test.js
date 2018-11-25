@@ -29,8 +29,8 @@ function canvasview_test_render_and_clear(test){
             this.tile_atlas_id = 1
         }
         var testCanvas = test.getCanvas();
-        testCanvas.height = 50;
-        testCanvas.width = 50;
+        testCanvas.height = 140;
+        testCanvas.width = 110;
         var canvasView = new CanvasView(testCanvas)
 
         var clear = function() {
@@ -46,4 +46,34 @@ function canvasview_test_render_and_clear(test){
     }
 
     createTestTileData(displayResult)
+}
+
+function canvasview_test_render_with_undefined_values_in_grid(test){
+    test.appendText("tests the effect of undefined grid data, which should be a no-draw in the render function");
+    var displayResult = function(result){
+        function mockGridLayer(){
+            this.data = { 
+                0 : { 0: undefined, 1: [0,0], 2: undefined },
+                1 : { 0: [1,1], 1: undefined, 2: [0,0] },
+                2 : { 0: undefined, 1: [0,0], 2: undefined }
+            };
+            this.getvalue = function(row, col){
+                return this.data[row][col];
+            }
+            this.tile_atlas_id = 1
+        }
+        var testCanvas = test.getCanvas();
+        testCanvas.height = 75;
+        testCanvas.width = 75;
+        var canvasView = new CanvasView(testCanvas);
+        canvasView.render(
+            new mockGridLayer(), 25, 25, result);
+    }
+
+    createTestTileData(displayResult)
+}
+
+function canvasview_test_focusOn_method(test){
+    test.appendText("tests the focus on method");
+
 }

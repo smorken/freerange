@@ -55,8 +55,8 @@ class CanvasView {
     render(gridlayer, sz_x, sz_y, tile_atlas_collection){
         var tile_atlas = tile_atlas_collection[gridlayer.tile_atlas_id]
         var bounds = this.getDrawBounds(sz_x, sz_y);
-        for(var row = bounds[0]; row<bounds[1]; row++){
-            for(var col = bounds[2]; col<bounds[3]; col++){
+        for(var col = bounds[0]; col<bounds[1]; col++){
+            for(var row = bounds[2]; row<bounds[3]; row++){
 
                 var cell_data = gridlayer.getvalue(row,col);
                 
