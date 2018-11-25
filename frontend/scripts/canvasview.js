@@ -29,7 +29,13 @@ class CanvasView {
 
     focusOn(actor){
         this.offset_x = actor.x_position - this.size_x()/2;
+        if(this.offset_x < 0) { //enforce minimum offset, so that a gap isnt shown on the left
+            this.offset_x = 0;
+        }
         this.offset_y = actor.y_position - this.size_y()/2;
+        if(this.offset_y < 0){
+            this.offset_y = 0;
+        }
     }
 
     setOffset(x,y){

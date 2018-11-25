@@ -34,5 +34,10 @@ class Test{
         t.appendChild(document.createTextNode(text));
         this.textDiv.appendChild(t);
     }
+
+    setText(index, text){
+        var t = this.textDiv.childNodes[index];
+        t.childNodes[0].nodeValue = text;
+    }
 }
 

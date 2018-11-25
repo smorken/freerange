@@ -74,7 +74,7 @@ function canvasview_test_render_with_undefined_values_in_grid(test){
 }
 
 function canvasview_test_focusOn_method(test){
-    test.appendText("tests the focus on method by setting it periodically and rendering the result");
+    test.appendText("tests the focusOn(actor) method by setting it periodically and rendering the result");
     var displayResult = function(result){
         function mockGridLayer(){
             this.getvalue = function(x, y){
@@ -91,17 +91,20 @@ function canvasview_test_focusOn_method(test){
         var xpos = 0;
         var ypos = 0;
         
+        test.appendText("");
         var render = function(){
             
             canvasView.clear();
-            function mockActor(x,y){
+            function mockActor(x,y) {
                 this.x_position = x;
                 this.y_position = y;
             }
 
-            xpos = xpos < 100 ? xpos + 1 : 0;
-            ypos = ypos < 100 ? ypos + 1 : 0;
-
+            xpos = xpos < 1000 ? xpos + 2 : 0;
+            ypos = ypos < 1000 ? ypos + 1 : 0;
+ 
+            test.setText(1, "actor xpos: " + xpos + ", ypos: " + ypos);
+ 
             canvasView.focusOn(new mockActor(xpos,ypos))
             canvasView.render(
                 new mockGridLayer(), 15, 15, result);
