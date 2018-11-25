@@ -13,15 +13,16 @@
     <script src="../scripts/gridlayer.js"></script>
     <script>
         function run(){
-            tileatlas_test_basic_drawing(createTest());
-            tileatlas_test_2_layers(createTest());
-            canvasview_test_render(createTest());          
+            tileatlas_test_basic_drawing(new Test("Tile atlas: basic drawing"));
+            tileatlas_test_2_layers(new Test("Tile atlas: 2 layers"));
+            
+            canvasview_test_render(new Test("Canvas view: basic render"));          
+            canvasview_test_render_and_clear(new Test("Canvas view: render and clear"));      
         }
         window.onload = run
         </script>
 </head>
 <body>
-    hello
 </body>
 </html>
 

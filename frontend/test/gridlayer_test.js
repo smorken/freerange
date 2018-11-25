@@ -1,5 +1,5 @@
 
-function test2(testCanvas){
+function test2(test){
     var displayResult = function(result){
         
         var gw = new GridLayer(10,10,1)

@@ -5,7 +5,6 @@ function CanvasView(canvas){
     const TileAtlasRow_Field = 0;
     const TileAtlasColumn_Field = 1;
 
-
     this.canvas = canvas;
     this.context = canvas.getContext("2d")
     this.size_x = canvas.width;
@@ -26,9 +25,9 @@ function CanvasView(canvas){
     this.getDrawBounds = function(cell_size_x, cell_size_y){
         return [
             Math.floor(this.offset_y / cell_size_y),
-            Math.floor((this.offset_y + this.size_y)/cell_size_y),
+            Math.ceil((this.offset_y + this.size_y)/cell_size_y),
             Math.floor(this.offset_x / cell_size_x),
-            Math.floor((this.offset_x + this.size_x)/cell_size_x)
+            Math.ceil((this.offset_x + this.size_x)/cell_size_x)
         ];
     }
 
@@ -42,7 +41,7 @@ function CanvasView(canvas){
         bounds = this.getDrawBounds(sz_x, sz_y);
         for(row = bounds[0]; row<bounds[1]; row++){
             for(col = bounds[2]; col<bounds[3]; col++){
-                debugger;
+
                 cell_data = gridlayer.getvalue(row,col);
                 
                 if(cell_data){
