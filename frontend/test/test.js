@@ -1,7 +1,7 @@
 class Test{
     constructor(title){
         var doc = document.getElementsByTagName("body")[0];
-        this.canvas = document.createElement("canvas");
+
         
         this.titleDiv = document.createElement("div");
         this.titleDiv.appendChild(document.createTextNode(title));
@@ -12,7 +12,7 @@ class Test{
         this.textSectionDiv.style.border = "thin solid #000000";
 
         this.canvasDiv = document.createElement("div");
-        this.canvasDiv.appendChild(this.canvas);
+
         this.canvasDiv.style.border = "thin solid #000000";
         this.canvasDiv.style.margin = "5px 5px";
 
@@ -26,6 +26,8 @@ class Test{
         doc.appendChild(this.mainDiv);
     }
     getCanvas(){
+        this.canvas = document.createElement("canvas");
+        this.canvasDiv.appendChild(this.canvas);
         return this.canvas
     }
     
@@ -40,7 +42,7 @@ class Test{
         t.childNodes[0].nodeValue = text;
     }
 
-    AssertTrue(value, description){
+    assertTrue(value, description){
         var textDiv = document.createElement("div");
 
         if(value){

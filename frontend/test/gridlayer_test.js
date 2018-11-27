@@ -1,42 +1,28 @@
 
-function test2(test){
-    var displayResult = function(result){
+function gridlayer_test_update(test){
         
-        var gw = new GridLayer(10,10,1)
-        gw.update([
-            [0,0,[0,0]],
-            [1,1,[0,1]],
-            [2,2,[0,2]],
-            [3,3,[0,3]],
-            [4,4,[0,4]],
-            [5,5,[1,0]],
-            [6,6,[1,1]],
-            [7,7,[1,2]],
-            [8,8,[1,3]],
-            [9,9,[1,4]] //draws tile(2,2) at position 1,1
-        ])
+    var gw = new GridLayer(10,10,1)
+    gw.update([
+        [-10,100,"mock_content"],
+    ])        
+    test.assertTrue(gw.getvalue(-10,100) == "mock_content", "test update and get value")
+}
 
-        function mockCanvasView(){
-            this.context = testCanvas.getContext("2d");
-            this.getDrawBounds = function(){
-                return [0,10,0,10];
-            }
-            this.offset_x = 0;
-            this.offset_y = 0;
-        }
+function gridlayer_test_update_with_overwrite(test){
+        
+    var gw = new GridLayer(10,10,1)
 
-        function mockGridCollection(){
-            this.grid_size_x = 25;
-            this.grid_size_y = 25;
-        }
-        testCanvas.height = 25*10;
-        testCanvas.width = 25*10;
-        gw.render(
-            new mockCanvasView(),
-            new mockGridCollection(),
-            result
-        )
-    }
+    test.assertTrue(gw.getvalue(0,0) === undefined, "getvalue(x,y) with no matching value returns undefined.")
+    gw.update([
+        [-10,100,"mock_content"],
+    ])
+    test.assertTrue(gw.getvalue(-10,100) == "mock_content", "get result after first update")
 
-    createTestTileData(displayResult)
+    gw.update([
+        [-10,100,"mock_content1"],
+        [0,0,"mock_content2"],
+    ])
+    test.assertTrue(
+        gw.getvalue(-10,100) == "mock_content1" && gw.getvalue(0,0) == "mock_content2",
+         "get result after second update")
 }

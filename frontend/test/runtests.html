@@ -6,13 +6,15 @@
 
     <script src="tileatlas_test.js"></script>
     <script src="canvasview_test.js"></script>
-
+    <script src="gridlayer_test.js"></script>
 
     <script src="../scripts/tileatlas.js"></script>
     <script src="../scripts/canvasview.js"></script>
     <script src="../scripts/gridlayer.js"></script>
     <script>
         function run(){
+            gridlayer_test_update(new Test("Grid layer: update and get value"))
+            gridlayer_test_update_with_overwrite(new Test("Grid layer: multiple updates"))
             tileatlas_test_basic_drawing(new Test("Tile atlas: basic drawing"));
             tileatlas_test_2_layers(new Test("Tile atlas: 2 layers"));
             
