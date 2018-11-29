@@ -1,17 +1,17 @@
-
 package main
 
 import (
 	"flag"
+	"html/template"
 	"log"
 	"net/http"
-	"html/template"
+
 	"github.com/gorilla/websocket"
 )
+
 var addr = flag.String("addr", "localhost:8080", "http service address")
 
 var upgrader = websocket.Upgrader{} // use default options
-
 
 func echo(w http.ResponseWriter, r *http.Request) {
 	c, err := upgrader.Upgrade(w, r, nil)
@@ -35,8 +35,8 @@ func echo(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func loadTemplate() (*template.Template) {
-//var homeTemplate = template.ParseFiles.Must(template.New("").Parse()
+func loadTemplate() *template.Template {
+	//var homeTemplate = template.ParseFiles.Must(template.New("").Parse()
 	websockets, err := template.ParseFiles(
 		"frontend/websockets.html")
 	if err != nil {
@@ -48,14 +48,14 @@ func loadTemplate() (*template.Template) {
 
 var homeTemplate = loadTemplate()
 
-
 //PageData is a structure to store template data
 type PageData struct {
 	SocketAddress string
 }
+
 func home(w http.ResponseWriter, r *http.Request) {
-	data := PageData {
-		SocketAddress: "ws://"+r.Host+"/echo",
+	data := PageData{
+		SocketAddress: "ws://" + r.Host + "/echo",
 	}
 	err := homeTemplate.Execute(w, data)
 	if err != nil {
