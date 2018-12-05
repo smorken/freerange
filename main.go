@@ -1,5 +1,6 @@
 package main
 
+/*
 import (
 	"flag"
 	"html/template"
@@ -72,3 +73,4 @@ func main() {
 	http.HandleFunc("/", home)
 	log.Fatal(http.ListenAndServe(*addr, nil))
 }
+*/
