@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"path"
 )
 
 func loadNames(nameList string) []string {
@@ -28,6 +29,7 @@ func ProcessBackgroundEmojis(nameList string, emojidata string, outDir string) {
 	}
 	for _, name := range loadNames(nameList) {
 		match := byName[name]
+		DownloadFile(path.Join(outDir, match.Description)+".svg", TwemojiURL(match.Code))
 		fmt.Println(match.Code + " " + match.Description + " " + match.Group)
 	}
 
