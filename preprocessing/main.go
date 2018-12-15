@@ -10,4 +10,5 @@ func main() {
 
 	emoji.ParseEmojiData("./emoji/emoji-test.txt", "output.json")
 	emoji.ProcessBackgroundEmojis("./emoji/backgrounds.json", "output.json", "../frontend/assets")
+	emoji.ProcessEmojis("output.json", "")
 }

@@ -10,7 +10,7 @@ import (
 
 // TwemojiURL gets a formatted Twitter emoji download link
 func TwemojiURL(code string) string {
-	code = strings.Replace(code, " ", "_", -1)
+	code = strings.Replace(code, " ", "-", -1)
 	code = strings.ToLower(code)
 	result := fmt.Sprintf("https://twemoji.maxcdn.com/2/svg/%v.svg", code)
 	return result
