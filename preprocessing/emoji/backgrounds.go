@@ -37,7 +37,7 @@ func ProcessBackgroundEmojis(nameList string, emojidata string, outDir string) {
 }
 
 //ProcessEmojis produces a data file for each emoji subgroup for downloading emoji images
-func ProcessEmojis(emojidata string, outPath string) {
+func ProcessEmojis(emojidata string, outdir string) {
 	var emojis []Emoji
 	dat, err := ioutil.ReadFile(emojidata)
 	check(err)
@@ -69,7 +69,7 @@ func ProcessEmojis(emojidata string, outPath string) {
 		}
 		jsonOutput, err := json.MarshalIndent(output, "", "    ")
 		check(err)
-		jsonOutputPath := path.Join("..", "frontend", "assets", subgroupname+".json")
+		jsonOutputPath := path.Join(outdir, subgroupname+".json")
 		err = ioutil.WriteFile(jsonOutputPath, jsonOutput, 0644)
 		check(err)
 
