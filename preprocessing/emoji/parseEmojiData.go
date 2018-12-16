@@ -64,7 +64,7 @@ func ParseEmojiData(inputFile string, outputFile string) {
 	err = scanner.Err()
 	check(err)
 
-	jsonData, err := json.Marshal(data)
+	jsonData, err := json.MarshalIndent(data, "", "    ")
 	check(err)
 
 	err = ioutil.WriteFile(outputFile, jsonData, 777)
