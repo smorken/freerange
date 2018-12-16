@@ -8,11 +8,22 @@ import (
 	"strings"
 )
 
-// TwemojiURL gets a formatted Twitter emoji download link
-func TwemojiURL(code string) string {
+// ProcessCode converts a code from the specification format to the twitter format
+func ProcessCode(code string) string {
 	code = strings.Replace(code, " ", "-", -1)
-	code = strings.ToLower(code)
-	result := fmt.Sprintf("https://twemoji.maxcdn.com/2/svg/%v.svg", code)
+	return strings.ToLower(code)
+}
+
+// TwemojiURL gets a formatted Twitter emoji download link
+func TwemojiURL(code string, svg bool) string {
+	code = ProcessCode(code)
+	result := ""
+	if svg {
+		result = fmt.Sprintf("https://twemoji.maxcdn.com/2/svg/%v.svg", code)
+	} else {
+		result = fmt.Sprintf("https://twemoji.maxcdn.com/2/72x72/%v.png", code)
+	}
+
 	return result
 }
 

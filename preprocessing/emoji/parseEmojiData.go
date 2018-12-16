@@ -33,7 +33,7 @@ func ParseEmojiData(inputFile string, outputFile string) {
 	defer file.Close()
 	var currentGroup = ""
 	var currentSubGroup = ""
-	descriptionRegEx := regexp.MustCompile("[a-zA-Z ]+$")
+	descriptionRegEx := regexp.MustCompile("[a-zA-Z :-]+$")
 	emojiCodeRegEx := regexp.MustCompile("[0-9A-Za-z ]+ +;")
 	data := []Emoji{}
 	scanner := bufio.NewScanner(file)

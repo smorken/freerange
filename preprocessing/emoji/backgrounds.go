@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"os"
 	"path"
 )
 
@@ -29,7 +30,7 @@ func ProcessBackgroundEmojis(nameList string, emojidata string, outDir string) {
 	}
 	for _, name := range loadNames(nameList) {
 		match := byName[name]
-		DownloadFile(path.Join(outDir, match.Description)+".svg", TwemojiURL(match.Code))
+		DownloadFile(path.Join(outDir, match.Description)+".svg", TwemojiURL(match.Code, true))
 		fmt.Println(match.Code + " " + match.Description + " " + match.Group)
 	}
 
@@ -52,9 +53,25 @@ func ProcessEmojis(emojidata string, outPath string) {
 		}
 	}
 	for subgroupname, subgroup := range bySubGroup {
+		output := []map[string]string{}
 		for i := 0; i < len(subgroup); i++ {
-
-			fmt.Printf("group[%s] name[%s] url[%s]\n", subgroupname, subgroup[i].Description, TwemojiURL(subgroup[i].Code))
+			pathToEmoji := path.Join("D:", "CODE", "twemoji", "2", "72x72", ProcessCode(subgroup[i].Code)+".png")
+			if _, err := os.Stat(pathToEmoji); os.IsNotExist(err) {
+				//file does not exist so dont use it
+				continue
+			}
+			fmt.Printf("group[%s] name[%s] url[%s]\n", subgroupname, subgroup[i].Description, TwemojiURL(subgroup[i].Code, false))
+			output = append(output,
+				map[string]string{
+					"name":    subgroup[i].Description,
+					"png_url": TwemojiURL(subgroup[i].Code, false),
+					"svg_url": TwemojiURL(subgroup[i].Code, true)})
 		}
+		jsonOutput, err := json.MarshalIndent(output, "", "    ")
+		check(err)
+		jsonOutputPath := path.Join("..", "frontend", "assets", subgroupname+".json")
+		err = ioutil.WriteFile(jsonOutputPath, jsonOutput, 0644)
+		check(err)
+
 	}
 }
