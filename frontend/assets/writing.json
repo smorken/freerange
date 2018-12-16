@@ -1,0 +1,37 @@
+[
+    {
+        "name": "pencil",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/270f.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/270f.svg"
+    },
+    {
+        "name": "black nib",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/2712.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/2712.svg"
+    },
+    {
+        "name": "fountain pen",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f58b.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f58b.svg"
+    },
+    {
+        "name": "pen",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f58a.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f58a.svg"
+    },
+    {
+        "name": "paintbrush",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f58c.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f58c.svg"
+    },
+    {
+        "name": "crayon",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f58d.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f58d.svg"
+    },
+    {
+        "name": "memo",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f4dd.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f4dd.svg"
+    }
+]

@@ -1,0 +1,47 @@
+[
+    {
+        "name": "muted speaker",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f507.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f507.svg"
+    },
+    {
+        "name": "speaker low volume",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f508.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f508.svg"
+    },
+    {
+        "name": "speaker medium volume",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f509.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f509.svg"
+    },
+    {
+        "name": "speaker high volume",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f50a.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f50a.svg"
+    },
+    {
+        "name": "loudspeaker",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f4e2.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f4e2.svg"
+    },
+    {
+        "name": "megaphone",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f4e3.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f4e3.svg"
+    },
+    {
+        "name": "postal horn",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f4ef.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f4ef.svg"
+    },
+    {
+        "name": "bell",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f514.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f514.svg"
+    },
+    {
+        "name": "bell with slash",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f515.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f515.svg"
+    }
+]

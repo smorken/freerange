@@ -1,0 +1,52 @@
+[
+    {
+        "name": "bouquet",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f490.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f490.svg"
+    },
+    {
+        "name": "cherry blossom",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f338.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f338.svg"
+    },
+    {
+        "name": "white flower",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f4ae.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f4ae.svg"
+    },
+    {
+        "name": "rosette",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f3f5.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f3f5.svg"
+    },
+    {
+        "name": "rose",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f339.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f339.svg"
+    },
+    {
+        "name": "wilted flower",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f940.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f940.svg"
+    },
+    {
+        "name": "hibiscus",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f33a.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f33a.svg"
+    },
+    {
+        "name": "sunflower",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f33b.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f33b.svg"
+    },
+    {
+        "name": "blossom",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f33c.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f33c.svg"
+    },
+    {
+        "name": "tulip",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f337.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f337.svg"
+    }
+]

@@ -1,0 +1,42 @@
+[
+    {
+        "name": "anchor",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/2693.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/2693.svg"
+    },
+    {
+        "name": "sailboat",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/26f5.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/26f5.svg"
+    },
+    {
+        "name": "canoe",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f6f6.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f6f6.svg"
+    },
+    {
+        "name": "speedboat",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f6a4.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f6a4.svg"
+    },
+    {
+        "name": "passenger ship",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f6f3.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f6f3.svg"
+    },
+    {
+        "name": "ferry",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/26f4.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/26f4.svg"
+    },
+    {
+        "name": "motor boat",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f6e5.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f6e5.svg"
+    },
+    {
+        "name": "ship",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f6a2.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f6a2.svg"
+    }
+]

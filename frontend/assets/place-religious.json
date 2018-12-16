@@ -1,0 +1,27 @@
+[
+    {
+        "name": "church",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/26ea.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/26ea.svg"
+    },
+    {
+        "name": "mosque",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f54c.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f54c.svg"
+    },
+    {
+        "name": "synagogue",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f54d.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f54d.svg"
+    },
+    {
+        "name": "shinto shrine",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/26e9.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/26e9.svg"
+    },
+    {
+        "name": "kaaba",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f54b.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f54b.svg"
+    }
+]

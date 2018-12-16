@@ -1,0 +1,67 @@
+[
+    {
+        "name": "battery",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f50b.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f50b.svg"
+    },
+    {
+        "name": "electric plug",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f50c.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f50c.svg"
+    },
+    {
+        "name": "laptop computer",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f4bb.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f4bb.svg"
+    },
+    {
+        "name": "desktop computer",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f5a5.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f5a5.svg"
+    },
+    {
+        "name": "printer",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f5a8.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f5a8.svg"
+    },
+    {
+        "name": "keyboard",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/2328.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/2328.svg"
+    },
+    {
+        "name": "computer mouse",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f5b1.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f5b1.svg"
+    },
+    {
+        "name": "trackball",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f5b2.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f5b2.svg"
+    },
+    {
+        "name": "computer disk",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f4bd.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f4bd.svg"
+    },
+    {
+        "name": "floppy disk",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f4be.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f4be.svg"
+    },
+    {
+        "name": "optical disk",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f4bf.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f4bf.svg"
+    },
+    {
+        "name": "dvd",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f4c0.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f4c0.svg"
+    },
+    {
+        "name": "abacus",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f9ee.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f9ee.svg"
+    }
+]

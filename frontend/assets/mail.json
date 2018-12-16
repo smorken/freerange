@@ -1,0 +1,67 @@
+[
+    {
+        "name": "envelope",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/2709.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/2709.svg"
+    },
+    {
+        "name": "e-mail",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f4e7.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f4e7.svg"
+    },
+    {
+        "name": "incoming envelope",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f4e8.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f4e8.svg"
+    },
+    {
+        "name": "envelope with arrow",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f4e9.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f4e9.svg"
+    },
+    {
+        "name": "outbox tray",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f4e4.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f4e4.svg"
+    },
+    {
+        "name": "inbox tray",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f4e5.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f4e5.svg"
+    },
+    {
+        "name": "package",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f4e6.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f4e6.svg"
+    },
+    {
+        "name": "closed mailbox with raised flag",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f4eb.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f4eb.svg"
+    },
+    {
+        "name": "closed mailbox with lowered flag",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f4ea.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f4ea.svg"
+    },
+    {
+        "name": "open mailbox with raised flag",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f4ec.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f4ec.svg"
+    },
+    {
+        "name": "open mailbox with lowered flag",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f4ed.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f4ed.svg"
+    },
+    {
+        "name": "postbox",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f4ee.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f4ee.svg"
+    },
+    {
+        "name": "ballot box with ballot",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f5f3.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f5f3.svg"
+    }
+]

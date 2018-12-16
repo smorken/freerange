@@ -1,0 +1,77 @@
+[
+    {
+        "name": "door",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f6aa.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f6aa.svg"
+    },
+    {
+        "name": "bed",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f6cf.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f6cf.svg"
+    },
+    {
+        "name": "couch and lamp",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f6cb.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f6cb.svg"
+    },
+    {
+        "name": "toilet",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f6bd.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f6bd.svg"
+    },
+    {
+        "name": "shower",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f6bf.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f6bf.svg"
+    },
+    {
+        "name": "bathtub",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f6c1.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f6c1.svg"
+    },
+    {
+        "name": "lotion bottle",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f9f4.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f9f4.svg"
+    },
+    {
+        "name": "safety pin",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f9f7.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f9f7.svg"
+    },
+    {
+        "name": "broom",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f9f9.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f9f9.svg"
+    },
+    {
+        "name": "basket",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f9fa.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f9fa.svg"
+    },
+    {
+        "name": "roll of paper",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f9fb.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f9fb.svg"
+    },
+    {
+        "name": "soap",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f9fc.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f9fc.svg"
+    },
+    {
+        "name": "sponge",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f9fd.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f9fd.svg"
+    },
+    {
+        "name": "fire extinguisher",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f9ef.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f9ef.svg"
+    },
+    {
+        "name": "shopping cart",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f6d2.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f6d2.svg"
+    }
+]

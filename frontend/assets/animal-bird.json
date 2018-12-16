@@ -1,0 +1,77 @@
+[
+    {
+        "name": "turkey",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f983.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f983.svg"
+    },
+    {
+        "name": "chicken",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f414.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f414.svg"
+    },
+    {
+        "name": "rooster",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f413.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f413.svg"
+    },
+    {
+        "name": "hatching chick",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f423.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f423.svg"
+    },
+    {
+        "name": "baby chick",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f424.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f424.svg"
+    },
+    {
+        "name": "front-facing baby chick",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f425.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f425.svg"
+    },
+    {
+        "name": "bird",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f426.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f426.svg"
+    },
+    {
+        "name": "penguin",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f427.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f427.svg"
+    },
+    {
+        "name": "dove",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f54a.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f54a.svg"
+    },
+    {
+        "name": "eagle",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f985.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f985.svg"
+    },
+    {
+        "name": "duck",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f986.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f986.svg"
+    },
+    {
+        "name": "swan",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f9a2.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f9a2.svg"
+    },
+    {
+        "name": "owl",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f989.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f989.svg"
+    },
+    {
+        "name": "peacock",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f99a.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f99a.svg"
+    },
+    {
+        "name": "parrot",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f99c.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f99c.svg"
+    }
+]

@@ -1,0 +1,212 @@
+[
+    {
+        "name": "locomotive",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f682.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f682.svg"
+    },
+    {
+        "name": "railway car",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f683.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f683.svg"
+    },
+    {
+        "name": "high-speed train",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f684.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f684.svg"
+    },
+    {
+        "name": "bullet train",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f685.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f685.svg"
+    },
+    {
+        "name": "train",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f686.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f686.svg"
+    },
+    {
+        "name": "metro",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f687.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f687.svg"
+    },
+    {
+        "name": "light rail",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f688.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f688.svg"
+    },
+    {
+        "name": "station",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f689.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f689.svg"
+    },
+    {
+        "name": "tram",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f68a.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f68a.svg"
+    },
+    {
+        "name": "monorail",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f69d.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f69d.svg"
+    },
+    {
+        "name": "mountain railway",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f69e.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f69e.svg"
+    },
+    {
+        "name": "tram car",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f68b.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f68b.svg"
+    },
+    {
+        "name": "bus",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f68c.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f68c.svg"
+    },
+    {
+        "name": "oncoming bus",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f68d.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f68d.svg"
+    },
+    {
+        "name": "trolleybus",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f68e.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f68e.svg"
+    },
+    {
+        "name": "minibus",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f690.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f690.svg"
+    },
+    {
+        "name": "ambulance",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f691.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f691.svg"
+    },
+    {
+        "name": "fire engine",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f692.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f692.svg"
+    },
+    {
+        "name": "police car",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f693.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f693.svg"
+    },
+    {
+        "name": "oncoming police car",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f694.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f694.svg"
+    },
+    {
+        "name": "taxi",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f695.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f695.svg"
+    },
+    {
+        "name": "oncoming taxi",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f696.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f696.svg"
+    },
+    {
+        "name": "automobile",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f697.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f697.svg"
+    },
+    {
+        "name": "oncoming automobile",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f698.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f698.svg"
+    },
+    {
+        "name": "sport utility vehicle",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f699.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f699.svg"
+    },
+    {
+        "name": "delivery truck",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f69a.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f69a.svg"
+    },
+    {
+        "name": "articulated lorry",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f69b.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f69b.svg"
+    },
+    {
+        "name": "tractor",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f69c.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f69c.svg"
+    },
+    {
+        "name": "bicycle",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f6b2.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f6b2.svg"
+    },
+    {
+        "name": "kick scooter",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f6f4.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f6f4.svg"
+    },
+    {
+        "name": "skateboard",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f6f9.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f6f9.svg"
+    },
+    {
+        "name": "motor scooter",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f6f5.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f6f5.svg"
+    },
+    {
+        "name": "bus stop",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f68f.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f68f.svg"
+    },
+    {
+        "name": "motorway",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f6e3.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f6e3.svg"
+    },
+    {
+        "name": "railway track",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f6e4.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f6e4.svg"
+    },
+    {
+        "name": "oil drum",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f6e2.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f6e2.svg"
+    },
+    {
+        "name": "fuel pump",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/26fd.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/26fd.svg"
+    },
+    {
+        "name": "police car light",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f6a8.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f6a8.svg"
+    },
+    {
+        "name": "horizontal traffic light",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f6a5.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f6a5.svg"
+    },
+    {
+        "name": "vertical traffic light",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f6a6.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f6a6.svg"
+    },
+    {
+        "name": "stop sign",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f6d1.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f6d1.svg"
+    },
+    {
+        "name": "construction",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f6a7.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f6a7.svg"
+    }
+]

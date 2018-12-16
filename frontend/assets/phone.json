@@ -1,0 +1,32 @@
+[
+    {
+        "name": "mobile phone",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f4f1.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f4f1.svg"
+    },
+    {
+        "name": "mobile phone with arrow",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f4f2.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f4f2.svg"
+    },
+    {
+        "name": "telephone",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/260e.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/260e.svg"
+    },
+    {
+        "name": "telephone receiver",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f4de.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f4de.svg"
+    },
+    {
+        "name": "pager",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f4df.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f4df.svg"
+    },
+    {
+        "name": "fax machine",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f4e0.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f4e0.svg"
+    }
+]

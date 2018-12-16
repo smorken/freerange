@@ -1,0 +1,62 @@
+[
+    {
+        "name": "airplane",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/2708.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/2708.svg"
+    },
+    {
+        "name": "small airplane",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f6e9.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f6e9.svg"
+    },
+    {
+        "name": "airplane departure",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f6eb.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f6eb.svg"
+    },
+    {
+        "name": "airplane arrival",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f6ec.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f6ec.svg"
+    },
+    {
+        "name": "seat",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f4ba.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f4ba.svg"
+    },
+    {
+        "name": "helicopter",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f681.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f681.svg"
+    },
+    {
+        "name": "suspension railway",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f69f.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f69f.svg"
+    },
+    {
+        "name": "mountain cableway",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f6a0.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f6a0.svg"
+    },
+    {
+        "name": "aerial tramway",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f6a1.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f6a1.svg"
+    },
+    {
+        "name": "satellite",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f6f0.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f6f0.svg"
+    },
+    {
+        "name": "rocket",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f680.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f680.svg"
+    },
+    {
+        "name": "flying saucer",
+        "png_url": "https://twemoji.maxcdn.com/2/72x72/1f6f8.png",
+        "svg_url": "https://twemoji.maxcdn.com/2/svg/1f6f8.svg"
+    }
+]
