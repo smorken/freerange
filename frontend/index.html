@@ -45,6 +45,9 @@ function preload ()
 
 function create ()
 {    
+
+    
+
     //  A simple background for our game
     bg = this.add.sprite(400, 300, 'bg');
     bg.displayHeight  = 600;
@@ -66,8 +69,13 @@ function create ()
 
     this.physics.add.collider(player, platforms);
 
+    ws = new WebSocket("ws://localhost:8080/echo");
+    game.time.events.repeat(Phaser.Timer.SECOND * 2, 10, sendWS, this);
 }
 
+function sendWS(){
+
+}
 function update()
 {
 
