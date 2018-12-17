@@ -43,5 +43,5 @@ func main() {
 	fs := http.FileServer(http.Dir("frontend/"))
 	http.Handle("/", fs)
 	http.HandleFunc("/client", clientLoop)
-	log.Fatal(http.ListenAndServe(*addr, fs))
+	log.Fatal(http.ListenAndServe(*addr, nil))
 }

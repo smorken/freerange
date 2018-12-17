@@ -41,6 +41,8 @@ function preload ()
     this.load.image("bg", "https://twemoji.maxcdn.com/72x72/1f306.png");
     this.load.image('santa', 'https://twemoji.maxcdn.com/36x36/2b1c.png');
     this.load.image('ground', 'assets/platform.png');
+
+    
 }
 
 function create ()
@@ -69,11 +71,30 @@ function create ()
 
     this.physics.add.collider(player, platforms);
 
-    ws = new WebSocket("ws://localhost:8080/echo");
-    game.time.events.repeat(Phaser.Timer.SECOND * 2, 10, sendWS, this);
+    ws = new WebSocket("ws://localhost:8080/client");
+    ws.onmessage = getWS;
+    ws.onerror = errorWS;
+    ws.onopen = openWS;
+    this.time.addEvent({
+        delay: 1000,
+        callback: sendWS,
+        callbackScope: this,
+        repeat: 100
+    });
 }
-
+var isOpenWs = false;
+function openWS(evt){
+ isOpenWs = true;
+}
 function sendWS(){
+    if(isOpenWs){
+        ws.send(999);
+    }
+}
+function getWS(evt){
+
+}
+function errorWS(evt){
 
 }
 function update()
