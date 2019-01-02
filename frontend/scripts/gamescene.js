@@ -5,7 +5,17 @@ class GameScene extends Phaser.Scene {
     }
 
     preload(){
-        
+        this.time.addEvent({
+            delay: 1000,
+            callback: this.sendWS,
+            callbackScope: this,
+            repeat: 100
+        });
+    }
+    sendWS() {
+        //   if(isOpenWs){
+        ws.send(999);
+        // }
     }
     create ()
     {    
@@ -38,13 +48,13 @@ class GameScene extends Phaser.Scene {
     update()
     {
     
-        if (cursors.left.isDown)
+        if (cursors.left.isDown && player.body.touching.down)
         {
-            player.setVelocityX(-160);
+            player.setVelocityX(-50);
         }
-        else if (cursors.right.isDown)
+        else if (cursors.right.isDown && player.body.touching.down)
         {
-            player.setVelocityX(160);
+            player.setVelocityX(50);
         }
         else
         {
@@ -53,7 +63,7 @@ class GameScene extends Phaser.Scene {
     
         if (cursors.up.isDown && player.body.touching.down)
         {
-            player.setVelocityY(-330);
+            player.setVelocityY(-150);
         }
         
     

@@ -14,12 +14,7 @@ class LoadScene extends Phaser.Scene {
         ws.onmessage = this.getWS;
         ws.onerror = this.errorWS;
         ws.onopen = this.openWS;
-        this.time.addEvent({
-            delay: 1000,
-            callback: this.sendWS,
-            callbackScope: this,
-            repeat: 100
-        });
+
     }
 
 
@@ -35,14 +30,11 @@ class LoadScene extends Phaser.Scene {
 
     //var isOpenWs = false;
     openWS(evt){
+        game.scene.add('GameScene', GameScene, true, { x: 400, y: 300 });
         game.scene.start('GameScene');
         // isOpenWs = true;
     }
-    sendWS() {
-        //   if(isOpenWs){
-        ws.send(999);
-        // }
-    }
+
     getWS(evt) {
     
     }
