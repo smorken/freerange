@@ -11,8 +11,7 @@ class LoadScene extends Phaser.Scene {
         this.load.image('ground', 'assets/platform.png');
 
         ws = new WebSocket("ws://localhost:8080/client");
-        ws.onmessage = this.getWS;
-        ws.onerror = this.errorWS;
+
         ws.onopen = this.openWS;
 
     }
@@ -35,10 +34,5 @@ class LoadScene extends Phaser.Scene {
         // isOpenWs = true;
     }
 
-    getWS(evt) {
-    
-    }
-    errorWS(evt) {
-    
-    }
+
 }

@@ -32,7 +32,7 @@ func clientLoop(w http.ResponseWriter, r *http.Request) {
 			log.Println("write:", err)
 			break
 		}
-		time.Sleep(1000 * time.Millisecond)
+		time.Sleep(16 * time.Millisecond)
 	}
 }
 

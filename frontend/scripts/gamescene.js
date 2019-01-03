@@ -2,26 +2,33 @@ class GameScene extends Phaser.Scene {
     constructor ()
     {
         super({ key: 'GameScene' });
+        this.messages = [];
     }
 
     preload(){
-        this.time.addEvent({
-            delay: 1000,
-            callback: this.sendWS,
-            callbackScope: this,
-            repeat: 100
-        });
+        ws.onmessage = this.getWS;
+        ws.onerror = this.errorWS;
+
+       // this.time.addEvent({
+        //    delay: 1000,
+         //   callback: this.sendWS,
+         //   callbackScope: this,
+         //   repeat: 100
+        //});
     }
-    sendWS() {
-        //   if(isOpenWs){
-        ws.send(999);
-        // }
+    sendWS(msg) {
+        ws.send(msg);
+    }
+    getWS(evt) {
+        this.messages.push( evt.data)
+    }
+    errorWS(evt) {
+        //exit the game scene
     }
     create ()
     {    
-    
-        
-    
+       
+
         //  A simple background for our game
         bg = this.add.sprite(400, 300, 'bg');
         bg.displayHeight  = 600;
@@ -42,27 +49,31 @@ class GameScene extends Phaser.Scene {
         cursors = this.input.keyboard.createCursorKeys();
     
         this.physics.add.collider(player, platforms);
-    
+        this.timeText = this.add.text(100, 200);
     }
 
-    update()
+    update(time, delta)
     {
-    
+        this.timeText.setText('Time: ' + time + '\nDelta: ' + delta);
         if (cursors.left.isDown && player.body.touching.down)
         {
+            this.sendWS("left");
             player.setVelocityX(-50);
         }
         else if (cursors.right.isDown && player.body.touching.down)
         {
+            this.sendWS("right");
             player.setVelocityX(50);
         }
         else
         {
+            //this.sendWS("stop");
             player.setVelocityX(0);
         }
     
         if (cursors.up.isDown && player.body.touching.down)
         {
+            this.sendWS("stop");
             player.setVelocityY(-150);
         }
         
