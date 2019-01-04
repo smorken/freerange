@@ -16,7 +16,7 @@ class GameScene extends Phaser.Scene {
     // });
   }
   sendWS (msg) {
-    ws.send(msg);
+    ws.send(msg)
   }
   getWS (evt) {
     this.messages.push(evt.data)
@@ -51,15 +51,15 @@ class GameScene extends Phaser.Scene {
   update (time, delta) {
     this.timeText.setText('Time: ' + time + '\nDelta: ' + delta)
     if (cursors.left.isDown && player.body.touching.down) {
-      this.sendWS("left")
+      this.sendWS('left')
       player.setVelocityX(-50)
     }
     else if (cursors.right.isDown && player.body.touching.down) {
-      this.sendWS("right")
+      this.sendWS('right')
       player.setVelocityX(50)
     }
     else {
-      //this.sendWS("stop");
+      // this.sendWS('stop');
       player.setVelocityX(0);
     }
 
