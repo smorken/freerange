@@ -14,11 +14,4 @@ class LoadScene extends Phaser.Scene {
   create () {
 
   }
-
-  // var isOpenWs = false;
-  // openWS (evt) {
-  //  game.scene.add('GameScene', GameScene, true, { x: 400, y: 300 })
-  //  game.scene.start('GameScene')
-  // isOpenWs = true;
-  // }
 }

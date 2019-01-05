@@ -1,8 +1,8 @@
 class Client {
-  constructor (url, onOpen, onError) {
-    this.websocket = new WebSocket(url)
-    this.websocket.onopen = onOpen
-    this.websocket.onerror = onError
+  constructor (ws) {
+    this.websocket = ws
+    ws.onmessage = this.getWS.bind(this)
+
     this.messages = []
   }
 

@@ -8,6 +8,10 @@ class GameScene extends Phaser.Scene {
     this.cursors = null
   }
 
+  init (data) {
+    this.client = client
+  }
+
   preload () {
 
     // this.time.addEvent({
@@ -56,7 +60,7 @@ class GameScene extends Phaser.Scene {
     }
 
     if (this.cursors.up.isDown && this.player.body.touching.down) {
-      this.sendWS('stop')
+      this.client.sendWS('stop')
       this.player.setVelocityY(-150)
     }
   }
