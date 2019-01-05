@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <title>Free Range</title>
     <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+    <script src="scripts/client.js"></script>
     <script src="scripts/gamescene.js"></script>
     <script src="scripts/loadscene.js"></script>
     <style type="text/css">
@@ -27,24 +28,19 @@ var config = {
             gravity: { y: 300 },
             debug: false
         }
-    },
-    scene: {
-        LoadScene,
-        GameScene
     }
 };
 
-var player;
-var bg;
-var platforms;
-var cursors;
+
 var game = new Phaser.Game(config);
-game.scene.start('LoadScene');
-game.scene.add('LoadScene', LoadScene, true, { x: 400, y: 300 });
+var ws = new WebSocket('ws://localhost:8080/client')
+var client = new Client(ws)
+game.scene.add('LoadScene', LoadScene, true)
+//game.scene.start('LoadScene')
+
+
+
 //game.scene.add('GameScene', GameScene, true, { x: 400, y: 300 });
-var ws;
-
-
 
 </script>
 
