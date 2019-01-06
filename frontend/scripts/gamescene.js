@@ -34,10 +34,20 @@ class GameScene extends Phaser.Scene {
     //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
     this.platforms.create(400, 568, 'ground').setScale(2).refreshBody()
 
-    this.player = this.physics.add.sprite(100, 450, 'santa')
+    this.player = this.physics.add.sprite(100, 450, 'player')
 
     this.player.setBounce(0.2)
     this.player.setCollideWorldBounds(true)
+
+    var hospital = this.add.sprite(300, 400, 'hospital')
+    hospital.displayHeight = 300
+    hospital.displayWidth = 300
+
+    for (var i = 0; i < 5; i++) {
+      var house = this.add.sprite(100 + i * 200, 528, 'house')
+      house.displayHeight = 200
+      house.displayWidth = 200
+    }
 
     //  Input Events
     this.cursors = this.input.keyboard.createCursorKeys()
