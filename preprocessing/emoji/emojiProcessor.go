@@ -3,6 +3,7 @@ package emoji
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"os"
 	"path"
@@ -35,6 +36,30 @@ func ProcessBackgroundEmojis(nameList string, emojidata string, outDir string) {
 	}
 
 }
+func copy(src, dst string) (int64, error) {
+	sourceFileStat, err := os.Stat(src)
+	if err != nil {
+		return 0, err
+	}
+
+	if !sourceFileStat.Mode().IsRegular() {
+		return 0, fmt.Errorf("%s is not a regular file", src)
+	}
+
+	source, err := os.Open(src)
+	if err != nil {
+		return 0, err
+	}
+	defer source.Close()
+
+	destination, err := os.Create(dst)
+	if err != nil {
+		return 0, err
+	}
+	defer destination.Close()
+	nBytes, err := io.Copy(destination, source)
+	return nBytes, err
+}
 
 //ProcessEmojis produces a data file for each emoji subgroup for downloading emoji images
 func ProcessEmojis(emojidata string, outdir string) {
@@ -53,25 +78,20 @@ func ProcessEmojis(emojidata string, outdir string) {
 		}
 	}
 	for subgroupname, subgroup := range bySubGroup {
-		output := []map[string]string{}
+
 		for i := 0; i < len(subgroup); i++ {
-			pathToEmoji := path.Join("D:", "CODE", "twemoji", "2", "72x72", ProcessCode(subgroup[i].Code)+".png")
+			emojiFileName := ProcessCode(subgroup[i].Code) + ".png"
+			pathToEmoji := path.Join("D:", "CODE", "twemoji", "2", "72x72", emojiFileName)
 			if _, err := os.Stat(pathToEmoji); os.IsNotExist(err) {
 				//file does not exist so dont use it
 				continue
 			}
+			subgroupOutDir := path.Join(outdir, subgroupname)
 			fmt.Printf("group[%s] name[%s] url[%s]\n", subgroupname, subgroup[i].Description, TwemojiURL(subgroup[i].Code, false))
-			output = append(output,
-				map[string]string{
-					"name":    subgroup[i].Description,
-					"png_url": TwemojiURL(subgroup[i].Code, false),
-					"svg_url": TwemojiURL(subgroup[i].Code, true)})
-		}
-		jsonOutput, err := json.MarshalIndent(output, "", "    ")
-		check(err)
-		jsonOutputPath := path.Join(outdir, subgroupname+".json")
-		err = ioutil.WriteFile(jsonOutputPath, jsonOutput, 0644)
-		check(err)
+			check(os.MkdirAll(subgroupOutDir, 0755))
+			_, err = copy(pathToEmoji, path.Join(subgroupOutDir, subgroup[i].Description+".png"))
+			check(err)
 
+		}
 	}
 }
