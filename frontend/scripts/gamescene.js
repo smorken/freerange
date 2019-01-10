@@ -40,7 +40,7 @@ class GameScene extends Phaser.Scene {
     }
     //  Here we create the ground.
     //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-    this.platforms.create(400, 568, 'ground').setScale(2).refreshBody()  
+    this.platforms.create(400, 568, 'ground').setScale(2).refreshBody() 
   }
 
   create () {
@@ -53,7 +53,7 @@ class GameScene extends Phaser.Scene {
 
     this.player.setBounce(0.2)
     this.player.setCollideWorldBounds(true)
-
+    this.cameras.main.startFollow(this.player, true, 0.08, 0.08)
     //  Input Events
     this.cursors = this.input.keyboard.createCursorKeys()
 
