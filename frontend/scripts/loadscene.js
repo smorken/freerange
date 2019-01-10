@@ -7,9 +7,8 @@ class LoadScene extends Phaser.Scene {
   init (data) {
     this.client = client
   }
-  
+
   preload () {
-    
     this.load.image('bg', 'https://twemoji.maxcdn.com/72x72/1f306.png')
     this.load.image('bg', 'https://twemoji.maxcdn.com/72x72/1f306.png')
     this.load.image('player', 'https://twemoji.maxcdn.com/2/72x72/1f600.png')
@@ -20,8 +19,7 @@ class LoadScene extends Phaser.Scene {
   }
 
   create () {
-    this.scene.add('GameScene', GameScene, true)
-    //this.scene.start('GameScene')
+    // this.scene.add('GameScene', GameScene, true)
+    this.scene.start('GameScene')
   }
-
 }

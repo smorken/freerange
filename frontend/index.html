@@ -3,7 +3,7 @@
 <head> 
     <meta charset="UTF-8" />
     <title>Free Range</title>
-    <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.15.1/dist/phaser.js"></script>
     <script src="scripts/client.js"></script>
     
     <script src="scripts/gamescene.js"></script>
@@ -31,19 +31,21 @@ var config = {
             gravity: { y: 300 },
             debug: false
         }
-    }
+    },
+    scene: [
+        ConnectScene,
+        LoadScene,
+        GameScene
+    ]
 };
 
 
 var game = new Phaser.Game(config);
 var ws = new WebSocket('ws://localhost:8080/client')
 var client = new Client(ws)
-game.scene.add('ConnectScene', ConnectScene, true)
+//game.scene.add('ConnectScene', ConnectScene, true)
 //game.scene.start('LoadScene')
 
-
-
-//game.scene.add('GameScene', GameScene, true, { x: 400, y: 300 });
 
 </script>
 
