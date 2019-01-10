@@ -17,4 +17,8 @@ class Client {
   errorWS (evt) {
     // exit the game scene
   }
+
+  requestLevelAssets(){
+    this.sendWS("request_level_assets")
+  }
 }

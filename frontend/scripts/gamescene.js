@@ -21,33 +21,43 @@ class GameScene extends Phaser.Scene {
     //   repeat: 100
     // });
   }
+  drawBackgroundObjects(){
 
+
+      //  A simple background for our game
+      this.bg = this.add.sprite(400, 300, 'bg')
+      this.bg.displayHeight = 600
+      this.bg.displayWidth = 800
+      //  The platforms group contains the ground and the 2 ledges we can jump on
+      this.platforms = this.physics.add.staticGroup()
+
+      var hospital = this.add.sprite(300, 300, 'hospital')
+      hospital.displayHeight = 300
+      hospital.displayWidth = 300
+  
+      for (var i = 0; i < 5; i++) {
+        var house = this.add.sprite(100 + i * 200, 328, 'house')
+        house.displayHeight = 200
+        house.displayWidth = 200
+      }
+      //  Here we create the ground.
+      //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
+      this.platforms.create(400, 568, 'ground').setScale(2).refreshBody()
+  
+  }
   create () {
-    //  A simple background for our game
-    this.bg = this.add.sprite(400, 300, 'bg')
-    this.bg.displayHeight = 600
-    this.bg.displayWidth = 800
-    //  The platforms group contains the ground and the 2 ledges we can jump on
-    this.platforms = this.physics.add.staticGroup()
 
-    //  Here we create the ground.
-    //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-    this.platforms.create(400, 568, 'ground').setScale(2).refreshBody()
-
+    this.drawBackgroundObjects()
+    for(var i =0; i<5; i++){
+      var npc = this.physics.add.sprite(100+100*i,450,'npc')
+      this.physics.add.collider(npc, this.platforms)
+    }
     this.player = this.physics.add.sprite(100, 450, 'player')
 
     this.player.setBounce(0.2)
     this.player.setCollideWorldBounds(true)
 
-    var hospital = this.add.sprite(300, 400, 'hospital')
-    hospital.displayHeight = 300
-    hospital.displayWidth = 300
-
-    for (var i = 0; i < 5; i++) {
-      var house = this.add.sprite(100 + i * 200, 528, 'house')
-      house.displayHeight = 200
-      house.displayWidth = 200
-    }
+    
 
     //  Input Events
     this.cursors = this.input.keyboard.createCursorKeys()
