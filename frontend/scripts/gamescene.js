@@ -43,12 +43,17 @@ class GameScene extends Phaser.Scene {
     this.platforms.create(400, 568, 'ground').setScale(2).refreshBody() 
   }
 
+  destroyNpc (player, npc) {
+    npc.destroy()
+  }
   create () {
     this.drawBackgroundObjects()
+    this.npcgroup = this.physics.add.group({ allowGravity: true })
     for (var i = 0; i < 5; i++) {
       var npc = this.physics.add.sprite(100 + 100 * i, 450, 'npc')
-      this.physics.add.collider(npc, this.platforms)
+      this.npcgroup.add(npc, true)
     }
+    this.physics.add.collider(this.npcgroup, this.platforms)
     this.player = this.physics.add.sprite(100, 450, 'player')
 
     this.player.setBounce(0.2)
@@ -58,6 +63,9 @@ class GameScene extends Phaser.Scene {
     this.cursors = this.input.keyboard.createCursorKeys()
 
     this.physics.add.collider(this.player, this.platforms)
+
+    this.physics.add.overlap(this.player, this.npcgroup, this.destroyNpc, null, this)
+
     this.timeText = this.add.text(100, 200)
   }
 
