@@ -44,6 +44,7 @@ class GameScene extends Phaser.Scene {
   }
 
   destroyNpc (player, npc) {
+    this.npcgroup.remove(npc)
     npc.destroy()
   }
   create () {
