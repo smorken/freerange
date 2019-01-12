@@ -40,7 +40,7 @@ class GameScene extends Phaser.Scene {
     }
     //  Here we create the ground.
     //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-    this.platforms.create(400, 568, 'ground').setScale(2).refreshBody() 
+    this.platforms.create(400, 568, 'ground').setScale(2).refreshBody()
   }
 
   destroyNpc (player, npc) {
