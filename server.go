@@ -20,6 +20,7 @@ func clientLoop(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer c.Close()
+	err = c.WriteMessage(1, []byte("initial config"))
 	for {
 		mt, message, err := c.ReadMessage()
 		if err != nil {
