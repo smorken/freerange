@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
+	"github.com/smorken/freerange/freerangeserver"
 )
 
 var addr = flag.String("addr", "localhost:8080", "http service address")
@@ -14,13 +15,17 @@ var addr = flag.String("addr", "localhost:8080", "http service address")
 var upgrader = websocket.Upgrader{} // use default options
 
 func clientLoop(w http.ResponseWriter, r *http.Request) {
+
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Print("upgrade:", err)
 		return
 	}
 	defer c.Close()
-	err = c.WriteMessage(1, []byte("initial config"))
+
+	gameserver := freerangeserver.Server{}
+
+	//err = c.WriteMessage(1, []byte("initial config"))
 	for {
 		mt, message, err := c.ReadMessage()
 		if err != nil {
@@ -28,7 +33,8 @@ func clientLoop(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 		log.Printf("recv: %s", message)
-		err = c.WriteMessage(mt, []byte{'a'})
+		response := gameserver.Reply(message)
+		err = c.WriteMessage(mt, response)
 		if err != nil {
 			log.Println("write:", err)
 			break
