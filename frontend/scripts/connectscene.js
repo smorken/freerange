@@ -33,7 +33,7 @@ class ConnectScene extends Phaser.Scene {
 
   onconnected () {
     this.message = 'loading'
-    ws.send('ready')
+    ws.send('request_assets')
   }
 
   startLoadScene (data) {

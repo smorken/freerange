@@ -9,7 +9,6 @@ class GameScene extends Phaser.Scene {
   }
 
   init (data) {
-    this.client = client
   }
 
   preload () {
@@ -47,7 +46,15 @@ class GameScene extends Phaser.Scene {
     this.npcgroup.remove(npc)
     npc.destroy()
   }
+  wsmessage (evt) {
+    this.wsdata = evt.data
+  }
+  sendWS (message) {
+    ws.send(message)
+  }
   create () {
+    ws.onmessage = this.wsmessage.bind(this)
+
     this.drawBackgroundObjects()
     this.npcgroup = this.physics.add.group({ allowGravity: true })
     for (var i = 0; i < 5; i++) {
@@ -73,10 +80,10 @@ class GameScene extends Phaser.Scene {
   update (time, delta) {
     this.timeText.setText('Time: ' + time + '\nDelta: ' + delta)
     if (this.cursors.left.isDown && this.player.body.touching.down) {
-      this.client.sendWS('left')
+      this.sendWS('left')
       this.player.setVelocityX(-50)
     } else if (this.cursors.right.isDown && this.player.body.touching.down) {
-      this.client.sendWS('right')
+      this.sendWS('right')
       this.player.setVelocityX(50)
     } else {
       // this.sendWS('stop');
@@ -84,7 +91,7 @@ class GameScene extends Phaser.Scene {
     }
 
     if (this.cursors.up.isDown && this.player.body.touching.down) {
-      this.client.sendWS('stop')
+      this.sendWS('stop')
       this.player.setVelocityY(-150)
     }
   }
