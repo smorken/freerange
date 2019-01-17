@@ -16,6 +16,23 @@ class LoadScene extends Phaser.Scene {
   }
 
   preload () {
+
+    var progress = this.add.graphics();
+    
+    this.load.on('progress', function (value) {
+
+      progress.clear();
+      progress.fillStyle(0xffffff, 1);
+      progress.fillRect(0, 270, 800 * value, 60);
+
+  });
+
+  this.load.on('complete', function () {
+
+      progress.destroy();
+
+  });
+
     for (var key in this.data['images']) {
       this.load.image(key, this.data['images'][key])
     }
