@@ -18,6 +18,8 @@ func (server *Server) Reply(clientMessage []byte) []byte {
 				"npc": "assets/face-positive/beaming face with smiling eyes.png"
 			}
 		}`)
+	} else if string(clientMessage) == "request_level" {
+		return []byte(`{"a": 1}`)
 	}
 	return clientMessage
 }

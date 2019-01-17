@@ -12,13 +12,13 @@ class LoadScene extends Phaser.Scene {
     //    "house": "https://twemoji.maxcdn.com/2/72x72/1f3d8.png"
     //  }
     // }
-    this.data = JSON.parse(data.level)
+    this.assets = JSON.parse(data.assets)
   }
 
   preload () {
 
     var progress = this.add.graphics();
-    
+
     this.load.on('progress', function (value) {
 
       progress.clear();
@@ -33,13 +33,20 @@ class LoadScene extends Phaser.Scene {
 
   });
 
-    for (var key in this.data['images']) {
-      this.load.image(key, this.data['images'][key])
+    for (var key in this.assets['images']) {
+      this.load.image(key, this.assets['images'][key])
     }
   }
 
   create () {
     // this.scene.add('GameScene', GameScene, true)
-    this.scene.start('GameScene')
+    ws.send('request_level')
+    ws.onmessage = this.wsmessage.bind(this)
+  }
+  wsmessage (evt) {
+    this.startGameScene(evt.data)
+  }
+  startGameScene (data) {
+    this.scene.start('GameScene', { level: data })
   }
 }

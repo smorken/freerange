@@ -37,6 +37,6 @@ class ConnectScene extends Phaser.Scene {
   }
 
   startLoadScene (data) {
-    this.scene.start('LoadScene', { level: data })
+    this.scene.start('LoadScene', { assets: data })
   }
 }

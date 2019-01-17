@@ -9,6 +9,7 @@ class GameScene extends Phaser.Scene {
   }
 
   init (data) {
+    this.level = JSON.parse(data.level)
   }
 
   preload () {
