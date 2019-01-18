@@ -19,7 +19,20 @@ func (server *Server) Reply(clientMessage []byte) []byte {
 			}
 		}`)
 	} else if string(clientMessage) == "request_level" {
-		return []byte(`{"a": 1}`)
+		return []byte(`
+			{
+				"objects": [
+					{
+						"id": 1,
+						"xposition": 300,
+						"yposition": 400,
+						"img": "player",
+						"xsize": 50,
+						"ysize": 50,
+						"clickable": true
+					}
+				]
+			}`)
 	}
 	return clientMessage
 }

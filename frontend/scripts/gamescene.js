@@ -25,6 +25,7 @@ class GameScene extends Phaser.Scene {
       sprite.displayWidth = obj['xsize']
       sprite.displayHeight = obj['ysize']
       if (obj["clickable"]) {
+        sprite.setInteractive()
         sprite.on('pointerdown', function (pointer) {
           ws.send("click")
         })
