@@ -14,6 +14,8 @@ type Entity struct {
 	xposition int
 	yposition int
 	rotation int
+	xsize int
+	ysize int
 	static bool
 	class EntityType
 	clickable bool
