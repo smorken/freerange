@@ -2,10 +2,10 @@ class GameScene extends Phaser.Scene {
   constructor () {
     super({ key: 'GameScene' })
 
-    this.player = null
-    this.bg = null
-    this.platforms = null
-    this.cursors = null
+    //this.player = null
+    //this.bg = null
+    //this.platforms = null
+    //this.cursors = null
   }
 
   init (data) {
