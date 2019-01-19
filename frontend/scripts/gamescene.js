@@ -12,9 +12,7 @@ class GameScene extends Phaser.Scene {
     this.level = JSON.parse(data.level)
   }
 
-  preload () {
-    this.objectCollection = {}
-    var objectList = this.level['objects']
+  createObjects (objectList) {
     for (var i = 0; i< objectList.length; i++) {
       var obj = objectList[i]
       var id = obj['id']
@@ -27,11 +25,26 @@ class GameScene extends Phaser.Scene {
       if (obj["clickable"]) {
         sprite.setInteractive()
         sprite.on('pointerdown', function (pointer) {
-          ws.send("click")
+          ws.send("[click, " + id + "]")
         })
       }
       this.objectCollection[id] = sprite
     }
+  }
+ 
+  destroyObjects (idList) {
+    for (var i = 0; i< idList.length; i++) {
+      var id = idList[i]
+      this.objectCollection[id].destroy()
+      delete this.objectCollection[id]
+    }
+  }
+
+  preload () {
+    this.objectCollection = {}
+    var objectList = this.level['objects']
+    this.createObjects(objectList)
+
     // this.time.addEvent({
     //    delay: 1000,
     //   callback: this.sendWS,
@@ -67,7 +80,11 @@ class GameScene extends Phaser.Scene {
   //   npc.destroy()
   // }
   wsmessage (evt) {
-    this.wsdata = evt.data
+    var wsdata = evt.data
+    var data = JSON.parse(wsdata)
+    if (data.hasOwnProperty('create')) {
+      this.createObjects(data['create'])
+    }
   }
   sendWS (message) {
     ws.send(message)
