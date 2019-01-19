@@ -1,11 +1,6 @@
 class GameScene extends Phaser.Scene {
   constructor () {
     super({ key: 'GameScene' })
-
-    //this.player = null
-    //this.bg = null
-    //this.platforms = null
-    //this.cursors = null
   }
 
   init (data) {
@@ -13,7 +8,7 @@ class GameScene extends Phaser.Scene {
   }
 
   createObjects (objectList) {
-    for (var i = 0; i< objectList.length; i++) {
+    for (var i = 0; i < objectList.length; i++) {
       var obj = objectList[i]
       var id = obj['id']
       var sprite = this.add.sprite(
@@ -22,18 +17,18 @@ class GameScene extends Phaser.Scene {
         obj['img'])
       sprite.displayWidth = obj['xsize']
       sprite.displayHeight = obj['ysize']
-      if (obj["clickable"]) {
+      if (obj['clickable']) {
         sprite.setInteractive()
         sprite.on('pointerdown', function (pointer) {
-          ws.send("[click, " + id + "]")
+          ws.send('[click, ' + id + ']')
         })
       }
       this.objectCollection[id] = sprite
     }
   }
- 
+
   destroyObjects (idList) {
-    for (var i = 0; i< idList.length; i++) {
+    for (var i = 0; i < idList.length; i++) {
       var id = idList[i]
       this.objectCollection[id].destroy()
       delete this.objectCollection[id]
