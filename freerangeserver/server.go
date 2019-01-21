@@ -3,6 +3,10 @@ package freerangeserver
 type Server struct {
 }
 
+func (server *Server) InitializePhysics() {
+	Box2dTutorial()
+}
+
 //Reply responds to user requests based on game state
 func (server *Server) Reply(clientMessage []byte) []byte {
 
