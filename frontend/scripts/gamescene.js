@@ -35,6 +35,17 @@ class GameScene extends Phaser.Scene {
     }
   }
 
+  updatePositions (positions) {
+    for (var i = 0; i < positions.length; i++) {
+      var data = positions[i]
+      var id = data[0]
+      var newX = data[1]
+      var newY = data[2]
+      var obj = this.objectCollection[id]
+      obj['xerror'] = newX - obj.x
+      obj['yerror'] = newX - obj.x
+    }
+  }
   preload () {
     this.objectCollection = {}
     var objectList = this.level['objects']
@@ -80,6 +91,12 @@ class GameScene extends Phaser.Scene {
     if (data.hasOwnProperty('create')) {
       this.createObjects(data['create'])
     }
+    if (data.hasOwnProperty('destroy')) {
+      this.destroyObjects(data['destroy'])
+    }
+    if (data.hasOwnProperty('position')) {
+      this.updatePositions(data['position'])
+    }
   }
   sendWS (message) {
     ws.send(message)
@@ -111,6 +128,22 @@ class GameScene extends Phaser.Scene {
 
   update (time, delta) {
     this.timeText.setText('Time: ' + time + '\nDelta: ' + delta)
+
+    // this sshould be the fraction of server message rate / frame rate
+    var smoothFactor = 0.5 // using 30msg/s /60frame/s for now
+
+    for (var i = 0; i < this.objectCollection.length; i++) {
+      var obj = this.objectCollection[i]
+      if (obj.hasOwnProperty('xerror')) {
+        var xcorrection = obj['xerror'] * smoothFactor
+        obj.x += xcorrection
+        obj['xerror'] -= xcorrection
+
+        var ycorrection = obj['yerror'] * smoothFactor
+        obj.y += ycorrection
+        obj['yerror'] -= ycorrection
+      }
+    }
     // if (this.cursors.left.isDown && this.player.body.touching.down) {
     //   this.sendWS('left')
     //   this.player.setVelocityX(-50)
