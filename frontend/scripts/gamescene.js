@@ -20,7 +20,7 @@ class GameScene extends Phaser.Scene {
       if (obj['clickable']) {
         sprite.setInteractive()
         sprite.on('pointerdown', function (pointer) {
-          ws.send('[click, ' + id + ']')
+          ws.send('click' + id)
         })
       }
       this.objectCollection[id] = sprite
@@ -43,7 +43,7 @@ class GameScene extends Phaser.Scene {
       var newY = data[2]
       var obj = this.objectCollection[id]
       obj['xerror'] = newX - obj.x
-      obj['yerror'] = newX - obj.x
+      obj['yerror'] = newY - obj.y
     }
   }
   preload () {
@@ -132,8 +132,8 @@ class GameScene extends Phaser.Scene {
     // this sshould be the fraction of server message rate / frame rate
     var smoothFactor = 0.5 // using 30msg/s /60frame/s for now
 
-    for (var i = 0; i < this.objectCollection.length; i++) {
-      var obj = this.objectCollection[i]
+    for (var id in this.objectCollection) {
+      var obj = this.objectCollection[id]
       if (obj.hasOwnProperty('xerror')) {
         var xcorrection = obj['xerror'] * smoothFactor
         obj.x += xcorrection

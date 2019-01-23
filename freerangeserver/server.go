@@ -1,5 +1,17 @@
 package freerangeserver
 
+import (
+	"fmt"
+	"strconv"
+	"strings"
+)
+
+func check(e error) {
+	if e != nil {
+		panic(e)
+	}
+}
+
 type Server struct {
 }
 
@@ -10,7 +22,8 @@ func (server *Server) InitializePhysics() {
 //Reply responds to user requests based on game state
 func (server *Server) Reply(clientMessage []byte) []byte {
 
-	if string(clientMessage) == "request_assets" {
+	clientMessage_str := string(clientMessage)
+	if clientMessage_str == "request_assets" {
 		return []byte(`
 		{ 
 			"images": {
@@ -22,7 +35,7 @@ func (server *Server) Reply(clientMessage []byte) []byte {
 				"npc": "assets/face-positive/beaming face with smiling eyes.png"
 			}
 		}`)
-	} else if string(clientMessage) == "request_level" {
+	} else if clientMessage_str == "request_level" {
 		return []byte(`
 			{
 				"objects": [
@@ -37,6 +50,15 @@ func (server *Server) Reply(clientMessage []byte) []byte {
 					}
 				]
 			}`)
+	} else if strings.Contains(clientMessage_str, "click") {
+		idStr := clientMessage_str[len("click"):len(clientMessage_str)]
+		id, err := strconv.ParseInt(idStr, 10, 64)
+		check(err)
+		reply := fmt.Sprintf(`
+		{
+			"position": [[%d, 350, 350]]
+		}`, id)
+		return []byte(reply)
 	}
 	return clientMessage
 }
