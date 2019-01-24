@@ -15,6 +15,11 @@ func check(e error) {
 type Server struct {
 }
 
+func NewServer() *Server {
+	s := new(Server)
+	return s
+}
+
 func (server *Server) InitializePhysics() {
 	Box2dTutorial()
 }
