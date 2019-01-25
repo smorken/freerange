@@ -23,5 +23,24 @@ type ClickAction struct {
 	create      bool
 }
 
+func getObjectDefs() string{
+	objectdefs := `[
+		{
+			"id": 1
+			"name": "actor",
+			"onclick": [
+				{
+					"action": "create", 
+					"params": {
+						"id": 2,
+						"parentEntityId"
+					}
+				}
+			]	
+		}
+	]`
+	return objectdefs
+}
+
 type CreateClickAction struct {
 }
