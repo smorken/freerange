@@ -5,6 +5,10 @@ type Level struct {
 	entities map[int64]Entity
 }
 
-func (level *Level) ClickAction(id int64) {
-	level.entities[id]
+func (level *Level) DestroyUIEntities(clientID int64) {
+
+}
+
+func (level *Level) CreateUIEntity(clientID int64, entity *Entity) {
+
 }
