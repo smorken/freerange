@@ -2,20 +2,20 @@ package freerangeserver
 
 //Entity is a game object
 type Entity struct {
-	id             int64
-	img            string
-	tags           []string
-	xposition      int
-	yposition      int
-	rotation       int
-	xsize          int
-	ysize          int
-	static         bool
-	clickable      bool
-	parentEntityID int64
-	cameraChild    bool
-	cameraParent   bool
-	zorder         int
+	Id             int64
+	Img            string
+	Tags           []string
+	Xposition      int
+	Yposition      int
+	Rotation       int
+	Xsize          int
+	Ysize          int
+	Static         bool
+	Clickable      bool
+	ParentEntityID int64
+	CameraChild    bool
+	CameraParent   bool
+	Zorder         int
 }
 
 type ClickAction struct {
