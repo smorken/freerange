@@ -5,8 +5,8 @@ type Entity struct {
 	ID             int64
 	Img            string
 	Tags           []string
-	Xposition      float64
-	Yposition      float64
+	Xposition      int
+	Yposition      int
 	Rotation       float64
 	Speed          float64
 	Jump           float64
@@ -23,7 +23,7 @@ type Entity struct {
 }
 
 //NewEntity creates an entity with all fields specified by the function parameters
-func NewEntity(Img string, Tags []string, Xposition float64, Yposition float64, Rotation float64,
+func NewEntity(Img string, Tags []string, Xposition int, Yposition int, Rotation float64,
 	Speed float64, Jump float64, Fly bool, Xsize int, Ysize int, Static bool, Clickable bool,
 	ParentEntityID int64, CameraChild bool, CameraParent bool, Zorder int) *Entity {
 	e := new(Entity)

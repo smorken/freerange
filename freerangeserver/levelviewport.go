@@ -20,7 +20,7 @@ type Position struct {
 //viewPort's visibleEntities set are returned as the destroy list.
 //This list of object are then destroyed client side.
 //(set difference of level.visible - viewPort.visible)
-func (viewPort *LevelViewPort) GetDestroyList(level *Level) []int {
+func (viewPort *LevelViewPort) GetDestroyList(level *Level) []int64 {
 
 }
 
