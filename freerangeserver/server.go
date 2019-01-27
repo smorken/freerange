@@ -84,21 +84,8 @@ func (server *Server) Reply(clientMessage []byte) []byte {
 	clientMessage_str := string(clientMessage)
 	if clientMessage_str == "request_assets" {
 		return server.levelmanager.LoadAssets()
-	} else if clientMessage_str == "request_level" {
-		return []byte(`
-			{
-				"objects": [
-					{
-						"id": 1,
-						"xposition": 300,
-						"yposition": 400,
-						"img": "player",
-						"xsize": 50,
-						"ysize": 50,
-						"clickable": true
-					}
-				]
-			}`)
+	} else if clientMessage_str == "request_update" {
+		return serializeMessage(server.makeMessage())
 	} else if strings.Contains(clientMessage_str, "click") {
 		idStr := clientMessage_str[len("click"):len(clientMessage_str)]
 		id, err := strconv.ParseInt(idStr, 10, 64)

@@ -35,7 +35,7 @@ class LoadScene extends Phaser.Scene {
 
   create () {
     // this.scene.add('GameScene', GameScene, true)
-    ws.send('request_level')
+    ws.send('request_update')
     ws.onmessage = this.wsmessage.bind(this)
   }
   wsmessage (evt) {

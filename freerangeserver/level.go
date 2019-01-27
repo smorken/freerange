@@ -36,6 +36,11 @@ func (level *Level) AddEntity(entity *Entity) {
 	level.entities[id] = entity
 }
 
+func (level *Level) ProcessClick(entityId int64) {
+	e := level.Read(entityId)
+	e.clickAction(level)
+}
+
 func (level *Level) Move(entityId int64, direction string) {
 
 }
