@@ -13,15 +13,14 @@ func check(e error) {
 }
 
 type Server struct {
+	level         *Level
+	LevelViewPort *LevelViewPort
 }
 
 func NewServer() *Server {
 	s := new(Server)
+	s.level = Load(1)
 	return s
-}
-
-func (server *Server) InitializePhysics() {
-	Box2dTutorial()
 }
 
 //Reply responds to user requests based on game state
