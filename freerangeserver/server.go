@@ -14,13 +14,28 @@ func check(e error) {
 
 type Server struct {
 	level         *Level
-	LevelViewPort *LevelViewPort
+	levelViewPort *LevelViewPort
 }
 
 func NewServer() *Server {
 	s := new(Server)
 	s.level = Load(1)
 	return s
+}
+
+type message struct {
+	create []createMessage
+	delete []int64
+	position []int64
+}
+
+type createMessage struct{
+
+}
+func (server  *Server) MakeCreateMessage() []byte {
+	entities := server.levelViewPort.GetCreateList(server.level)
+
+
 }
 
 //Reply responds to user requests based on game state
