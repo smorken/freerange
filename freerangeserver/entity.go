@@ -19,7 +19,7 @@ type Entity struct {
 	CameraChild    bool
 	CameraParent   bool
 	Zorder         int
-	clickAction    func(level *Level)
+	clickAction    func(level *Level, levelviewport *LevelViewPort)
 }
 
 //NewEntity creates an entity with all fields specified by the function parameters
@@ -47,23 +47,23 @@ func NewEntity(Img string, Tags []string, Xposition int, Yposition int, Rotation
 	return e
 }
 
-func actorClick(client int64, clicked *Entity) func(level *Level) {
-	return func(level *Level) {
-		level.DestroyUIEntities(client)
-		level.SetCameraParent(client, clicked)
+func actorClick(clicked *Entity) func(level *Level, levelviewport *LevelViewPort) {
+	return func(level *Level, levelviewport *LevelViewPort) {
+		levelviewport.DestroyUIEntities()
+		levelviewport.SetCameraParent(clicked)
 		left := NewEntity("left arrow", []string{"ui", "left"},
 			-10, 20, 0, 0, 0, false, 50, 50, true, true, clicked.ID, true, false, 0)
 		left.clickAction = arrowClick(left)
 		right := NewEntity("right arrow", []string{"ui", "right"},
 			-10, 20, 0, 0, 0, false, 50, 50, true, true, clicked.ID, true, false, 0)
 		right.clickAction = arrowClick(right)
-		level.AddUIEntity(client, left)
-		level.AddUIEntity(client, right)
+		levelviewport.AddUIEntity(left)
+		levelviewport.AddUIEntity(right)
 	}
 }
 
-func arrowClick(entity *Entity) func(level *Level) {
-	return func(level *Level) {
+func arrowClick(entity *Entity) func(level *Level, levelviewport *LevelViewPort) {
+	return func(level *Level, levelviewport *LevelViewPort) {
 		level.Move(entity.ParentEntityID, entity.Tags[1])
 	}
 }

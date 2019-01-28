@@ -38,3 +38,27 @@ func (viewPort *LevelViewPort) GetCreateList(level *Level) []*Entity {
 func (viewPort *LevelViewPort) GetMoveList(level *Level) []Position {
 
 }
+
+func (viewPort *LevelViewPort) GetUIDestroyList() []int64 {
+
+}
+
+func (viewPort *LevelViewPort) GetUICreateList() []*Entity {
+
+}
+
+func (viewPort *LevelViewPort) GetUIMoveList() []Position {
+
+}
+
+func (viewPort *LevelViewPort) DestroyUIEntities() {
+
+}
+
+func (viewPort *LevelViewPort) AddUIEntity(entity *Entity) {
+
+}
+
+func (viewPort *LevelViewPort) SetCameraParent(entity *Entity) {
+
+}

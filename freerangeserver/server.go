@@ -2,7 +2,6 @@ package freerangeserver
 
 import (
 	"encoding/json"
-	"fmt"
 	"strconv"
 	"strings"
 )
@@ -46,19 +45,9 @@ type createMessage struct {
 	clickable bool
 }
 
-//MakeMessage returns a json marshallable message to send to the client
-func (server *Server) makeMessage() message {
-	message := message{
-		server.makeCreateMessage(),
-		server.levelViewPort.GetDestroyList(server.level),
-		server.levelViewPort.GetMoveList(server.level)}
-	return message
-}
-
 //MakeCreateMessage queries the level and initializes CreateMessage structs
 //to send to the client
-func (server *Server) makeCreateMessage() []createMessage {
-	entities := server.levelViewPort.GetCreateList(server.level)
+func (server *Server) makeCreateMessage(entities []*Entity) []createMessage {
 	messages := make([]createMessage, 47)
 	for i, e := range entities {
 		messages[i].id = e.ID
@@ -85,16 +74,24 @@ func (server *Server) Reply(clientMessage []byte) []byte {
 	if clientMessage_str == "request_assets" {
 		return server.levelmanager.LoadAssets()
 	} else if clientMessage_str == "request_update" {
-		return serializeMessage(server.makeMessage())
+		entities := server.levelViewPort.GetCreateList(server.level)
+		message := message{
+			server.makeCreateMessage(entities),
+			server.levelViewPort.GetDestroyList(server.level),
+			server.levelViewPort.GetMoveList(server.level)}
+		return serializeMessage(message)
 	} else if strings.Contains(clientMessage_str, "click") {
 		idStr := clientMessage_str[len("click"):len(clientMessage_str)]
 		id, err := strconv.ParseInt(idStr, 10, 64)
 		check(err)
-		reply := fmt.Sprintf(`
-		{
-			"position": [[%d, 350, 350]]
-		}`, id)
-		return []byte(reply)
+		e := server.level.Read(id)
+		e.clickAction(server.level, server.levelViewPort)
+		entities := server.levelViewPort.GetUICreateList()
+		message := message{
+			server.makeCreateMessage(entities),
+			server.levelViewPort.GetUIDestroyList(),
+			server.levelViewPort.GetUIMoveList()}
+		return serializeMessage(message)
 	}
 	return clientMessage
 }

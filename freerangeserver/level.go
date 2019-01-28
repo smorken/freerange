@@ -3,6 +3,10 @@ package freerangeserver
 import "sync"
 
 var lock = sync.RWMutex{}
+//BaseSharedEntityID is the first value 
+//used in the shared (between clients) entity id space
+//values smaller than this are reserved
+const BaseSharedEntityID int64 = 10000
 
 //Level is a game state, at least 1 player is in the level
 type Level struct {
@@ -31,28 +35,13 @@ func (level *Level) Delete(id int64) {
 func (level *Level) AddEntity(entity *Entity) {
 	lock.Lock()
 	defer lock.Unlock()
-	id := int64(len(level.entities))
+	id := int64(len(level.entities)) + BaseSharedEntityID
 	entity.ID = int64(id)
 	level.entities[id] = entity
-}
-
-func (level *Level) ProcessClick(entityId int64) {
-	e := level.Read(entityId)
-	e.clickAction(level)
 }
 
 func (level *Level) Move(entityId int64, direction string) {
 
 }
 
-func (level *Level) DestroyUIEntities(clientID int64) {
 
-}
-
-func (level *Level) AddUIEntity(clientID int64, entity *Entity) {
-
-}
-
-func (level *Level) SetCameraParent(clientID int64, entity *Entity) {
-
-}
