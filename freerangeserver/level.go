@@ -2,6 +2,10 @@ package freerangeserver
 
 import "sync"
 
+import (
+	"github.com/SolarLune/resolv/resolv"
+)
+
 var lock = sync.RWMutex{}
 //BaseSharedEntityID is the first value 
 //used in the shared (between clients) entity id space
@@ -11,6 +15,7 @@ const BaseSharedEntityID int64 = 10000
 //Level is a game state, at least 1 player is in the level
 type Level struct {
 	entities map[int64]*Entity
+	space resolv.Space
 }
 
 func Load(id int64) *Level {

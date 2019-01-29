@@ -1,11 +1,16 @@
 package freerangeserver
 
+import (
+	"github.com/SolarLune/resolv/resolv"
+)
+
 type LevelViewPort struct {
 	positionX       int
 	positionY       int
 	viewPortHeight  int
 	viewPortWidth   int
 	visibleEntities map[int64]Position
+	bounds          resolv.Rectangle
 }
 
 type Position struct {

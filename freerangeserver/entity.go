@@ -1,5 +1,9 @@
 package freerangeserver
 
+import (
+	"github.com/SolarLune/resolv/resolv"
+)
+
 //Entity is a game object
 type Entity struct {
 	ID             int64
@@ -19,6 +23,7 @@ type Entity struct {
 	CameraChild    bool
 	CameraParent   bool
 	Zorder         int
+	collider       resolv.Rectangle
 	clickAction    func(level *Level, levelviewport *LevelViewPort)
 }
 
