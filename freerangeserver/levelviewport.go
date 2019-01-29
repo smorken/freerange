@@ -12,13 +12,25 @@ type LevelViewPort struct {
 func NewLevelViewPort(positionX int32, positionY int32, height int32, width int32) *LevelViewPort {
 	l := new(LevelViewPort)
 	l.Rectangle = resolv.NewRectangle(positionX, positionY, width, height)
+	l.Rectangle.SetData(l)
 	return l
 }
 
 type Position struct {
 	ID int64
-	X  int
-	Y  int
+	X  int32
+	Y  int32
+}
+
+func (viewPort *LevelViewPort) GetVisibleSet(level *Level) []*Position {
+	space := level.GetCollidingShapes(viewPort)
+	positions := make([]*Position, space.Length())
+	for i := 0; i < space.Length(); i++ {
+		entity := space.Get(i).GetData().(Entity)
+		positions[i].ID = entity.ID
+		positions[i].X = entity.X
+		positions[i].Y = entity.Y
+	}
 }
 
 //GetDestroyList queries the level for the visible items in this view port.
@@ -27,8 +39,12 @@ type Position struct {
 //viewPort's visibleEntities set are returned as the destroy list.
 //This list of object are then destroyed client side.
 //(set difference of level.visible - viewPort.visible)
-func (viewPort *LevelViewPort) GetDestroyList(level *Level) []int64 {
- level.GetCollidingShapes(viewPort)
+func (viewPort *LevelViewPort) GetDestroyList([]*Position) []int64 {
+	space := level.GetCollidingShapes(viewPort)
+	for i := 0; i < space.Length(); i++ {
+		entity := space.Get(i).GetData().(Entity)
+
+	}
 }
 
 //GetCreateList queries the level for the visible items in this view port.

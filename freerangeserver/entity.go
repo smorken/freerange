@@ -9,7 +9,6 @@ type Entity struct {
 	resolv.Rectangle
 	ID             int64
 	Img            string
-	Tags           []string
 	Xposition      int32
 	Yposition      int32
 	Rotation       float64
@@ -33,8 +32,9 @@ func NewEntity(Img string, Tags []string, Xposition int32, Yposition int32, Rota
 	ParentEntityID int64, CameraChild bool, CameraParent bool, Zorder int32) *Entity {
 	e := new(Entity)
 	e.Rectangle = *resolv.NewRectangle(Xposition, Yposition, Ysize, Xsize)
+	e.Rectangle.SetData(e)
+	e.Rectangle.SetTags(Tags...)
 	e.Img = Img
-	e.Tags = Tags
 	e.Speed = Speed
 	e.Jump = Jump
 	e.Fly = Fly
@@ -66,6 +66,6 @@ func actorClick(clicked *Entity) func(level *Level, levelviewport *LevelViewPort
 
 func arrowClick(entity *Entity) func(level *Level, levelviewport *LevelViewPort) {
 	return func(level *Level, levelviewport *LevelViewPort) {
-		level.Move(entity.ParentEntityID, entity.Tags[1])
+		level.Move(entity.ParentEntityID, entity.GetTags()[1])
 	}
 }
