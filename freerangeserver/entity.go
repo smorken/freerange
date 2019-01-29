@@ -6,42 +6,39 @@ import (
 
 //Entity is a game object
 type Entity struct {
+	resolv.Rectangle
 	ID             int64
 	Img            string
 	Tags           []string
-	Xposition      int
-	Yposition      int
+	Xposition      int32
+	Yposition      int32
 	Rotation       float64
 	Speed          float64
 	Jump           float64
 	Fly            bool
-	Xsize          int
-	Ysize          int
+	Xsize          int32
+	Ysize          int32
 	Static         bool
 	Clickable      bool
 	ParentEntityID int64
 	CameraChild    bool
 	CameraParent   bool
-	Zorder         int
-	collider       resolv.Rectangle
+	Zorder         int32
 	clickAction    func(level *Level, levelviewport *LevelViewPort)
 }
 
 //NewEntity creates an entity with all fields specified by the function parameters
-func NewEntity(Img string, Tags []string, Xposition int, Yposition int, Rotation float64,
-	Speed float64, Jump float64, Fly bool, Xsize int, Ysize int, Static bool, Clickable bool,
-	ParentEntityID int64, CameraChild bool, CameraParent bool, Zorder int) *Entity {
+func NewEntity(Img string, Tags []string, Xposition int32, Yposition int32, Rotation float64,
+	Speed float64, Jump float64, Fly bool, Xsize int32, Ysize int32, Static bool, Clickable bool,
+	ParentEntityID int64, CameraChild bool, CameraParent bool, Zorder int32) *Entity {
 	e := new(Entity)
+	e.Rectangle = *resolv.NewRectangle(Xposition, Yposition, Ysize, Xsize)
 	e.Img = Img
 	e.Tags = Tags
-	e.Xposition = Xposition
-	e.Yposition = Yposition
 	e.Speed = Speed
 	e.Jump = Jump
 	e.Fly = Fly
 	e.Rotation = Rotation
-	e.Xsize = Xsize
-	e.Ysize = Ysize
 	e.Static = Static
 	e.Clickable = Clickable
 	e.ParentEntityID = ParentEntityID

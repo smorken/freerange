@@ -5,12 +5,14 @@ import (
 )
 
 type LevelViewPort struct {
-	positionX       int
-	positionY       int
-	viewPortHeight  int
-	viewPortWidth   int
+	*resolv.Rectangle
 	visibleEntities map[int64]Position
-	bounds          resolv.Rectangle
+}
+
+func NewLevelViewPort(positionX int32, positionY int32, height int32, width int32) *LevelViewPort {
+	l := new(LevelViewPort)
+	l.Rectangle = resolv.NewRectangle(positionX, positionY, width, height)
+	return l
 }
 
 type Position struct {
@@ -26,7 +28,7 @@ type Position struct {
 //This list of object are then destroyed client side.
 //(set difference of level.visible - viewPort.visible)
 func (viewPort *LevelViewPort) GetDestroyList(level *Level) []int64 {
-
+ level.GetCollidingShapes(viewPort)
 }
 
 //GetCreateList queries the level for the visible items in this view port.

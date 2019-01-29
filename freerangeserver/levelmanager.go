@@ -1,11 +1,22 @@
 package freerangeserver
 
+import "sync"
+
+var levellock = sync.RWMutex{}
+
 type LevelManager struct {
 	levels map[int64]*Level
 }
 
 func (levelManager *LevelManager) GetLevel(id int64) *Level {
-
+	levellock.Lock()
+	defer levellock.Unlock()
+	if lev, ok := levelManager.levels[id]; ok {
+		return lev
+	}
+	lev := new(Level)
+	levelManager.levels[id] = lev
+	return lev
 }
 
 //LoadAssets loads the assets needed to render the game state
