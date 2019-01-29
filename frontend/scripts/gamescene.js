@@ -48,7 +48,7 @@ class GameScene extends Phaser.Scene {
   }
   preload () {
     this.objectCollection = {}
-    var objectList = this.level['objects']
+    var objectList = this.level['create']
     this.createObjects(objectList)
 
     // this.time.addEvent({
