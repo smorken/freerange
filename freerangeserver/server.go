@@ -37,11 +37,11 @@ type message struct {
 //render
 type createMessage struct {
 	id        int64
-	xposition int
-	yposition int
+	xposition int32
+	yposition int32
 	img       string
-	xsize     int
-	ysize     int
+	xsize     int32
+	ysize     int32
 	clickable bool
 }
 

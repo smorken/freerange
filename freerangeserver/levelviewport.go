@@ -39,10 +39,10 @@ func (viewPort *LevelViewPort) GetVisibleSet(level *Level) []*Position {
 //viewPort's visibleEntities set are returned as the destroy list.
 //This list of object are then destroyed client side.
 //(set difference of level.visible - viewPort.visible)
-func (viewPort *LevelViewPort) GetDestroyList([]*Position) []int64 {
-	space := level.GetCollidingShapes(viewPort)
-	for i := 0; i < space.Length(); i++ {
-		entity := space.Get(i).GetData().(Entity)
+func (viewPort *LevelViewPort) GetDestroyList(visibleSet []*Position) []int64 {
+	
+	for i := 0; i < len(visibleSet); i++ {
+		if get(viewPort.visibleEntities[i].id)
 
 	}
 }
