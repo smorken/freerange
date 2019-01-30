@@ -38,12 +38,19 @@ func (viewPort *LevelViewPort) GetVisibleSet(level *Level) []*Position {
 //side or are just outside of the viewport's bounds, but exist in the
 //viewPort's visibleEntities set are returned as the destroy list.
 //This list of object are then destroyed client side.
-//(set difference of level.visible - viewPort.visible)
+//(set difference of viewPort.visible - level.visible )
 func (viewPort *LevelViewPort) GetDestroyList(visibleSet []*Position) []int64 {
-	
-	for i := 0; i < len(visibleSet); i++ {
-		if get(viewPort.visibleEntities[i].id)
 
+	result := map[int64]interface{}{}
+	for k := range viewPort.visibleEntities {
+		result[k] = nil
+	}
+	for i := 0; i < len(visibleSet); i++ {
+		id := visibleSet[i].ID
+		_, ok := viewPort.visibleEntities[id]
+		if ok {
+			delete(result, id)
+		}
 	}
 }
 
@@ -51,7 +58,7 @@ func (viewPort *LevelViewPort) GetDestroyList(visibleSet []*Position) []int64 {
 //Any items that are not currently in the viewPort's visibleEntities are added
 //to the returned slice.(and stored in the viewPort's struct)
 // These object are then created client side.
-//(set difference of viewPort.visible - level.visible)
+//(set difference of level.visible - viewPort.visible )
 func (viewPort *LevelViewPort) GetCreateList(level *Level) []*Entity {
 
 }
