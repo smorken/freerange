@@ -4,11 +4,16 @@ import (
 	"github.com/SolarLune/resolv/resolv"
 )
 
+//LevelViewPort is the subset of level data visible to a single client
 type LevelViewPort struct {
 	*resolv.Rectangle
+	//visible entities are the subset of level entities (shared between all clients) that are visible to the current client
 	visibleEntities map[int64]Position
+	//uiEntities are entities visible only to the current client
+	uiEntities []Entity
 }
 
+//NewLevelViewPort creates a new level view for a single client
 func NewLevelViewPort(positionX int32, positionY int32, height int32, width int32) *LevelViewPort {
 	l := new(LevelViewPort)
 	l.Rectangle = resolv.NewRectangle(positionX, positionY, width, height)
