@@ -47,7 +47,7 @@ type createMessage struct {
 
 //MakeCreateMessage queries the level and initializes CreateMessage structs
 //to send to the client
-func (server *Server) makeCreateMessage(entities []*Entity) []createMessage {
+func (server *Server) makeCreateMessage(entities []Entity) []createMessage {
 	messages := make([]createMessage, 47)
 	for i, e := range entities {
 		messages[i].id = e.ID
@@ -74,11 +74,11 @@ func (server *Server) Reply(clientMessage []byte) []byte {
 	if clientMessage_str == "request_assets" {
 		return server.levelmanager.LoadAssets()
 	} else if clientMessage_str == "request_update" {
-		entities := server.levelViewPort.GetCreateList(server.level)
+		RefreshResult := server.levelViewPort.Refresh(server.level)
 		message := message{
-			server.makeCreateMessage(entities),
-			server.levelViewPort.GetDestroyList(server.level),
-			server.levelViewPort.GetMoveList(server.level)}
+			server.makeCreateMessage(RefreshResult.created),
+			RefreshResult.destroyed,
+			RefreshResult.moved}
 		return serializeMessage(message)
 	} else if strings.Contains(clientMessage_str, "click") {
 		idStr := clientMessage_str[len("click"):len(clientMessage_str)]

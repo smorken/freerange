@@ -22,7 +22,7 @@ type Level struct {
 
 func Load(id int64) *Level {
 	l := new(Level)
-	nextID = BaseSharedEntityID //this needs to be read in from any serialized level data
+	l.nextID = BaseSharedEntityID //this needs to be read in from any serialized level data
 	l.Space = resolv.NewSpace()
 	l.AddEntity(NewEntity("player", []string{"player"}, 200, 200, 0, 10, 10, false, 30, 30, false, true, -1, false, true, 0))
 	return l
@@ -45,8 +45,8 @@ func (level *Level) Delete(id int64) {
 func (level *Level) AddEntity(entity *Entity) {
 	lock.Lock()
 	defer lock.Unlock()
-	entity.ID = nextID
-	nextID++
+	entity.ID = level.nextID
+	level.nextID++
 	level.entities[entity.ID] = entity
 	level.Space.AddShape(entity)
 }

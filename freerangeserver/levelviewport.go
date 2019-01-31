@@ -16,57 +16,95 @@ func NewLevelViewPort(positionX int32, positionY int32, height int32, width int3
 	return l
 }
 
+//Position is the x, y coordinate for the specified entity id
 type Position struct {
 	ID int64
 	X  int32
 	Y  int32
 }
 
-func (viewPort *LevelViewPort) GetVisibleSet(level *Level) []*Position {
-	space := level.GetCollidingShapes(viewPort)
-	positions := make([]*Position, space.Length())
-	for i := 0; i < space.Length(); i++ {
-		entity := space.Get(i).GetData().(Entity)
-		positions[i].ID = entity.ID
-		positions[i].X = entity.X
-		positions[i].Y = entity.Y
-	}
+//RefreshResult is data passed to client on viewport syncronization with level
+type RefreshResult struct {
+	created   []Entity
+	destroyed []int64
+	moved     []Position
 }
 
-//GetDestroyList queries the level for the visible items in this view port.
+//Refresh updates this viewport instance according to the level state,
+// and returns a result used to syncronize the client
+func (viewPort *LevelViewPort) Refresh(level *Level) RefreshResult {
+	visibleSet := viewPort.getVisibleSet(level)
+	return RefreshResult{
+		viewPort.getCreateList(visibleSet),
+		viewPort.getDestroyList(visibleSet),
+		viewPort.getMoveList(visibleSet)}
+}
+
+func (viewPort *LevelViewPort) getVisibleSet(level *Level) map[int64]Entity {
+	space := level.GetCollidingShapes(viewPort)
+	result := map[int64]Entity{}
+	for i := 0; i < space.Length(); i++ {
+		entity := space.Get(i).GetData().(Entity)
+		result[entity.ID] = entity
+	}
+	return result
+}
+
+//getDestroyList queries the level for the visible items in this view port.
 //Any items that are not visible, either because they were destroyed server
 //side or are just outside of the viewport's bounds, but exist in the
 //viewPort's visibleEntities set are returned as the destroy list.
 //This list of object are then destroyed client side.
 //(set difference of viewPort.visible - level.visible )
-func (viewPort *LevelViewPort) GetDestroyList(visibleSet []*Position) []int64 {
+func (viewPort *LevelViewPort) getDestroyList(visibleSet map[int64]Entity) []int64 {
 
-	result := map[int64]interface{}{}
-	for k := range viewPort.visibleEntities {
-		result[k] = nil
-	}
-	for i := 0; i < len(visibleSet); i++ {
-		id := visibleSet[i].ID
-		_, ok := viewPort.visibleEntities[id]
-		if ok {
-			delete(result, id)
+	result := []int64{}
+
+	for id := range viewPort.visibleEntities {
+		if _, ok := visibleSet[id]; !ok {
+			result = append(result, id)
 		}
 	}
+	for _, id := range result {
+		//if the viewport's entity id is not found in the level's visible set, delete it
+		delete(viewPort.visibleEntities, id)
+	}
+	return result
 }
 
-//GetCreateList queries the level for the visible items in this view port.
+//getCreateList queries the level for the visible items in this view port.
 //Any items that are not currently in the viewPort's visibleEntities are added
 //to the returned slice.(and stored in the viewPort's struct)
 // These object are then created client side.
 //(set difference of level.visible - viewPort.visible )
-func (viewPort *LevelViewPort) GetCreateList(level *Level) []*Entity {
+func (viewPort *LevelViewPort) getCreateList(visibleSet map[int64]Entity) []Entity {
 
+	result := []Entity{}
+
+	for id, entity := range visibleSet {
+		if _, ok := viewPort.visibleEntities[id]; !ok {
+			result = append(result, entity)
+			//if the level's entity id is not found in the viewport's set, add it to the viewport
+			viewPort.visibleEntities[id] = Position{entity.ID, entity.X, entity.Y}
+		}
+	}
+	return result
 }
 
-//GetMoveList returns a list of updated entity positions by comparing
+//getMoveList returns a list of updated entity positions by comparing
 //the x, y positions, and then updating the local viewport copy's positions
-func (viewPort *LevelViewPort) GetMoveList(level *Level) []Position {
+//should be run after delete and create routines
+func (viewPort *LevelViewPort) getMoveList(visibleSet map[int64]Entity) []Position {
 
+	result := []Position{}
+	for id, currentPos := range visibleSet {
+		newPosition := viewPort.visibleEntities[id]
+		if currentPos.X != newPosition.X || currentPos.Y != newPosition.Y {
+			result = append(result, newPosition)
+			viewPort.visibleEntities[id] = newPosition
+		}
+	}
+	return result
 }
 
 func (viewPort *LevelViewPort) GetUIDestroyList() []int64 {
