@@ -11,6 +11,8 @@ type LevelViewPort struct {
 	visibleEntities map[int64]Position
 	//uiEntities are entities visible only to the current client
 	uiEntities []Entity
+	//cameraParent is the entity on which the view port is centered
+	cameraParent *Entity
 }
 
 //NewLevelViewPort creates a new level view for a single client
@@ -46,6 +48,11 @@ func (viewPort *LevelViewPort) Refresh(level *Level) RefreshResult {
 }
 
 func (viewPort *LevelViewPort) getVisibleSet(level *Level) map[int64]Entity {
+	// move the viewport to the camera parent's position
+	if viewPort.cameraParent != nil {
+		viewPort.X = viewPort.cameraParent.X
+		viewPort.Y = viewPort.cameraParent.Y
+	}
 	space := level.GetCollidingShapes(viewPort)
 	result := map[int64]Entity{}
 	for i := 0; i < space.Length(); i++ {
@@ -133,5 +140,5 @@ func (viewPort *LevelViewPort) AddUIEntity(entity *Entity) {
 }
 
 func (viewPort *LevelViewPort) SetCameraParent(entity *Entity) {
-
+	viewPort.cameraParent = entity
 }

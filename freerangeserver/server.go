@@ -70,18 +70,18 @@ func serializeMessage(message message) []byte {
 //Reply responds to user requests based on game state
 func (server *Server) Reply(clientMessage []byte) []byte {
 
-	clientMessage_str := string(clientMessage)
-	if clientMessage_str == "request_assets" {
+	clientMessageStr := string(clientMessage)
+	if clientMessageStr == "request_assets" {
 		return server.levelmanager.LoadAssets()
-	} else if clientMessage_str == "request_update" {
+	} else if clientMessageStr == "request_update" {
 		RefreshResult := server.levelViewPort.Refresh(server.level)
 		message := message{
 			server.makeCreateMessage(RefreshResult.created),
 			RefreshResult.destroyed,
 			RefreshResult.moved}
 		return serializeMessage(message)
-	} else if strings.Contains(clientMessage_str, "click") {
-		idStr := clientMessage_str[len("click"):len(clientMessage_str)]
+	} else if strings.Contains(clientMessageStr, "click") {
+		idStr := clientMessageStr[len("click"):len(clientMessageStr)]
 		id, err := strconv.ParseInt(idStr, 10, 64)
 		check(err)
 		e := server.level.Read(id)
