@@ -86,12 +86,8 @@ func (server *Server) Reply(clientMessage []byte) []byte {
 		check(err)
 		e := server.level.Read(id)
 		e.clickAction(server.level, server.levelViewPort)
-		entities := server.levelViewPort.GetUICreateList()
-		message := message{
-			server.makeCreateMessage(entities),
-			server.levelViewPort.GetUIDestroyList(),
-			server.levelViewPort.GetUIMoveList()}
-		return serializeMessage(message)
+		return []byte("click")
+	} else {
+		return []byte("error")
 	}
-	return clientMessage
 }

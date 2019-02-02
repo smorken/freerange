@@ -10,7 +10,10 @@ type LevelViewPort struct {
 	//visible entities are the subset of level entities (shared between all clients) that are visible to the current client
 	visibleEntities map[int64]Position
 	//uiEntities are entities visible only to the current client
-	uiEntities []Entity
+	uiIEntities          []*Entity
+	addedUIEntities      []*Entity
+	destroyedUIEntityIDs []int64
+	nextUIEntityID       int64
 	//cameraParent is the entity on which the view port is centered
 	cameraParent *Entity
 }
@@ -20,6 +23,7 @@ func NewLevelViewPort(positionX int32, positionY int32, height int32, width int3
 	l := new(LevelViewPort)
 	l.Rectangle = resolv.NewRectangle(positionX, positionY, width, height)
 	l.Rectangle.SetData(l)
+	l.nextUIEntityID = 1
 	return l
 }
 
@@ -42,8 +46,8 @@ type RefreshResult struct {
 func (viewPort *LevelViewPort) Refresh(level *Level) RefreshResult {
 	visibleSet := viewPort.getVisibleSet(level)
 	return RefreshResult{
-		viewPort.getCreateList(visibleSet),
-		viewPort.getDestroyList(visibleSet),
+		append(viewPort.getCreateList(visibleSet), viewPort.getUICreateList()...),
+		append(viewPort.getDestroyList(visibleSet), viewPort.getUIDestroyList()...),
 		viewPort.getMoveList(visibleSet)}
 }
 
@@ -119,26 +123,46 @@ func (viewPort *LevelViewPort) getMoveList(visibleSet map[int64]Entity) []Positi
 	return result
 }
 
-func (viewPort *LevelViewPort) GetUIDestroyList() []int64 {
-
+func (viewPort *LevelViewPort) getUIDestroyList() []int64 {
+	result := []int64{}
+	result = append(result, viewPort.destroyedUIEntityIDs...)
+	viewPort.destroyedUIEntityIDs = nil
+	return result
 }
 
-func (viewPort *LevelViewPort) GetUICreateList() []*Entity {
-
+func (viewPort *LevelViewPort) getUICreateList() []Entity {
+	result := []Entity{}
+	for _, e := range viewPort.addedUIEntities {
+		result = append(result, *e)
+	}
+	viewPort.addedUIEntities = nil
+	return result
 }
 
-func (viewPort *LevelViewPort) GetUIMoveList() []Position {
-
-}
-
+//DestroyUIEntities deletes all UI entities.
+//The next call to Refresh will return the entity ids in the destroy list.
 func (viewPort *LevelViewPort) DestroyUIEntities() {
 
+	viewPort.nextUIEntityID = 1
+
+	for _, e := range viewPort.uiIEntities {
+		viewPort.destroyedUIEntityIDs = append(viewPort.destroyedUIEntityIDs, e.ID)
+	}
+	viewPort.uiIEntities = nil
 }
 
+//AddUIEntity adds the specified entity to the viewport's UI entity collection
+//the ui entity will be emitted by the server to the client on the next update
 func (viewPort *LevelViewPort) AddUIEntity(entity *Entity) {
+	entity.ID = viewPort.nextUIEntityID
+	viewPort.uiIEntities = append(viewPort.uiIEntities, entity)
+	viewPort.addedUIEntities = append(viewPort.addedUIEntities, entity)
+	viewPort.nextUIEntityID++
 
 }
 
+//SetCameraParent sets the specified entity as the camera parent, meaning the
+//viewport's position will update according to the entities position
 func (viewPort *LevelViewPort) SetCameraParent(entity *Entity) {
 	viewPort.cameraParent = entity
 }
