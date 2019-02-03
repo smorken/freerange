@@ -1,12 +1,11 @@
 package freerangeserver
 
-import (
-	"github.com/SolarLune/resolv/resolv"
-)
-
 //LevelViewPort is the subset of level data visible to a single client
 type LevelViewPort struct {
-	*resolv.Rectangle
+	positionX int32
+	positionY int32
+	height    int32
+	width     int32
 	//visible entities are the subset of level entities (shared between all clients) that are visible to the current client
 	visibleEntities map[int64]Position
 	//uiEntities are entities visible only to the current client
@@ -21,8 +20,7 @@ type LevelViewPort struct {
 //NewLevelViewPort creates a new level view for a single client
 func NewLevelViewPort(positionX int32, positionY int32, height int32, width int32) *LevelViewPort {
 	l := new(LevelViewPort)
-	l.Rectangle = resolv.NewRectangle(positionX, positionY, width, height)
-	l.Rectangle.SetData(l)
+
 	l.nextUIEntityID = 1
 	return l
 }
@@ -43,7 +41,7 @@ type RefreshResult struct {
 
 //Refresh updates this viewport instance according to the level state,
 // and returns a result used to syncronize the client
-func (viewPort *LevelViewPort) Refresh(level *Level) RefreshResult {
+func (viewPort *LevelViewPort) Refresh(level ILevel) RefreshResult {
 	visibleSet := viewPort.getVisibleSet(level)
 	return RefreshResult{
 		append(viewPort.getCreateList(visibleSet), viewPort.getUICreateList()...),
@@ -51,17 +49,16 @@ func (viewPort *LevelViewPort) Refresh(level *Level) RefreshResult {
 		viewPort.getMoveList(visibleSet)}
 }
 
-func (viewPort *LevelViewPort) getVisibleSet(level *Level) map[int64]Entity {
+func (viewPort *LevelViewPort) getVisibleSet(level ILevel) map[int64]Entity {
 	// move the viewport to the camera parent's position
 	if viewPort.cameraParent != nil {
-		viewPort.X = viewPort.cameraParent.X
-		viewPort.Y = viewPort.cameraParent.Y
+		viewPort.positionX = viewPort.cameraParent.X
+		viewPort.positionY = viewPort.cameraParent.Y
 	}
-	space := level.GetCollidingShapes(viewPort)
+	selection := level.Select(viewPort.positionX, viewPort.positionY, viewPort.height, viewPort.width)
 	result := map[int64]Entity{}
-	for i := 0; i < space.Length(); i++ {
-		entity := space.Get(i).GetData().(Entity)
-		result[entity.ID] = entity
+	for _, e := range selection {
+		result[e.ID] = e
 	}
 	return result
 }

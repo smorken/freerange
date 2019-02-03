@@ -13,6 +13,10 @@ var lock = sync.RWMutex{}
 //values smaller than this are reserved
 const BaseSharedEntityID int64 = 10000
 
+type ILevel interface {
+	Select(positionX int32, positionY int32, height int32, width int32) []Entity
+}
+
 //Level is a game state, at least 1 player is in the level
 type Level struct {
 	nextID int64
@@ -28,6 +32,17 @@ func Load(id int64) *Level {
 	return l
 }
 
+//Select returns all level entities in the rectangle defined by the parameters
+func (level *Level) Select(positionX int32, positionY int32, height int32, width int32) []Entity {
+	rect := resolv.NewRectangle(positionX, positionY, width, height)
+	selection := level.GetCollidingShapes(rect)
+	result := []Entity{}
+	for i := 0; i < selection.Length(); i++ {
+		item := selection.Get(i).GetData().(Entity)
+		result = append(result, item)
+	}
+	return result
+}
 func (level *Level) Read(id int64) *Entity {
 	lock.RLock()
 	defer lock.RUnlock()
