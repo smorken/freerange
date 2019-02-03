@@ -28,8 +28,9 @@ func TestNewLevelViewPort(t *testing.T) {
 func TestRefresh(t *testing.T) {
 	l := NewLevelViewPort(5, 10, 100, 101)
 	mockLevel := new(MockLevel)
+	mockEntities := []Entity{CreateTestEntity(1), CreateTestEntity(2), CreateTestEntity(3)}
 	mockLevel.mockselect = func(int32, int32, int32, int32) []Entity {
-		return []Entity{CreateTestEntity(1), CreateTestEntity(2), CreateTestEntity(3)}
+		return mockEntities
 	}
 	result := l.Refresh(mockLevel)
 	if len(result.created) != 3 ||
@@ -39,4 +40,19 @@ func TestRefresh(t *testing.T) {
 		t.Error("expected 3 sequential values")
 	}
 
+	//add another entity
+	mockEntities = append(mockEntities, CreateTestEntity(4))
+	result = l.Refresh(mockLevel)
+	if len(result.created) != 1 ||
+		result.created[0].ID != 4 {
+		t.Error("expected a single new value")
+	}
+	//simulate the level destroying an entity and check the result in the viewport
+	mockEntities = append(mockEntities[:1], mockEntities[1:]...)
+	result = l.Refresh(mockLevel)
+	if len(result.created) != 0 ||
+		len(result.destroyed) != 1 ||
+		result.destroyed[0] != 2 {
+		t.Error("expected a single new value")
+	}
 }
