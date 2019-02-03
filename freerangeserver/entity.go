@@ -9,8 +9,6 @@ type Entity struct {
 	*resolv.Rectangle
 	ID             int64
 	Img            string
-	Xposition      int32
-	Yposition      int32
 	Rotation       float64
 	Speed          float64
 	Jump           float64

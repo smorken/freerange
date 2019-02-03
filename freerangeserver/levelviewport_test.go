@@ -47,12 +47,23 @@ func TestRefresh(t *testing.T) {
 		result.created[0].ID != 4 {
 		t.Error("expected a single new value")
 	}
-	//simulate the level destroying an entity and check the result in the viewport
-	mockEntities = append(mockEntities[:1], mockEntities[1:]...)
+	//simulate the level destroying an entity and or an entity leaving the
+	//viewport rect and check the result in the viewport
+	mockEntities = append(mockEntities[:1], mockEntities[2:]...)
 	result = l.Refresh(mockLevel)
 	if len(result.created) != 0 ||
 		len(result.destroyed) != 1 ||
 		result.destroyed[0] != 2 {
 		t.Error("expected a single new value")
+	}
+
+	//simulate a moved entity
+	mockEntities[0].X = 1
+	mockEntities[0].Y = 2
+	result = l.Refresh(mockLevel)
+	if len(result.created) != 0 ||
+		len(result.destroyed) != 0 ||
+		len(result.moved) != 1 {
+		t.Error("expected a move result")
 	}
 }

@@ -51,8 +51,8 @@ func (server *Server) makeCreateMessage(entities []Entity) []createMessage {
 	messages := make([]createMessage, 47)
 	for i, e := range entities {
 		messages[i].id = e.ID
-		messages[i].xposition = e.Xposition
-		messages[i].yposition = e.Yposition
+		messages[i].xposition = e.X
+		messages[i].yposition = e.Y
 		messages[i].img = e.Img
 		messages[i].xsize = e.Xsize
 		messages[i].ysize = e.Ysize
