@@ -20,8 +20,12 @@ type LevelViewPort struct {
 //NewLevelViewPort creates a new level view for a single client
 func NewLevelViewPort(positionX int32, positionY int32, height int32, width int32) *LevelViewPort {
 	l := new(LevelViewPort)
-
+	l.positionX = positionX
+	l.positionY = positionY
+	l.height = height
+	l.width = width
 	l.nextUIEntityID = 1
+	l.visibleEntities = make(map[int64]Position)
 	return l
 }
 

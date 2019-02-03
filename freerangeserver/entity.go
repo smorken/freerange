@@ -6,7 +6,7 @@ import (
 
 //Entity is a game object
 type Entity struct {
-	resolv.Rectangle
+	*resolv.Rectangle
 	ID             int64
 	Img            string
 	Xposition      int32
@@ -31,7 +31,7 @@ func NewEntity(Img string, Tags []string, Xposition int32, Yposition int32, Rota
 	Speed float64, Jump float64, Fly bool, Xsize int32, Ysize int32, Static bool, Clickable bool,
 	ParentEntityID int64, CameraChild bool, CameraParent bool, Zorder int32) *Entity {
 	e := new(Entity)
-	e.Rectangle = *resolv.NewRectangle(Xposition, Yposition, Ysize, Xsize)
+	e.Rectangle = resolv.NewRectangle(Xposition, Yposition, Ysize, Xsize)
 	e.Rectangle.SetData(e)
 	e.Rectangle.SetTags(Tags...)
 	e.Img = Img

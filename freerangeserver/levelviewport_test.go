@@ -2,10 +2,41 @@ package freerangeserver
 
 import "testing"
 
+type MockLevel struct {
+	mockselect func(int32, int32, int32, int32) []Entity
+}
+
+func (mock *MockLevel) Select(positionX int32, positionY int32, height int32, width int32) []Entity {
+	return mock.mockselect(positionX, positionY, height, width)
+}
+
+func CreateTestEntity(id int64) Entity {
+	e := *NewEntity("", []string{},
+		-10, 20, 0, 0, 0, false, 50, 50, true, true, -1, true, false, 0)
+	e.ID = id
+	return e
+}
+
 //TestNewLevelViewPort tests assignment of the struct properties by the constructor
 func TestNewLevelViewPort(t *testing.T) {
 	l := NewLevelViewPort(5, 10, 100, 101)
-	if l.Rectangle.X != 5 || l.Rectangle.Y != 10 || l.Rectangle.H != 100 || l.Rectangle.W != 101 {
+	if l.positionX != 5 || l.positionY != 10 || l.height != 100 || l.width != 101 {
 		t.Error("NewLevelViewPort did not assign properties as expected")
 	}
+}
+
+func TestRefresh(t *testing.T) {
+	l := NewLevelViewPort(5, 10, 100, 101)
+	mockLevel := new(MockLevel)
+	mockLevel.mockselect = func(int32, int32, int32, int32) []Entity {
+		return []Entity{CreateTestEntity(1), CreateTestEntity(2), CreateTestEntity(3)}
+	}
+	result := l.Refresh(mockLevel)
+	if len(result.created) != 3 ||
+		result.created[0].ID != 1 ||
+		result.created[1].ID != 2 ||
+		result.created[2].ID != 3 {
+		t.Error("expected 3 sequential values")
+	}
+
 }
