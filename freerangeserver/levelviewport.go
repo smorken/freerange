@@ -2,10 +2,11 @@ package freerangeserver
 
 //LevelViewPort is the subset of level data visible to a single client
 type LevelViewPort struct {
-	positionX int32
-	positionY int32
-	height    int32
-	width     int32
+	positionX           int32
+	positionY           int32
+	positionInvalidated bool
+	height              int32
+	width               int32
 	//visible entities are the subset of level entities (shared between all clients) that are visible to the current client
 	visibleEntities map[int64]Position
 	//uiEntities are entities visible only to the current client
@@ -47,6 +48,9 @@ type RefreshResult struct {
 // and returns a result used to syncronize the client
 func (viewPort *LevelViewPort) Refresh(level ILevel) RefreshResult {
 	visibleSet := viewPort.getVisibleSet(level)
+	if viewPort.cameraParent != nil {
+		viewPort.Move(viewPort.cameraParent.X, viewPort.cameraParent.Y)
+	}
 	return RefreshResult{
 		append(viewPort.getCreateList(visibleSet), viewPort.getUICreateList()...),
 		append(viewPort.getDestroyList(visibleSet), viewPort.getUIDestroyList()...),
@@ -54,11 +58,7 @@ func (viewPort *LevelViewPort) Refresh(level ILevel) RefreshResult {
 }
 
 func (viewPort *LevelViewPort) getVisibleSet(level ILevel) map[int64]Entity {
-	// move the viewport to the camera parent's position
-	if viewPort.cameraParent != nil {
-		viewPort.positionX = viewPort.cameraParent.X
-		viewPort.positionY = viewPort.cameraParent.Y
-	}
+
 	selection := level.Select(viewPort.positionX, viewPort.positionY, viewPort.height, viewPort.width)
 	result := map[int64]Entity{}
 	for _, e := range selection {
@@ -114,6 +114,11 @@ func (viewPort *LevelViewPort) getCreateList(visibleSet map[int64]Entity) []Enti
 func (viewPort *LevelViewPort) getMoveList(visibleSet map[int64]Entity) []Position {
 
 	result := []Position{}
+	if viewPort.positionInvalidated {
+		//if the position of the viewport itself has changed, sent it as an update
+		viewPort.positionInvalidated = false
+		result = append(result, Position{0, viewPort.positionX, viewPort.positionY})
+	}
 	for id, currentPos := range visibleSet {
 		newPosition := viewPort.visibleEntities[id]
 		if currentPos.X != newPosition.X || currentPos.Y != newPosition.Y {
@@ -166,4 +171,14 @@ func (viewPort *LevelViewPort) AddUIEntity(entity *Entity) {
 //viewport's position will update according to the entities position
 func (viewPort *LevelViewPort) SetCameraParent(entity *Entity) {
 	viewPort.cameraParent = entity
+}
+
+//Move updates the position of the viewport
+func (viewPort *LevelViewPort) Move(positionX int32, positionY int32) {
+	if viewPort.positionX != positionX ||
+		viewPort.positionY != positionY {
+		viewPort.positionX = positionX
+		viewPort.positionY = positionY
+		viewPort.positionInvalidated = true
+	}
 }
