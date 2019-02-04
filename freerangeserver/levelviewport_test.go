@@ -25,7 +25,55 @@ func TestNewLevelViewPort(t *testing.T) {
 	}
 }
 
-func TestRefresh(t *testing.T) {
+func TestRefreshWithMove(t *testing.T) {
+	l := NewLevelViewPort(5, 10, 100, 101)
+	mockLevel := new(MockLevel)
+	mockEntities := []Entity{CreateTestEntity(1), CreateTestEntity(2), CreateTestEntity(3)}
+	mockEntities[0].SetXY(0, 0)
+	mockEntities[1].SetXY(0, 0)
+	mockEntities[2].SetXY(0, 0)
+	mockLevel.mockselect = func(int32, int32, int32, int32) []Entity {
+		return mockEntities
+	}
+	//on the first call to refresh the entites are added to the viewport
+	result := l.Refresh(mockLevel)
+
+	//simulate a moved entity
+	//verify an entity whose position did not change is not included in the update
+	mockEntities[0].SetXY(1, 2)
+	mockEntities[1].SetXY(0, 0)
+	mockEntities[2].SetXY(-1, -2)
+
+	result = l.Refresh(mockLevel)
+	if len(result.moved) != 2 {
+		t.Error("expected 2 move results")
+	}
+	if result.moved[0].X != 1 || result.moved[0].Y != 2 ||
+		result.moved[1].X != -1 || result.moved[1].Y != -2 {
+		t.Error("incorrect move results")
+	}
+
+}
+func TestRefreshWithDestroy(t *testing.T) {
+	l := NewLevelViewPort(5, 10, 100, 101)
+	mockLevel := new(MockLevel)
+	mockEntities := []Entity{CreateTestEntity(1), CreateTestEntity(2), CreateTestEntity(3)}
+	mockLevel.mockselect = func(int32, int32, int32, int32) []Entity {
+		return mockEntities
+	}
+	//on the first call to refresh the entites are added to the viewport
+	result := l.Refresh(mockLevel)
+	//simulate the level destroying an entity and or an entity leaving the
+	//viewport rect and check the result in the viewport
+	mockEntities = append(mockEntities[:1], mockEntities[2:]...)
+	result = l.Refresh(mockLevel)
+	if len(result.created) != 0 ||
+		len(result.destroyed) != 1 ||
+		result.destroyed[0] != 2 {
+		t.Error("expected a single new value")
+	}
+}
+func TestRefreshWithCreate(t *testing.T) {
 	l := NewLevelViewPort(5, 10, 100, 101)
 	mockLevel := new(MockLevel)
 	mockEntities := []Entity{CreateTestEntity(1), CreateTestEntity(2), CreateTestEntity(3)}
@@ -46,24 +94,5 @@ func TestRefresh(t *testing.T) {
 	if len(result.created) != 1 ||
 		result.created[0].ID != 4 {
 		t.Error("expected a single new value")
-	}
-	//simulate the level destroying an entity and or an entity leaving the
-	//viewport rect and check the result in the viewport
-	mockEntities = append(mockEntities[:1], mockEntities[2:]...)
-	result = l.Refresh(mockLevel)
-	if len(result.created) != 0 ||
-		len(result.destroyed) != 1 ||
-		result.destroyed[0] != 2 {
-		t.Error("expected a single new value")
-	}
-
-	//simulate a moved entity
-	mockEntities[0].X = 1
-	mockEntities[0].Y = 2
-	result = l.Refresh(mockLevel)
-	if len(result.created) != 0 ||
-		len(result.destroyed) != 0 ||
-		len(result.moved) != 1 {
-		t.Error("expected a move result")
 	}
 }

@@ -23,6 +23,7 @@ func NewLevelViewPort(positionX int32, positionY int32, height int32, width int3
 	l := new(LevelViewPort)
 	l.positionX = positionX
 	l.positionY = positionY
+	l.positionInvalidated = true
 	l.height = height
 	l.width = width
 	l.nextUIEntityID = 1
@@ -119,11 +120,12 @@ func (viewPort *LevelViewPort) getMoveList(visibleSet map[int64]Entity) []Positi
 		viewPort.positionInvalidated = false
 		result = append(result, Position{0, viewPort.positionX, viewPort.positionY})
 	}
-	for id, currentPos := range visibleSet {
-		newPosition := viewPort.visibleEntities[id]
-		if currentPos.X != newPosition.X || currentPos.Y != newPosition.Y {
-			result = append(result, newPosition)
-			viewPort.visibleEntities[id] = newPosition
+	for id, entity := range visibleSet {
+		currentPos := viewPort.visibleEntities[id]
+		if currentPos.X != entity.X || currentPos.Y != entity.Y {
+			p := Position{id, entity.X, entity.Y}
+			result = append(result, p)
+			viewPort.visibleEntities[id] = p
 		}
 	}
 	return result
