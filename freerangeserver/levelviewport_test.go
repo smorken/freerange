@@ -100,3 +100,46 @@ func TestRefreshWithCreate(t *testing.T) {
 		t.Error("expected a single new value")
 	}
 }
+
+func TestMove(t *testing.T) {
+	l := NewLevelViewPort(5, 10, 100, 101)
+
+	mockLevel := new(MockLevel)
+	mockEntities := []Entity{}
+	mockLevel.mockselect = func(int32, int32, int32, int32) []Entity {
+		return mockEntities
+	}
+
+	result := l.Refresh(mockLevel)
+	//the very first refresh returns the viewport position
+	if l.positionInvalidated != false ||
+		l.positionX != 5 || l.positionY != 10 {
+		t.Error("incorrect effect on levelviewport")
+	}
+
+	l.Move(5, 10)
+	result = l.Refresh(mockLevel)
+	//since the move was the same as the
+	//initial position, the moved result should be empty
+	if len(result.moved) != 0 ||
+		l.positionInvalidated != false {
+		t.Error("expected an empty move result")
+	}
+
+	l.Move(10, 5)
+	if l.positionInvalidated != true ||
+		l.positionX != 10 || l.positionY != 5 {
+		t.Error("incorrect effect on levelviewport")
+	}
+
+	result = l.Refresh(mockLevel)
+	if len(result.moved) != 1 ||
+		result.moved[0].ID != 0 {
+		t.Error("expected a move result")
+	}
+
+	//after the refresh, position invalidated should be reset
+	if l.positionInvalidated != false {
+		t.Error("positionInvalidated not reset")
+	}
+}
