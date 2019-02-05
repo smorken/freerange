@@ -48,8 +48,12 @@ func TestRefreshWithMove(t *testing.T) {
 	if len(result.moved) != 2 {
 		t.Error("expected 2 move results")
 	}
-	if result.moved[0].X != 1 || result.moved[0].Y != 2 ||
-		result.moved[1].X != -1 || result.moved[1].Y != -2 {
+	resultMap := map[int64]Position{
+		result.moved[0].ID: result.moved[0],
+		result.moved[1].ID: result.moved[1]}
+
+	if resultMap[1].X != 1 || resultMap[1].Y != 2 ||
+		resultMap[3].X != -1 || resultMap[3].Y != -2 {
 		t.Error("incorrect move results")
 	}
 
