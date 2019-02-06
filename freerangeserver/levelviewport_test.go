@@ -140,3 +140,27 @@ func TestMove(t *testing.T) {
 		t.Error("positionInvalidated not reset")
 	}
 }
+
+func TestAddDestroyUIEntities(t *testing.T) {
+	l := NewLevelViewPort(5, 10, 100, 101)
+	mockLevel := new(MockLevel)
+	l.Refresh(mockLevel)
+	e1 := CreateTestEntity(1)
+	e2 := CreateTestEntity(1)
+	l.AddUIEntity(&e1)
+	l.AddUIEntity(&e2)
+	result := l.Refresh(mockLevel)
+	if len(result.created) != 2 {
+		t.Error("expected 2 ui entities")
+	}
+	result = l.Refresh(mockLevel)
+	if len(result.created) != 0 {
+		t.Error("expected 0 entities")
+	}
+
+	l.DestroyUIEntities()
+	result = l.Refresh(mockLevel)
+	if len(result.destroyed) != 2 {
+		t.Error("expected 2 ui entities")
+	}
+}
