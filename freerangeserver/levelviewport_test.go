@@ -144,6 +144,10 @@ func TestMove(t *testing.T) {
 func TestAddDestroyUIEntities(t *testing.T) {
 	l := NewLevelViewPort(5, 10, 100, 101)
 	mockLevel := new(MockLevel)
+	mockEntities := []Entity{}
+	mockLevel.mockselect = func(int32, int32, int32, int32) []Entity {
+		return mockEntities
+	}
 	l.Refresh(mockLevel)
 	e1 := CreateTestEntity(1)
 	e2 := CreateTestEntity(1)
