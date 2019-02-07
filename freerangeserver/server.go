@@ -23,6 +23,7 @@ type Server struct {
 func NewServer(levelmanager *LevelManager) *Server {
 	s := new(Server)
 	s.level = levelmanager.GetLevel(1)
+	s.levelViewPort = NewLevelViewPort()
 	return s
 }
 

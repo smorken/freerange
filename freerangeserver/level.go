@@ -19,16 +19,19 @@ type ILevel interface {
 
 //Level is a game state, at least 1 player is in the level
 type Level struct {
-	nextID int64
 	*resolv.Space
-	entities map[int64]*Entity
+	nextID   int64
+	entities map[int64]Entity
 }
 
-func Load(id int64) *Level {
+//NewLevel creates a new level instance, and the specified enties are added
+func NewLevel(entities []Entity) *Level {
 	l := new(Level)
 	l.nextID = BaseSharedEntityID //this needs to be read in from any serialized level data
 	l.Space = resolv.NewSpace()
-	l.AddEntity(NewEntity("player", []string{"player"}, 200, 200, 0, 10, 10, false, 30, 30, false, true, -1, false, true, 0))
+	for _, e := range entities {
+		l.AddEntity(e)
+	}
 	return l
 }
 
@@ -43,13 +46,13 @@ func (level *Level) Select(positionX int32, positionY int32, height int32, width
 	}
 	return result
 }
-func (level *Level) Read(id int64) *Entity {
+func (level *Level) Read(id int64) Entity {
 	lock.RLock()
 	defer lock.RUnlock()
 	return level.entities[id]
 }
 
-func (level *Level) Delete(id int64) {
+func (level *Level) DeleteEntity(id int64) {
 	lock.Lock()
 	defer lock.Unlock()
 	level.Space.RemoveShape(level.entities[id])
@@ -57,7 +60,7 @@ func (level *Level) Delete(id int64) {
 }
 
 //AddEntity adds an entity to the level
-func (level *Level) AddEntity(entity *Entity) {
+func (level *Level) AddEntity(entity Entity) {
 	lock.Lock()
 	defer lock.Unlock()
 	entity.ID = level.nextID

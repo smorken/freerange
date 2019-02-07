@@ -1,6 +1,7 @@
 package freerangeserver
 
 import "sync"
+import "encoding/json"
 
 var levellock = sync.RWMutex{}
 
@@ -14,9 +15,21 @@ func (levelManager *LevelManager) GetLevel(id int64) *Level {
 	if lev, ok := levelManager.levels[id]; ok {
 		return lev
 	}
-	lev := new(Level)
+	lev := NewLevel(DeserializeLevel(""))
 	levelManager.levels[id] = lev
 	return lev
+}
+
+func DeserializeLevel(path string) []Entity {
+	testJSON := []byte(`
+	[{
+		ID: 1
+	}]`)
+	deserialized := new(map[string]interface{})
+	json.Unmarshal(testJSON, deserialized)
+
+	ID := (*deserialized)["ID"].(int64)
+		
 }
 
 //LoadAssets loads the assets needed to render the game state
