@@ -26,23 +26,22 @@ type Entity struct {
 
 //NewEntity creates an entity with all fields specified by the function parameters
 func NewEntity(Img string, Tags []string, Xposition int32, Yposition int32, Rotation float64,
-	Speed float64, Jump float64, Fly bool, Xsize int32, Ysize int32, Static bool, Clickable bool,
-	ParentEntityID int64, CameraChild bool, CameraParent bool, Zorder int32) *Entity {
+	Xsize int32, Ysize int32) *Entity {
 	e := new(Entity)
 	e.Rectangle = resolv.NewRectangle(Xposition, Yposition, Ysize, Xsize)
 	e.Rectangle.SetData(e)
 	e.Rectangle.SetTags(Tags...)
 	e.Img = Img
-	e.Speed = Speed
-	e.Jump = Jump
-	e.Fly = Fly
+	e.Speed = 0
+	e.Jump = 0
+	e.Fly = false
 	e.Rotation = Rotation
-	e.Static = Static
-	e.Clickable = Clickable
-	e.ParentEntityID = ParentEntityID
-	e.CameraChild = CameraChild
-	e.CameraParent = CameraParent
-	e.Zorder = Zorder
+	e.Static = true
+	e.Clickable = false
+	e.ParentEntityID = -1
+	e.CameraChild = false
+	e.CameraParent = false
+	e.Zorder = 0
 	e.ID = -1
 	return e
 }
