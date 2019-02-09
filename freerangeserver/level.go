@@ -27,6 +27,7 @@ type Level struct {
 //NewLevel creates a new level instance, and the specified enties are added
 func NewLevel(entities []Entity) *Level {
 	l := new(Level)
+	l.entities = make(map[int64]Entity)
 	l.nextID = BaseSharedEntityID //this needs to be read in from any serialized level data
 	l.Space = resolv.NewSpace()
 	for _, e := range entities {

@@ -22,7 +22,15 @@ func TestGetLevel(t *testing.T) {
 	defer f.Close()
 	defer os.Remove(path)
 	d2 := []byte(`[
-		{	}
+		{	
+			"img": "bicycle",
+			"tags": ["a"],
+			"xposition": -5000,
+			"yposition": 5000,
+			"rotation": 0,
+			"xsize": 10,
+			"ysize": 10
+		}
 	]`)
 	_, err = f.Write(d2)
 	check(err)

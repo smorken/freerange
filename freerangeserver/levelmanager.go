@@ -17,6 +17,7 @@ type LevelManager struct {
 
 func NewLevelManager(directory string) *LevelManager {
 	l := new(LevelManager)
+	l.levels = make(map[int64]*Level)
 	dir, err := filepath.Abs(directory)
 	check(err)
 	l.directory = dir
@@ -44,17 +45,24 @@ func deserializeLevel(data []byte) []Entity {
 
 	result := []Entity{}
 	deserialized := []interface{}{}
-	json.Unmarshal(data, &deserialized)
+	err := json.Unmarshal(data, &deserialized)
+	check(err)
 	for _, item := range deserialized {
 		values := item.(map[string]interface{})
+		tagI := values["tags"].([]interface{})
+		tagStr := []string{}
+		for _, t := range tagI {
+			tagStr = append(tagStr, t.(string))
+		}
+
 		entity := NewEntity(
 			values["img"].(string),
-			values["tags"].([]string),
-			values["xposition"].(int32),
-			values["yposition"].(int32),
+			tagStr,
+			int32(values["xposition"].(float64)),
+			int32(values["yposition"].(float64)),
 			values["rotation"].(float64),
-			values["xsize"].(int32),
-			values["ysize"].(int32))
+			int32(values["xsize"].(float64)),
+			int32(values["ysize"].(float64)))
 		result = append(result, *entity)
 	}
 	return result
