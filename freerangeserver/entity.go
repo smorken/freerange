@@ -51,10 +51,10 @@ func actorClick(clicked *Entity) func(level *Level, levelviewport *LevelViewPort
 		levelviewport.DestroyUIEntities()
 		levelviewport.SetCameraParent(clicked)
 		left := NewEntity("left arrow", []string{"ui", "left"},
-			-10, 20, 0, 0, 0, false, 50, 50, true, true, clicked.ID, true, false, 0)
+			-10, 20, 0, 0, 0)
 		left.clickAction = arrowClick(left)
 		right := NewEntity("right arrow", []string{"ui", "right"},
-			-10, 20, 0, 0, 0, false, 50, 50, true, true, clicked.ID, true, false, 0)
+			-10, 20, 0, 0, 0)
 		right.clickAction = arrowClick(right)
 		levelviewport.AddUIEntity(left)
 		levelviewport.AddUIEntity(right)

@@ -23,7 +23,7 @@ func NewLevelManager(directory string) *LevelManager {
 	return l
 }
 
-func (levelManager *LevelManager) GetPath(id int64) string {
+func (levelManager *LevelManager) getPath(id int64) string {
 	return filepath.Join(levelManager.directory,
 		fmt.Sprintf("%d.json", id))
 }
@@ -33,19 +33,19 @@ func (levelManager *LevelManager) GetLevel(id int64) *Level {
 	if lev, ok := levelManager.levels[id]; ok {
 		return lev
 	}
-	dat, err := ioutil.ReadFile(levelManager.GetPath(id))
+	dat, err := ioutil.ReadFile(levelManager.getPath(id))
 	check(err)
-	lev := NewLevel(DeserializeLevel(dat))
+	lev := NewLevel(deserializeLevel(dat))
 	levelManager.levels[id] = lev
 	return lev
 }
 
-func DeserializeLevel(data []byte) []Entity {
+func deserializeLevel(data []byte) []Entity {
 
 	result := []Entity{}
 	deserialized := []interface{}{}
 	json.Unmarshal(data, &deserialized)
-	for i, item := range deserialized {
+	for _, item := range deserialized {
 		values := item.(map[string]interface{})
 		entity := NewEntity(
 			values["img"].(string),
