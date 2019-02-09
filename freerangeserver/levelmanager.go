@@ -14,6 +14,8 @@ type LevelManager struct {
 	directory string
 	levels    map[int64]*Level
 }
+type LevelFactory func(data []Entity) *Level
+type EntityFactory func(data map[string]interface{}) *Entity
 
 func NewLevelManager(directory string) *LevelManager {
 	l := new(LevelManager)
@@ -28,7 +30,9 @@ func (levelManager *LevelManager) getPath(id int64) string {
 	return filepath.Join(levelManager.directory,
 		fmt.Sprintf("%d.json", id))
 }
-func (levelManager *LevelManager) GetLevel(id int64) *Level {
+
+func (levelManager *LevelManager) GetLevel(id int64, factory LevelFactory,
+	entityFactory EntityFactory) *Level {
 	levellock.Lock()
 	defer levellock.Unlock()
 	if lev, ok := levelManager.levels[id]; ok {
@@ -36,12 +40,12 @@ func (levelManager *LevelManager) GetLevel(id int64) *Level {
 	}
 	dat, err := ioutil.ReadFile(levelManager.getPath(id))
 	check(err)
-	lev := NewLevel(deserializeLevel(dat))
+	lev := factory(deserializeLevel(dat, entityFactory))
 	levelManager.levels[id] = lev
 	return lev
 }
 
-func deserializeLevel(data []byte) []Entity {
+func deserializeLevel(data []byte, entityFactory EntityFactory) []Entity {
 
 	result := []Entity{}
 	deserialized := []interface{}{}

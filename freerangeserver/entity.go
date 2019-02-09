@@ -46,6 +46,10 @@ func NewEntity(Img string, Tags []string, Xposition int32, Yposition int32, Rota
 	return e
 }
 
+func DeserializeEntity(data map[string]interface{}) {
+
+}
+
 func actorClick(clicked *Entity) func(level *Level, levelviewport *LevelViewPort) {
 	return func(level *Level, levelviewport *LevelViewPort) {
 		levelviewport.DestroyUIEntities()
