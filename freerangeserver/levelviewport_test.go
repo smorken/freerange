@@ -11,7 +11,7 @@ func (mock *MockLevel) Select(positionX int32, positionY int32, height int32, wi
 }
 
 func CreateTestEntity(id int64) Entity {
-	e := *NewEntity("", []string{},
+	e := MakeEntity("", []string{},
 		-10, 20, 0, 0, 0)
 	e.ID = id
 	return e
@@ -151,8 +151,8 @@ func TestAddDestroyUIEntities(t *testing.T) {
 	l.Refresh(mockLevel)
 	e1 := CreateTestEntity(1)
 	e2 := CreateTestEntity(1)
-	l.AddUIEntity(&e1)
-	l.AddUIEntity(&e2)
+	l.AddUIEntity(e1)
+	l.AddUIEntity(e2)
 	result := l.Refresh(mockLevel)
 	if len(result.created) != 2 {
 		t.Error("expected 2 ui entities")

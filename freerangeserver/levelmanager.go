@@ -31,7 +31,7 @@ func (levelManager *LevelManager) getPath(id int64) string {
 		fmt.Sprintf("%d.json", id))
 }
 
-func (levelManager *LevelManager) GetLevel(id int64, factory LevelFactory,
+func (levelManager *LevelManager) GetLevel(id int64, levelFactory LevelFactory,
 	entityFactory EntityFactory) *Level {
 	levellock.Lock()
 	defer levellock.Unlock()
@@ -40,12 +40,12 @@ func (levelManager *LevelManager) GetLevel(id int64, factory LevelFactory,
 	}
 	dat, err := ioutil.ReadFile(levelManager.getPath(id))
 	check(err)
-	lev := factory(deserializeLevel(dat, entityFactory))
+	lev := levelFactory(deserializeEntities(dat, entityFactory))
 	levelManager.levels[id] = lev
 	return lev
 }
 
-func deserializeLevel(data []byte, entityFactory EntityFactory) []Entity {
+func deserializeEntities(data []byte, entityFactory EntityFactory) []Entity {
 
 	result := []Entity{}
 	deserialized := []interface{}{}

@@ -21,24 +21,48 @@ func TestGetLevel(t *testing.T) {
 	check(err)
 	defer f.Close()
 	defer os.Remove(path)
+	//epecting 1 call to entity factory per object
 	d2 := []byte(`[
 		{	
-			"img": "bicycle",
-			"tags": ["a"],
-			"xposition": -5000,
-			"yposition": 5000,
-			"rotation": 0,
-			"xsize": 10,
-			"ysize": 10
+			"a": "1"
+		},
+		{	
+			"b": "2"
+		},
+		{	
+			"c": "3"
 		}
+
 	]`)
 	_, err = f.Write(d2)
 	check(err)
+	mockEntityFactoryCallCount := 0
+	mockEntityFactory := func(data map[string]interface{}) Entity {
+		entity := Entity{}
+		mockEntityFactoryCallCount++
+		return entity
+	}
+	mockLevelFactoryCallCount := 0
 	mockLevelFactory := func(data []Entity) *Level {
-
+		result := new(Level)
+		mockLevelFactoryCallCount++
+		return result
 	}
-	mockEntityFactory := func(data map[string]interface{}) *Entity {
 
+	level := l.GetLevel(16, mockLevelFactory, mockEntityFactory)
+	if level == nil {
+		t.Error("level not created")
 	}
-	l.GetLevel(16, mockLevelFactory, mockEntityFactory)
+	if mockLevelFactoryCallCount != 1 || mockEntityFactoryCallCount != 3 {
+		t.Error("factory not called")
+	}
+	mockLevelFactoryCallCount = 0
+	mockEntityFactoryCallCount = 0
+	//on subsequent calls to GetLevel with the same level id, the already loaded level should be returned
+
+	level = l.GetLevel(16, mockLevelFactory, mockEntityFactory)
+	if mockLevelFactoryCallCount != 0 || mockEntityFactoryCallCount != 0 {
+		t.Error("factory should not be called")
+	}
+
 }
