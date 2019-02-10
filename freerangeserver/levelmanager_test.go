@@ -34,6 +34,11 @@ func TestGetLevel(t *testing.T) {
 	]`)
 	_, err = f.Write(d2)
 	check(err)
+	mockLevelFactory := func(data []Entity) *Level {
 
-	l.GetLevel(16)
+	}
+	mockEntityFactory := func(data map[string]interface{}) *Entity {
+
+	}
+	l.GetLevel(16, mockLevelFactory, mockEntityFactory)
 }
