@@ -15,7 +15,7 @@ type LevelManager struct {
 	levels    map[int64]*Level
 }
 type LevelFactory func(data []Entity) *Level
-type EntityFactory func(data map[string]interface{}) *Entity
+type EntityFactory func(data map[string]interface{}) Entity
 
 func NewLevelManager(directory string) *LevelManager {
 	l := new(LevelManager)
@@ -53,21 +53,7 @@ func deserializeLevel(data []byte, entityFactory EntityFactory) []Entity {
 	check(err)
 	for _, item := range deserialized {
 		values := item.(map[string]interface{})
-		tagI := values["tags"].([]interface{})
-		tagStr := []string{}
-		for _, t := range tagI {
-			tagStr = append(tagStr, t.(string))
-		}
-
-		entity := NewEntity(
-			values["img"].(string),
-			tagStr,
-			int32(values["xposition"].(float64)),
-			int32(values["yposition"].(float64)),
-			values["rotation"].(float64),
-			int32(values["xsize"].(float64)),
-			int32(values["ysize"].(float64)))
-		result = append(result, *entity)
+		result = append(result, entityFactory(values))
 	}
 	return result
 

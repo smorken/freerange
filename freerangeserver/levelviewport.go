@@ -10,8 +10,8 @@ type LevelViewPort struct {
 	//visible entities are the subset of level entities (shared between all clients) that are visible to the current client
 	visibleEntities map[int64]Position
 	//uiEntities are entities visible only to the current client
-	uiIEntities          []*Entity
-	addedUIEntities      []*Entity
+	uiIEntities          []Entity
+	addedUIEntities      []Entity
 	destroyedUIEntityIDs []int64
 	nextUIEntityID       int64
 	//cameraParent is the entity on which the view port is centered
@@ -141,7 +141,7 @@ func (viewPort *LevelViewPort) getUIDestroyList() []int64 {
 func (viewPort *LevelViewPort) getUICreateList() []Entity {
 	result := []Entity{}
 	for _, e := range viewPort.addedUIEntities {
-		result = append(result, *e)
+		result = append(result, e)
 	}
 	viewPort.addedUIEntities = nil
 	return result
@@ -161,7 +161,7 @@ func (viewPort *LevelViewPort) DestroyUIEntities() {
 
 //AddUIEntity adds the specified entity to the viewport's UI entity collection
 //the ui entity will be emitted by the server to the client on the next update
-func (viewPort *LevelViewPort) AddUIEntity(entity *Entity) {
+func (viewPort *LevelViewPort) AddUIEntity(entity Entity) {
 	entity.ID = viewPort.nextUIEntityID
 	viewPort.uiIEntities = append(viewPort.uiIEntities, entity)
 	viewPort.addedUIEntities = append(viewPort.addedUIEntities, entity)
@@ -171,8 +171,8 @@ func (viewPort *LevelViewPort) AddUIEntity(entity *Entity) {
 
 //SetCameraParent sets the specified entity as the camera parent, meaning the
 //viewport's position will update according to the entities position
-func (viewPort *LevelViewPort) SetCameraParent(entity *Entity) {
-	viewPort.cameraParent = entity
+func (viewPort *LevelViewPort) SetCameraParent(entity Entity) {
+	viewPort.cameraParent = &entity
 }
 
 //Move updates the position of the viewport

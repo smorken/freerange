@@ -24,10 +24,10 @@ type Entity struct {
 	clickAction    func(level *Level, levelviewport *LevelViewPort)
 }
 
-//NewEntity creates an entity with all fields specified by the function parameters
-func NewEntity(Img string, Tags []string, Xposition int32, Yposition int32, Rotation float64,
-	Xsize int32, Ysize int32) *Entity {
-	e := new(Entity)
+//MakeEntity creates an entity with all fields specified by the function parameters
+func MakeEntity(Img string, Tags []string, Xposition int32, Yposition int32, Rotation float64,
+	Xsize int32, Ysize int32) Entity {
+	e := Entity{}
 	e.Rectangle = resolv.NewRectangle(Xposition, Yposition, Ysize, Xsize)
 	e.Rectangle.SetData(e)
 	e.Rectangle.SetTags(Tags...)
@@ -46,18 +46,32 @@ func NewEntity(Img string, Tags []string, Xposition int32, Yposition int32, Rota
 	return e
 }
 
-func DeserializeEntity(data map[string]interface{}) {
+func DeserializeEntity(values map[string]interface{}) Entity {
+	tagI := values["tags"].([]interface{})
+	tagStr := []string{}
+	for _, t := range tagI {
+		tagStr = append(tagStr, t.(string))
+	}
 
+	entity := MakeEntity(
+		values["img"].(string),
+		tagStr,
+		int32(values["xposition"].(float64)),
+		int32(values["yposition"].(float64)),
+		values["rotation"].(float64),
+		int32(values["xsize"].(float64)),
+		int32(values["ysize"].(float64)))
+	return entity
 }
 
-func actorClick(clicked *Entity) func(level *Level, levelviewport *LevelViewPort) {
+func actorClick(clicked Entity) func(level *Level, levelviewport *LevelViewPort) {
 	return func(level *Level, levelviewport *LevelViewPort) {
 		levelviewport.DestroyUIEntities()
 		levelviewport.SetCameraParent(clicked)
-		left := NewEntity("left arrow", []string{"ui", "left"},
+		left := MakeEntity("left arrow", []string{"ui", "left"},
 			-10, 20, 0, 0, 0)
 		left.clickAction = arrowClick(left)
-		right := NewEntity("right arrow", []string{"ui", "right"},
+		right := MakeEntity("right arrow", []string{"ui", "right"},
 			-10, 20, 0, 0, 0)
 		right.clickAction = arrowClick(right)
 		levelviewport.AddUIEntity(left)
@@ -65,7 +79,7 @@ func actorClick(clicked *Entity) func(level *Level, levelviewport *LevelViewPort
 	}
 }
 
-func arrowClick(entity *Entity) func(level *Level, levelviewport *LevelViewPort) {
+func arrowClick(entity Entity) func(level *Level, levelviewport *LevelViewPort) {
 	return func(level *Level, levelviewport *LevelViewPort) {
 		level.Move(entity.ParentEntityID, entity.GetTags()[1])
 	}

@@ -20,10 +20,10 @@ type Server struct {
 }
 
 //NewServer creates a new server instance
-func NewServer(levelmanager *LevelManager) *Server {
+func NewServer(levelmanager *LevelManager, levelFactory LevelFactory, entityFactory EntityFactory) *Server {
 	s := new(Server)
-	s.level = levelmanager.GetLevel(1)
-	s.levelViewPort = NewLevelViewPort(0,0,1024,768)
+	s.level = levelmanager.GetLevel(1, levelFactory, entityFactory)
+	s.levelViewPort = NewLevelViewPort(0, 0, 1024, 768)
 	return s
 }
 
