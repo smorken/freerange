@@ -56,7 +56,7 @@ func (level *Level) Read(id int64) Entity {
 func (level *Level) DeleteEntity(id int64) {
 	lock.Lock()
 	defer lock.Unlock()
-	level.Space.RemoveShape(level.entities[id])
+	level.Space.RemoveShape(level.entities[id].Rectangle)
 	delete(level.entities, id)
 }
 
@@ -66,8 +66,7 @@ func (level *Level) AddEntity(entity Entity) {
 	defer lock.Unlock()
 	entity.ID = level.nextID
 	level.nextID++
-	level.entities[entity.ID] = entity
-	level.Space.AddShape(entity)
+	level.Space.AddShape(entity.Rectangle)
 }
 
 func (level *Level) Move(entityId int64, direction string) {

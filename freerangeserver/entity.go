@@ -13,8 +13,6 @@ type Entity struct {
 	Speed          float64
 	Jump           float64
 	Fly            bool
-	Xsize          int32
-	Ysize          int32
 	Static         bool
 	Clickable      bool
 	ParentEntityID int64

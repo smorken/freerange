@@ -55,8 +55,8 @@ func (server *Server) makeCreateMessage(entities []Entity) []createMessage {
 		messages[i].xposition = e.X
 		messages[i].yposition = e.Y
 		messages[i].img = e.Img
-		messages[i].xsize = e.Xsize
-		messages[i].ysize = e.Ysize
+		messages[i].xsize = e.W
+		messages[i].ysize = e.H
 		messages[i].clickable = e.Clickable
 	}
 	return messages

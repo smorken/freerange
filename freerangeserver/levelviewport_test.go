@@ -12,7 +12,7 @@ func (mock *MockLevel) Select(positionX int32, positionY int32, height int32, wi
 
 func CreateTestEntity(id int64) Entity {
 	e := MakeEntity("", []string{},
-		-10, 20, 0, 0, 0)
+		-10, 20, 0, 10, 10)
 	e.ID = id
 	return e
 }
