@@ -44,7 +44,7 @@ func TestSelect(t *testing.T) {
 	if len(result) != 2 {
 		t.Error("expected 2 entities")
 	}
-	result = l.Select(20, 20, 20, 20)
+	result = l.Select(0, 0, 50, 50)
 	if len(result) != 3 {
 		t.Error("expected 3 entities")
 	}

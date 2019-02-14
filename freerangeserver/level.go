@@ -65,6 +65,7 @@ func (level *Level) AddEntity(entity Entity) {
 	lock.Lock()
 	defer lock.Unlock()
 	entity.ID = level.nextID
+	level.entities[entity.ID] = entity
 	level.nextID++
 	level.Space.AddShape(entity.Rectangle)
 }
