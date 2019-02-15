@@ -19,21 +19,24 @@ func PhysicsCoordToPixelCoord(x float64, y float64) (int32, int32) {
 	return int32(math.Round(x * PixelsPerMetre)), int32(math.Round(y * PixelsPerMetre))
 }
 
-func AddEntityBody(world *box2d.B2World, entity Entity) {
-	bodyDef := box2d.NewB2BodyDef()
-	px, py := PixelCoordToPhysicsCoord(entity.X, entity.Y)
-	bodyDef.Position.Set(px, py)
-	if entity.Static {
-		bodyDef.Type = box2d.B2BodyType.B2_staticBody
-	} else {
-		bodyDef.Type = box2d.B2BodyType.B2_dynamicBody
+func AddEntityBody(world *box2d.B2World, entity *Entity) {
+	if entity.Physics {
+		bodyDef := box2d.NewB2BodyDef()
+		px, py := PixelCoordToPhysicsCoord(entity.X, entity.Y)
+		bodyDef.Position.Set(px, py)
+		if entity.Static {
+			bodyDef.Type = box2d.B2BodyType.B2_staticBody
+		} else {
+			bodyDef.Type = box2d.B2BodyType.B2_dynamicBody
+		}
+		body := world.CreateBody(bodyDef)
+		box := box2d.NewB2PolygonShape()
+		box.SetAsBox(1.0, 1.0)
+		fixture := body.CreateFixture(box, 1.0)
+		fixture.SetFriction(0.3)
+		entity.Body = body
+		body.SetUserData(entity)
 	}
-	body := world.CreateBody(bodyDef)
-	box := box2d.NewB2PolygonShape()
-	box.SetAsBox(1.0, 1.0)
-	fixture := body.CreateFixture(box, 1.0)
-	fixture.SetFriction(0.3)
-
 }
 
 //Box2dTutorial is from http://box2d.org/manual.pdf

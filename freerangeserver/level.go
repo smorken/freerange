@@ -3,6 +3,7 @@ package freerangeserver
 import "sync"
 
 import (
+	"github.com/ByteArena/box2d"
 	"github.com/SolarLune/resolv/resolv"
 )
 
@@ -20,6 +21,7 @@ type ILevel interface {
 //Level is a game state, at least 1 player is in the level
 type Level struct {
 	*resolv.Space
+	World    box2d.B2World
 	nextID   int64
 	entities map[int64]Entity
 }
@@ -33,6 +35,8 @@ func NewLevel(entities []Entity) *Level {
 	for _, e := range entities {
 		l.AddEntity(e)
 	}
+	gravity := box2d.B2Vec2{X: 0.0, Y: -9.8}
+	l.World = box2d.MakeB2World(gravity)
 	return l
 }
 
@@ -47,16 +51,20 @@ func (level *Level) Select(positionX int32, positionY int32, height int32, width
 	}
 	return result
 }
-func (level *Level) Read(id int64) Entity {
+func (level *Level) GetEntity(id int64) Entity {
 	lock.RLock()
 	defer lock.RUnlock()
 	return level.entities[id]
 }
 
+//DeleteEntity removes entitiy from level 
+//collection, and destroys collider and physics body
 func (level *Level) DeleteEntity(id int64) {
 	lock.Lock()
 	defer lock.Unlock()
-	level.Space.RemoveShape(level.entities[id].Rectangle)
+	entity := level.entities[id]
+	level.Space.RemoveShape(entity.Rectangle)
+	level.World.DestroyBody(entity.Body)
 	delete(level.entities, id)
 }
 
@@ -68,8 +76,6 @@ func (level *Level) AddEntity(entity Entity) {
 	level.entities[entity.ID] = entity
 	level.nextID++
 	level.Space.AddShape(entity.Rectangle)
+	AddEntityBody(&level.World, &entity)
 }
 
-func (level *Level) Move(entityId int64, direction string) {
-
-}
