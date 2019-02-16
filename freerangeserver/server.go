@@ -85,7 +85,7 @@ func (server *Server) Reply(clientMessage []byte) []byte {
 		idStr := clientMessageStr[len("click"):len(clientMessageStr)]
 		id, err := strconv.ParseInt(idStr, 10, 64)
 		check(err)
-		e := server.level.Read(id)
+		e := server.level.GetEntity(id)
 		e.clickAction(server.level, server.levelViewPort)
 		return []byte("click")
 	} else {
