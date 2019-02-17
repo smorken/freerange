@@ -57,14 +57,16 @@ func (level *Level) GetEntity(id int64) Entity {
 	return level.entities[id]
 }
 
-//DeleteEntity removes entitiy from level 
+//DeleteEntity removes entitiy from level
 //collection, and destroys collider and physics body
 func (level *Level) DeleteEntity(id int64) {
 	lock.Lock()
 	defer lock.Unlock()
 	entity := level.entities[id]
 	level.Space.RemoveShape(entity.Rectangle)
-	level.World.DestroyBody(entity.Body)
+	if entity.Body != nil {
+		level.World.DestroyBody(entity.Body)
+	}
 	delete(level.entities, id)
 }
 
@@ -78,4 +80,3 @@ func (level *Level) AddEntity(entity Entity) {
 	level.Space.AddShape(entity.Rectangle)
 	AddEntityBody(&level.World, &entity)
 }
-

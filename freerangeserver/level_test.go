@@ -3,7 +3,9 @@ package freerangeserver
 import "testing"
 
 func TestNewLevel(t *testing.T) {
-	mockEntities := []Entity{CreateTestEntity(0), CreateTestEntity(0)}
+	physicsBodyEntity := CreateTestEntity(0)
+	physicsBodyEntity.Physics = true
+	mockEntities := []Entity{physicsBodyEntity, CreateTestEntity(0)}
 	l := NewLevel(mockEntities)
 	if l.nextID != BaseSharedEntityID+int64(len(mockEntities)) {
 		t.Error("nextID not incremented")
@@ -13,6 +15,9 @@ func TestNewLevel(t *testing.T) {
 	}
 	if l.Space.Length() != len(mockEntities) {
 		t.Error("incorrect number of entities in collision space")
+	}
+	if l.World.GetBodyCount() != 1 {
+		t.Error("incorrect number of physics bodies")
 	}
 }
 
@@ -48,4 +53,44 @@ func TestSelect(t *testing.T) {
 	if len(result) != 3 {
 		t.Error("expected 3 entities")
 	}
+}
+
+func TestDeleteEntity(t *testing.T) {
+	physicsBodyEntity := CreateTestEntity(0)
+	physicsBodyEntity.Physics = true
+	mockEntities := []Entity{CreateTestEntity(0), physicsBodyEntity, CreateTestEntity(0)}
+	l := NewLevel(mockEntities)
+	deleteList := []int64{}
+	for k := range l.entities {
+		deleteList = append(deleteList, k)
+	}
+
+	for _, d := range deleteList {
+		l.DeleteEntity(d)
+	}
+	if len(l.entities) != 0 {
+		t.Error("unexpected number of entities")
+	}
+	if l.Space.Length() != 0 {
+		t.Error("incorrect number of entities in collision space")
+	}
+	if l.World.GetBodyCount() != 0 {
+		t.Error("incorrect number of physics bodies")
+	}
+}
+
+func TestGetEntity(t *testing.T) {
+	mockEntities := []Entity{CreateTestEntity(0), CreateTestEntity(0), CreateTestEntity(0)}
+	l := NewLevel(mockEntities)
+	selectList := []int64{}
+	for k := range l.entities {
+		selectList = append(selectList, k)
+	}
+	for _, d := range selectList {
+		e := l.GetEntity(d)
+		if e.ID != d {
+			t.Error("expected entity not returned")
+		}
+	}
+
 }
