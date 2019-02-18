@@ -32,11 +32,12 @@ func NewLevel(entities []Entity) *Level {
 	l.entities = make(map[int64]Entity)
 	l.nextID = BaseSharedEntityID //this needs to be read in from any serialized level data
 	l.Space = resolv.NewSpace()
+	gravity := box2d.B2Vec2{X: 0.0, Y: -9.8}
+	l.World = box2d.MakeB2World(gravity)
 	for _, e := range entities {
 		l.AddEntity(e)
 	}
-	gravity := box2d.B2Vec2{X: 0.0, Y: -9.8}
-	l.World = box2d.MakeB2World(gravity)
+
 	return l
 }
 
@@ -51,6 +52,8 @@ func (level *Level) Select(positionX int32, positionY int32, height int32, width
 	}
 	return result
 }
+
+
 func (level *Level) GetEntity(id int64) Entity {
 	lock.RLock()
 	defer lock.RUnlock()
@@ -75,8 +78,15 @@ func (level *Level) AddEntity(entity Entity) {
 	lock.Lock()
 	defer lock.Unlock()
 	entity.ID = level.nextID
-	level.entities[entity.ID] = entity
 	level.nextID++
 	level.Space.AddShape(entity.Rectangle)
 	AddEntityBody(&level.World, &entity)
+	level.entities[entity.ID] = entity
+}
+
+func (level *Level) Step() {
+	timeStep := 1.0 / 60.0
+	velocityIterations := 6
+	positionIterations := 2
+	level.World.Step(timeStep, velocityIterations, positionIterations)
 }

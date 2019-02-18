@@ -3,9 +3,16 @@ package freerangeserver
 import "testing"
 
 func TestNewLevel(t *testing.T) {
-	physicsBodyEntity := CreateTestEntity(0)
-	physicsBodyEntity.Physics = true
-	mockEntities := []Entity{physicsBodyEntity, CreateTestEntity(0)}
+
+	physicsBodyEntity1 := CreateTestEntity(0)
+	physicsBodyEntity1.Physics = true
+	physicsBodyEntity1.Static = false
+
+	physicsBodyEntity2 := CreateTestEntity(0)
+	physicsBodyEntity2.Physics = true
+	physicsBodyEntity2.Static = true
+
+	mockEntities := []Entity{physicsBodyEntity1, CreateTestEntity(0), physicsBodyEntity2}
 	l := NewLevel(mockEntities)
 	if l.nextID != BaseSharedEntityID+int64(len(mockEntities)) {
 		t.Error("nextID not incremented")
@@ -16,7 +23,7 @@ func TestNewLevel(t *testing.T) {
 	if l.Space.Length() != len(mockEntities) {
 		t.Error("incorrect number of entities in collision space")
 	}
-	if l.World.GetBodyCount() != 1 {
+	if l.World.GetBodyCount() != 2 {
 		t.Error("incorrect number of physics bodies")
 	}
 }
@@ -58,7 +65,7 @@ func TestSelect(t *testing.T) {
 func TestDeleteEntity(t *testing.T) {
 	physicsBodyEntity := CreateTestEntity(0)
 	physicsBodyEntity.Physics = true
-	mockEntities := []Entity{CreateTestEntity(0), physicsBodyEntity, CreateTestEntity(0)}
+	mockEntities := []Entity{physicsBodyEntity, CreateTestEntity(0), physicsBodyEntity, CreateTestEntity(0)}
 	l := NewLevel(mockEntities)
 	deleteList := []int64{}
 	for k := range l.entities {
