@@ -25,6 +25,27 @@ func TestNewLevelViewPort(t *testing.T) {
 	}
 }
 
+func TestRefreshWithCameraParent(t *testing.T) {
+	l := NewLevelViewPort(5, 10, 100, 1000)
+	mockLevel := new(MockLevel)
+	mockEntities := []Entity{CreateTestEntity(1), CreateTestEntity(2), CreateTestEntity(3)}
+	mockEntities[1].X = 100
+	mockEntities[1].Y = -100
+	mockLevel.mockselect = func(int32, int32, int32, int32) []Entity {
+		return mockEntities
+	}
+	result := l.Refresh(mockLevel)
+	l.SetCameraParent(mockEntities[1])
+	result = l.Refresh(mockLevel)
+	if l.positionX != 100 && l.positionY != -100 {
+
+		t.Error("expected the viewport position to change to the second mock entity")
+	}
+	if result.moved[0].ID != 0 {
+		//the viewport itself is the 0th entity
+		t.Error("expected a viewport move message")
+	}
+}
 func TestRefreshWithMove(t *testing.T) {
 	l := NewLevelViewPort(5, 10, 100, 101)
 	mockLevel := new(MockLevel)

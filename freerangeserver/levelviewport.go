@@ -116,7 +116,7 @@ func (viewPort *LevelViewPort) getMoveList(visibleSet map[int64]Entity) []Positi
 
 	result := []Position{}
 	if viewPort.positionInvalidated {
-		//if the position of the viewport itself has changed, sent it as an update
+		//if the position of the viewport itself has changed, send it as an update
 		viewPort.positionInvalidated = false
 		result = append(result, Position{0, viewPort.positionX, viewPort.positionY})
 	}
