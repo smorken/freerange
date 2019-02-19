@@ -23,6 +23,9 @@ type Entity struct {
 	CameraParent   bool
 	Zorder         int32
 	clickAction    func(level *Level, levelviewport *LevelViewPort)
+	onIntersectEnter func(level *Level, levelviewport *LevelViewPort, otherEntity Entity)
+	onIntersectLeave func(level *Level, levelviewport *LevelViewPort, otherEntity Entity)
+	onCollision func(level *Level, levelviewport *LevelViewPort, otherEntity Entity)
 }
 
 //MakeEntity creates an entity with all fields specified by the function parameters
