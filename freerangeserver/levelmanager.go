@@ -11,8 +11,9 @@ import (
 var levellock = sync.RWMutex{}
 
 type LevelManager struct {
-	directory string
-	levels    map[int64]*Level
+	directory     string
+	levels        map[int64]*Level
+	levelRefCount map[int64]int32
 }
 type LevelFactory func(data []Entity) *Level
 type EntityFactory func(data map[string]interface{}) Entity
@@ -42,9 +43,16 @@ func (levelManager *LevelManager) GetLevel(id int64, levelFactory LevelFactory,
 	check(err)
 	lev := levelFactory(deserializeEntities(dat, entityFactory))
 	levelManager.levels[id] = lev
+	lev.ID = id
+	levelManager.levelRefCount[id]++
 	return lev
 }
+func (levelManager *LevelManager) CloseLevel(level *Level) {
+	levellock.Lock()
+	defer levellock.Unlock()
+	levelManager.levelRefCount[level.ID]--
 
+}
 func deserializeEntities(data []byte, entityFactory EntityFactory) []Entity {
 
 	result := []Entity{}

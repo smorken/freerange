@@ -21,6 +21,7 @@ type ILevel interface {
 //Level is a game state, at least 1 player is in the level
 type Level struct {
 	*resolv.Space
+	ID              int64
 	World           box2d.B2World
 	contactListener *ContactListener
 	nextID          int64

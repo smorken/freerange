@@ -27,6 +27,11 @@ func NewServer(levelmanager *LevelManager, levelFactory LevelFactory, entityFact
 	return s
 }
 
+//CloseServer releases level handle
+func (server *Server) CloseServer() {
+
+}
+
 //message is the data sent periodically to the client
 type message struct {
 	create   []createMessage
