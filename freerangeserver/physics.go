@@ -38,6 +38,8 @@ func AddEntityBody(world *box2d.B2World, entity *Entity) {
 	}
 }
 type ContactListener struct {
+	level *Level
+	levelviewport *LevelViewPort
 }
 
 func (c *ContactListener) BeginContact(contact box2d.B2ContactInterface) {
@@ -50,10 +52,10 @@ func (c *ContactListener) PreSolve(contact box2d.B2ContactInterface, oldManifold
 
 }
 func (c *ContactListener) PostSolve(contact box2d.B2ContactInterface, impulse *box2d.B2ContactImpulse) {
-	impulses := impulse.NormalImpulses
+	//impulses := impulse.NormalImpulses
 	e1 := contact.GetFixtureA().GetBody().GetUserData().(Entity)
 	if e1.onCollision != nil{
 		e2 := contact.GetFixtureA().GetBody().GetUserData().(Entity)
-		e1.onCollision()
+		e1.onCollision(c.level, c.levelviewport, e2)
 	}
 }
