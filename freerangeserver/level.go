@@ -21,9 +21,11 @@ type ILevel interface {
 //Level is a game state, at least 1 player is in the level
 type Level struct {
 	*resolv.Space
-	World    box2d.B2World
-	nextID   int64
-	entities map[int64]Entity
+	ID              int64
+	World           box2d.B2World
+	contactListener *ContactListener
+	nextID          int64
+	entities        map[int64]Entity
 }
 
 //NewLevel creates a new level instance, and the specified enties are added
@@ -34,6 +36,8 @@ func NewLevel(entities []Entity) *Level {
 	l.Space = resolv.NewSpace()
 	gravity := box2d.B2Vec2{X: 0.0, Y: -9.8}
 	l.World = box2d.MakeB2World(gravity)
+	l.contactListener = new(ContactListener)
+	l.World.SetContactListener(l.contactListener)
 	for _, e := range entities {
 		l.AddEntity(e)
 	}
@@ -52,7 +56,6 @@ func (level *Level) Select(positionX int32, positionY int32, height int32, width
 	}
 	return result
 }
-
 
 func (level *Level) GetEntity(id int64) Entity {
 	lock.RLock()
@@ -89,4 +92,5 @@ func (level *Level) Step() {
 	velocityIterations := 6
 	positionIterations := 2
 	level.World.Step(timeStep, velocityIterations, positionIterations)
+
 }

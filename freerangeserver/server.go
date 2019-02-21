@@ -24,6 +24,11 @@ func NewServer(gamecontext *GameContext) *Server {
 	return s
 }
 
+//CloseServer releases level handle
+func (server *Server) CloseServer() {
+
+}
+
 //message is the data sent periodically to the client
 type message struct {
 	create   []createMessage
