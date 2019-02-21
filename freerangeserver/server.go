@@ -14,16 +14,13 @@ func check(e error) {
 
 //Server is the interface between a single client and the game state
 type Server struct {
-	levelmanager  *LevelManager
-	level         *Level
-	levelViewPort *LevelViewPort
+	gamecontext *GameContext
 }
 
 //NewServer creates a new server instance
-func NewServer(levelmanager *LevelManager, levelFactory LevelFactory, entityFactory EntityFactory) *Server {
+func NewServer(gamecontext *GameContext) *Server {
 	s := new(Server)
-	s.level = levelmanager.GetLevel(1, levelFactory, entityFactory)
-	s.levelViewPort = NewLevelViewPort(0, 0, 1024, 768)
+	s.gamecontext = gamecontext
 	return s
 }
 
@@ -73,7 +70,7 @@ func (server *Server) Reply(clientMessage []byte) []byte {
 
 	clientMessageStr := string(clientMessage)
 	if clientMessageStr == "request_assets" {
-		return server.levelmanager.LoadAssets()
+		return server.gamecontext.LoadAssets()
 	} else if clientMessageStr == "request_update" {
 		RefreshResult := server.levelViewPort.Refresh(server.level)
 		message := message{
