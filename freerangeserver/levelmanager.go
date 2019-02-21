@@ -21,6 +21,7 @@ type EntityFactory func(data map[string]interface{}) Entity
 func NewLevelManager(directory string) *LevelManager {
 	l := new(LevelManager)
 	l.levels = make(map[int64]*Level)
+	l.levelRefCount = make(map[int64]int32)
 	dir, err := filepath.Abs(directory)
 	check(err)
 	l.directory = dir

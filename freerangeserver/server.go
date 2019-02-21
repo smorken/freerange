@@ -51,7 +51,7 @@ type createMessage struct {
 //MakeCreateMessage queries the level and initializes CreateMessage structs
 //to send to the client
 func (server *Server) makeCreateMessage(entities []Entity) []createMessage {
-	messages := make([]createMessage, 47)
+	messages := make([]createMessage, len(entities))
 	for i, e := range entities {
 		messages[i].id = e.ID
 		messages[i].xposition = e.X
@@ -77,18 +77,15 @@ func (server *Server) Reply(clientMessage []byte) []byte {
 	if clientMessageStr == "request_assets" {
 		return server.gamecontext.LoadAssets()
 	} else if clientMessageStr == "request_update" {
-		RefreshResult := server.levelViewPort.Refresh(server.level)
-		message := message{
-			server.makeCreateMessage(RefreshResult.created),
-			RefreshResult.destroyed,
-			RefreshResult.moved}
+		created, destroyed, moved := server.gamecontext.Refresh()
+		message := message{server.makeCreateMessage(created), destroyed, moved}
 		return serializeMessage(message)
 	} else if strings.Contains(clientMessageStr, "click") {
 		idStr := clientMessageStr[len("click"):len(clientMessageStr)]
 		id, err := strconv.ParseInt(idStr, 10, 64)
 		check(err)
-		e := server.level.GetEntity(id)
-		e.clickAction(server.level, server.levelViewPort)
+		server.gamecontext.ClickAction(id)
+
 		return []byte("click")
 	} else {
 		return []byte("error")
