@@ -8,7 +8,8 @@ type GameContext struct {
 	entityFactory EntityFactory
 }
 
-func NewGameContext(levelmanager *LevelManager, levelFactory LevelFactory, entityFactory EntityFactory) *GameContext {
+func NewGameContext(levelmanager *LevelManager, levelFactory LevelFactory,
+	 entityFactory EntityFactory) *GameContext {
 	c := new(GameContext)
 	c.levelmanager = levelmanager
 	c.levelFactory = levelFactory
@@ -19,8 +20,9 @@ func (gamecontext *GameContext) LoadLevel(levelID int64) {
 	if gamecontext.level != nil {
 		gamecontext.levelmanager.CloseLevel(gamecontext.level)
 	}
-	gamecontext.level = gamecontext.levelmanager.GetLevel(levelID, gamecontext.levelFactory, gamecontext.entityFactory)
-	gamecontext.levelViewPort = NewLevelViewPort()
+	gamecontext.level = gamecontext.levelmanager.GetLevel(
+		levelID, gamecontext.levelFactory, gamecontext.entityFactory)
+	gamecontext.levelViewPort = NewLevelViewPort(0,0,1024,1024)
 
 }
 func (gamecontext *GameContext) Refresh() (created []Entity, destroyed []int64, moved []Position) {

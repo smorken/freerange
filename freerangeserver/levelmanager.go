@@ -52,7 +52,10 @@ func (levelManager *LevelManager) CloseLevel(level *Level) {
 	levellock.Lock()
 	defer levellock.Unlock()
 	levelManager.levelRefCount[level.ID]--
-
+	if levelManager.levelRefCount[level.ID]==0{
+		delete( levelManager.levelRefCount, level.ID)
+		delete(levelManager.levels, level.ID)
+	}
 }
 func deserializeEntities(data []byte, entityFactory EntityFactory) []Entity {
 
