@@ -16,6 +16,7 @@ func NewGameContext(levelmanager *LevelManager, levelFactory LevelFactory,
 	c.entityFactory = entityFactory
 	return c
 }
+
 func (gamecontext *GameContext) LoadLevel(levelID int64) {
 	if gamecontext.level != nil {
 		gamecontext.levelmanager.CloseLevel(gamecontext.level)
@@ -24,6 +25,11 @@ func (gamecontext *GameContext) LoadLevel(levelID int64) {
 		levelID, gamecontext.levelFactory, gamecontext.entityFactory)
 	gamecontext.levelViewPort = NewLevelViewPort(0,0,1024,1024)
 
+}
+func(gamecontext *GameContext) Exit(){
+	if gamecontext.level != nil {
+		gamecontext.levelmanager.CloseLevel(gamecontext.level)
+	}
 }
 func (gamecontext *GameContext) Refresh() (created []Entity, destroyed []int64, moved []Position) {
 	result := gamecontext.levelViewPort.Refresh(gamecontext.level)

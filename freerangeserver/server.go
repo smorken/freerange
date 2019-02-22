@@ -26,7 +26,7 @@ func NewServer(gamecontext *GameContext) *Server {
 
 //CloseServer releases level handle
 func (server *Server) CloseServer() {
-
+	server.gamecontext.Exit()
 }
 
 //message is the data sent periodically to the client
