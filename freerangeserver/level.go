@@ -16,6 +16,7 @@ const BaseSharedEntityID int64 = 10000
 
 type ILevel interface {
 	Select(positionX int32, positionY int32, height int32, width int32) []Entity
+	GetEntity(id int64) Entity
 }
 
 //Level is a game state, at least 1 player is in the level

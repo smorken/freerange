@@ -1,15 +1,15 @@
 package freerangeserver
 
 type GameContext struct {
-	levelmanager  *LevelManager
-	level         *Level
+	levelmanager  ILevelManager
+	level         ILevel
 	levelViewPort *LevelViewPort
 	levelFactory  LevelFactory
 	entityFactory EntityFactory
 }
 
-func NewGameContext(levelmanager *LevelManager, levelFactory LevelFactory,
-	 entityFactory EntityFactory) *GameContext {
+func NewGameContext(levelmanager ILevelManager, levelFactory LevelFactory,
+	entityFactory EntityFactory) *GameContext {
 	c := new(GameContext)
 	c.levelmanager = levelmanager
 	c.levelFactory = levelFactory
@@ -23,10 +23,10 @@ func (gamecontext *GameContext) LoadLevel(levelID int64) {
 	}
 	gamecontext.level = gamecontext.levelmanager.GetLevel(
 		levelID, gamecontext.levelFactory, gamecontext.entityFactory)
-	gamecontext.levelViewPort = NewLevelViewPort(0,0,1024,1024)
+	gamecontext.levelViewPort = NewLevelViewPort(0, 0, 1024, 1024)
 
 }
-func(gamecontext *GameContext) Exit(){
+func (gamecontext *GameContext) Exit() {
 	if gamecontext.level != nil {
 		gamecontext.levelmanager.CloseLevel(gamecontext.level)
 	}
@@ -38,7 +38,7 @@ func (gamecontext *GameContext) Refresh() (created []Entity, destroyed []int64, 
 
 func (gamecontext *GameContext) ClickAction(entityID int64) {
 	e := gamecontext.level.GetEntity(entityID)
-	e.clickAction(gamecontext.level, gamecontext.levelViewPort)
+	e.clickAction(gamecontext)
 }
 
 //LoadAssets loads the assets needed to render the game state

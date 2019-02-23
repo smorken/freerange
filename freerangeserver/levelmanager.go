@@ -10,6 +10,10 @@ import (
 
 var levellock = sync.RWMutex{}
 
+type ILevelManager interface {
+	GetLevel(id int64, levelFactory LevelFactory, entityFactory EntityFactory) ILevel
+	CloseLevel(level ILevel)
+}
 type LevelManager struct {
 	directory     string
 	levels        map[int64]*Level
@@ -52,8 +56,8 @@ func (levelManager *LevelManager) CloseLevel(level *Level) {
 	levellock.Lock()
 	defer levellock.Unlock()
 	levelManager.levelRefCount[level.ID]--
-	if levelManager.levelRefCount[level.ID]==0{
-		delete( levelManager.levelRefCount, level.ID)
+	if levelManager.levelRefCount[level.ID] == 0 {
+		delete(levelManager.levelRefCount, level.ID)
 		delete(levelManager.levels, level.ID)
 	}
 }

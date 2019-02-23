@@ -8,24 +8,24 @@ import (
 //Entity is a game object
 type Entity struct {
 	*resolv.Rectangle
-	Body           *box2d.B2Body
-	ID             int64
-	Img            string
-	Rotation       float64
-	Speed          float64
-	Jump           float64
-	Fly            bool
-	Static         bool
-	Physics        bool
-	Clickable      bool
-	ParentEntityID int64
-	CameraChild    bool
-	CameraParent   bool
-	Zorder         int32
-	clickAction    func(level *Level, levelviewport *LevelViewPort)
-	onIntersectEnter func(level *Level, levelviewport *LevelViewPort, otherEntity Entity)
-	onIntersectLeave func(level *Level, levelviewport *LevelViewPort, otherEntity Entity)
-	onCollision func(level *Level, levelviewport *LevelViewPort, otherEntity Entity)
+	Body             *box2d.B2Body
+	ID               int64
+	Img              string
+	Rotation         float64
+	Speed            float64
+	Jump             float64
+	Fly              bool
+	Static           bool
+	Physics          bool
+	Clickable        bool
+	ParentEntityID   int64
+	CameraChild      bool
+	CameraParent     bool
+	Zorder           int32
+	clickAction      func(gameContext *GameContext)
+	onIntersectEnter func(gameContext *GameContext, otherEntity Entity)
+	onIntersectLeave func(gameContext *GameContext, otherEntity Entity)
+	onCollision      func(gameContext *GameContext, otherEntity Entity)
 }
 
 //MakeEntity creates an entity with all fields specified by the function parameters
@@ -69,7 +69,7 @@ func DeserializeEntity(values map[string]interface{}) Entity {
 	return entity
 }
 
-func actorClick(clicked Entity) func(level *Level, levelviewport *LevelViewPort) {
+/* func actorClick(clicked Entity) func(level *Level, levelviewport *LevelViewPort) {
 	return func(level *Level, levelviewport *LevelViewPort) {
 		levelviewport.DestroyUIEntities()
 		levelviewport.SetCameraParent(clicked)
@@ -102,4 +102,4 @@ func arrowClick(entity Entity) func(level *Level, levelviewport *LevelViewPort) 
 		parent.Body.ApplyLinearImpulseToCenter(impulse, true)
 
 	}
-}
+} */
