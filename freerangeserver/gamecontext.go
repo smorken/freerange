@@ -1,19 +1,24 @@
 package freerangeserver
 
 type GameContext struct {
-	levelmanager  ILevelManager
-	level         ILevel
-	levelViewPort *LevelViewPort
-	levelFactory  LevelFactory
-	entityFactory EntityFactory
+	levelmanager         ILevelManager
+	level                ILevel
+	levelViewPort        ILevelViewPort
+	levelViewPortFactory LevelViewPortFactory
+	levelFactory         LevelFactory
+	entityFactory        EntityFactory
 }
 
-func NewGameContext(levelmanager ILevelManager, levelFactory LevelFactory,
-	entityFactory EntityFactory) *GameContext {
+func NewGameContext(
+	levelmanager ILevelManager,
+	levelFactory LevelFactory,
+	entityFactory EntityFactory,
+	levelViewPortFactory LevelViewPortFactory) *GameContext {
 	c := new(GameContext)
 	c.levelmanager = levelmanager
 	c.levelFactory = levelFactory
 	c.entityFactory = entityFactory
+	c.levelViewPortFactory = levelViewPortFactory
 	return c
 }
 
@@ -23,7 +28,7 @@ func (gamecontext *GameContext) LoadLevel(levelID int64) {
 	}
 	gamecontext.level = gamecontext.levelmanager.GetLevel(
 		levelID, gamecontext.levelFactory, gamecontext.entityFactory)
-	gamecontext.levelViewPort = NewLevelViewPort(0, 0, 1024, 1024)
+	gamecontext.levelViewPort = gamecontext.levelViewPortFactory(0, 0, 10, 10)
 
 }
 func (gamecontext *GameContext) Exit() {

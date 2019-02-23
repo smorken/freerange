@@ -1,5 +1,8 @@
 package freerangeserver
 
+type ILevelViewPort interface {
+	Refresh(level ILevel) RefreshResult
+}
 //LevelViewPort is the subset of level data visible to a single client
 type LevelViewPort struct {
 	positionX           int32
@@ -17,6 +20,7 @@ type LevelViewPort struct {
 	//cameraParent is the entity on which the view port is centered
 	cameraParent *Entity
 }
+type LevelViewPortFactory func(positionX int32, positionY int32, height int32, width int32) *LevelViewPort
 
 //NewLevelViewPort creates a new level view for a single client
 func NewLevelViewPort(positionX int32, positionY int32, height int32, width int32) *LevelViewPort {
