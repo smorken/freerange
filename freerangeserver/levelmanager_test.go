@@ -1,7 +1,10 @@
 package freerangeserver
 
-import "testing"
-import "os"
+import (
+	"fmt"
+	"os"
+	"testing"
+)
 
 func TestNewLevelManager(t *testing.T) {
 	d, e := os.Getwd()
@@ -13,14 +16,11 @@ func TestNewLevelManager(t *testing.T) {
 
 }
 
-func TestGetLevel(t *testing.T) {
-	d, _ := os.Getwd()
-	l := NewLevelManager(d)
-	path := "16.json"
+func createTestLevelData(id int64) string {
+	path := fmt.Sprintf("%v.json", id)
 	f, err := os.Create(path)
-	check(err)
 	defer f.Close()
-	defer os.Remove(path)
+	check(err)
 	//epecting 1 call to entity factory per object
 	d2 := []byte(`[
 		{	
@@ -36,6 +36,16 @@ func TestGetLevel(t *testing.T) {
 	]`)
 	_, err = f.Write(d2)
 	check(err)
+	return path
+}
+
+func TestGetLevel(t *testing.T) {
+	levelID := int64(42)
+	path := createTestLevelData(levelID)
+	d, _ := os.Getwd()
+	l := NewLevelManager(d)
+	defer os.Remove(path)
+
 	mockEntityFactoryCallCount := 0
 	mockEntityFactory := func(data map[string]interface{}) Entity {
 		entity := Entity{}
@@ -49,7 +59,7 @@ func TestGetLevel(t *testing.T) {
 		return result
 	}
 
-	level := l.GetLevel(16, mockLevelFactory, mockEntityFactory)
+	level := l.GetLevel(levelID, mockLevelFactory, mockEntityFactory)
 	if level == nil {
 		t.Error("level not created")
 	}
@@ -60,9 +70,13 @@ func TestGetLevel(t *testing.T) {
 	mockEntityFactoryCallCount = 0
 	//on subsequent calls to GetLevel with the same level id, the already loaded level should be returned
 
-	level = l.GetLevel(16, mockLevelFactory, mockEntityFactory)
+	level = l.GetLevel(levelID, mockLevelFactory, mockEntityFactory)
 	if mockLevelFactoryCallCount != 0 || mockEntityFactoryCallCount != 0 {
 		t.Error("factory should not be called")
 	}
+
+}
+
+func TestCloseLevel(t *testing.T) {
 
 }
