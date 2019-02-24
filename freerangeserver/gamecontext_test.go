@@ -25,7 +25,29 @@ func TestNewGameContext(t *testing.T) {
 		return nil
 	}
 	g := NewGameContext(levelmanager, levelFactory, entityFactory, levelViewPortFactory)
-	if g.entityFactory == nil {
+	if g.levelmanager != levelmanager ||
+		g.levelFactory == nil ||
+		g.entityFactory == nil ||
+		g.levelViewPortFactory == nil {
 		t.Error("entityFactory not assigned")
+	}
+}
+
+func TestLoadLevel(t *testing.T) {
+	levelmanager := new(MockLevelManager)
+	levelmanager.mockGetLevel = func(int64, LevelFactory, EntityFactory) ILevel {
+
+	}
+	levelmanager.mockCloseLevel = func(level ILevel) {
+
+	}
+	levelFactory := func(id int64, data []Entity) ILevel {
+
+	}
+	entityFactory := func(data map[string]interface{}) Entity {
+		return Entity{}
+	}
+	levelViewPortFactory := func(positionX int32, positionY int32, height int32, width int32) *LevelViewPort {
+		return nil
 	}
 }
