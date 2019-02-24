@@ -53,7 +53,7 @@ func TestGetLevel(t *testing.T) {
 		return entity
 	}
 	mockLevelFactoryCallCount := 0
-	mockLevelFactory := func(data []Entity) *Level {
+	mockLevelFactory := func(id int64, data []Entity) ILevel {
 		result := new(Level)
 		mockLevelFactoryCallCount++
 		return result

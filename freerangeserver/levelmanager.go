@@ -16,15 +16,15 @@ type ILevelManager interface {
 }
 type LevelManager struct {
 	directory     string
-	levels        map[int64]*Level
+	levels        map[int64]ILevel
 	levelRefCount map[int64]int32
 }
-type LevelFactory func(data []Entity) *Level
+type LevelFactory func(id int64, data []Entity) ILevel
 type EntityFactory func(data map[string]interface{}) Entity
 
 func NewLevelManager(directory string) *LevelManager {
 	l := new(LevelManager)
-	l.levels = make(map[int64]*Level)
+	l.levels = make(map[int64]ILevel)
 	l.levelRefCount = make(map[int64]int32)
 	dir, err := filepath.Abs(directory)
 	check(err)
@@ -38,7 +38,7 @@ func (levelManager *LevelManager) getPath(id int64) string {
 }
 
 func (levelManager *LevelManager) GetLevel(id int64, levelFactory LevelFactory,
-	entityFactory EntityFactory) *Level {
+	entityFactory EntityFactory) ILevel {
 	levellock.Lock()
 	defer levellock.Unlock()
 	if lev, ok := levelManager.levels[id]; ok {
@@ -46,9 +46,8 @@ func (levelManager *LevelManager) GetLevel(id int64, levelFactory LevelFactory,
 	}
 	dat, err := ioutil.ReadFile(levelManager.getPath(id))
 	check(err)
-	lev := levelFactory(deserializeEntities(dat, entityFactory))
+	lev := levelFactory(id, deserializeEntities(dat, entityFactory))
 	levelManager.levels[id] = lev
-	lev.ID = id
 	levelManager.levelRefCount[id]++
 	return lev
 }
