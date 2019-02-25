@@ -24,12 +24,14 @@ func TestNewGameContext(t *testing.T) {
 	levelViewPortFactory := func(positionX int32, positionY int32, height int32, width int32) *LevelViewPort {
 		return nil
 	}
-	g := NewGameContext(levelmanager, levelFactory, entityFactory, levelViewPortFactory)
-	if g.levelmanager != levelmanager ||
+	client := Client{1, "", 10, 10}
+	g := NewGameContext(client, levelmanager, levelFactory, entityFactory, levelViewPortFactory)
+	if g.client.ID != 1 ||
+		g.levelmanager != levelmanager ||
 		g.levelFactory == nil ||
 		g.entityFactory == nil ||
 		g.levelViewPortFactory == nil {
-		t.Error("entityFactory not assigned")
+		t.Error("values not assigned")
 	}
 }
 
@@ -57,7 +59,8 @@ func TestLoadLevel(t *testing.T) {
 	levelViewPortFactory := func(positionX int32, positionY int32, height int32, width int32) *LevelViewPort {
 		return mockLevelViewPort
 	}
-	g := NewGameContext(levelmanager, levelFactory, entityFactory, levelViewPortFactory)
+	client := Client{}
+	g := NewGameContext(client, levelmanager, levelFactory, entityFactory, levelViewPortFactory)
 	g.LoadLevel(1)
 	if g.level != mockLevel {
 		t.Error("unexpected level")
