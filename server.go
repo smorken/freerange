@@ -25,6 +25,7 @@ func clientLoop(w http.ResponseWriter, r *http.Request) {
 
 	gameserver := freerangeserver.NewServer()
 	gameserver.InitializePhysics()
+	defer gameserver.CloseServer()
 	//err = c.WriteMessage(1, []byte("initial config"))
 	for {
 		mt, message, err := c.ReadMessage()

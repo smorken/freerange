@@ -20,7 +20,8 @@ type LevelViewPort struct {
 	//cameraParent is the entity on which the view port is centered
 	cameraParent *Entity
 }
-type LevelViewPortFactory func(positionX int32, positionY int32, height int32, width int32) *LevelViewPort
+
+type LevelViewPortFactory func(positionX int32, positionY int32, height int32, width int32) ILevelViewPort
 
 //NewLevelViewPort creates a new level view for a single client
 func NewLevelViewPort(positionX int32, positionY int32, height int32, width int32) *LevelViewPort {

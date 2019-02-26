@@ -47,7 +47,9 @@ func (gamecontext *GameContext) Refresh() (created []Entity, destroyed []int64, 
 
 func (gamecontext *GameContext) ClickAction(entityID int64) {
 	e := gamecontext.level.GetEntity(entityID)
-	e.clickAction(gamecontext)
+	if e.clickAction != nil {
+		e.clickAction(gamecontext)
+	}
 }
 
 //LoadAssets loads the assets needed to render the game state
