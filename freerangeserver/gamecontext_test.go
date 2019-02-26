@@ -2,38 +2,6 @@ package freerangeserver
 
 import "testing"
 
-type MockLevelManager struct {
-	mockGetLevel   func(int64, LevelFactory, EntityFactory) ILevel
-	mockCloseLevel func(level ILevel)
-}
-
-func (m *MockLevelManager) GetLevel(id int64, fac LevelFactory, entityFac EntityFactory) ILevel {
-	return m.mockGetLevel(id, fac, entityFac)
-}
-func (m *MockLevelManager) CloseLevel(level ILevel) {
-	m.mockCloseLevel(level)
-}
-
-type MockLevelViewPort struct {
-	mockRefresh func(level ILevel) RefreshResult
-}
-
-func (m *MockLevelViewPort) Refresh(level ILevel) RefreshResult {
-	return m.mockRefresh(level)
-}
-
-type MockLevel struct {
-	mockSelect    func(positionX int32, positionY int32, height int32, width int32) []Entity
-	mockGetEntity func(id int64) Entity
-}
-
-func (m *MockLevel) Select(positionX int32, positionY int32, height int32, width int32) []Entity {
-	return m.mockSelect(positionX, positionY, height, width)
-}
-func (m *MockLevel) GetEntity(id int64) Entity {
-	return m.GetEntity(id)
-}
-
 func TestNewGameContext(t *testing.T) {
 	levelmanager := new(MockLevelManager)
 	levelFactory := func(id int64, data []Entity) ILevel {
@@ -59,7 +27,7 @@ func TestNewGameContext(t *testing.T) {
 func TestLoadLevel(t *testing.T) {
 	levelmanager := new(MockLevelManager)
 	getLevelCallCount := 0
-	mockLevel := new(Level)
+	mockLevel := new(MockLevel)
 	levelmanager.mockGetLevel = func(int64, LevelFactory, EntityFactory) ILevel {
 		getLevelCallCount++
 		return mockLevel
@@ -100,7 +68,7 @@ func TestLoadLevel(t *testing.T) {
 
 func TestExit(t *testing.T) {
 	levelmanager := new(MockLevelManager)
-	mockLevel := new(Level)
+	mockLevel := new(MockLevel)
 	levelmanager.mockGetLevel = func(int64, LevelFactory, EntityFactory) ILevel {
 		return mockLevel
 	}
@@ -135,7 +103,8 @@ func TestExit(t *testing.T) {
 
 func TestRefresh(t *testing.T) {
 	levelmanager := new(MockLevelManager)
-	mockLevel := new(Level)
+	mockLevel := new(MockLevel)
+
 	levelmanager.mockGetLevel = func(int64, LevelFactory, EntityFactory) ILevel {
 		return mockLevel
 	}
@@ -175,7 +144,15 @@ func TestRefresh(t *testing.T) {
 
 func TestClickAction(t *testing.T) {
 	levelmanager := new(MockLevelManager)
-	mockLevel := new(Level)
+	mockLevel := new(MockLevel)
+	entityClickCount := 0
+	mockLevel.mockGetEntity = func(id int64) Entity {
+		e := Entity{}
+		e.clickAction = func(g *GameContext) {
+			entityClickCount++
+		}
+		return e
+	}
 	levelmanager.mockGetLevel = func(int64, LevelFactory, EntityFactory) ILevel {
 		return mockLevel
 	}
@@ -205,4 +182,10 @@ func TestClickAction(t *testing.T) {
 	g := NewGameContext(client, levelmanager, levelFactory, entityFactory, levelViewPortFactory)
 	g.LoadLevel(1)
 	g.ClickAction(1)
+	g.ClickAction(1)
+	g.ClickAction(1)
+	if entityClickCount != 3 {
+		t.Error("expected 3 calls to clickaction")
+	}
+
 }

@@ -2,19 +2,6 @@ package freerangeserver
 
 import "testing"
 
-type MockLevel struct {
-	mockselect    func(int32, int32, int32, int32) []Entity
-	mockGetEntity func(id int64) Entity
-}
-
-func (mock *MockLevel) Select(positionX int32, positionY int32, height int32, width int32) []Entity {
-	return mock.mockselect(positionX, positionY, height, width)
-}
-
-func (mock *MockLevel) GetEntity(id int64) Entity{
-	return mock.mockGetEntity(id)
-}
-
 func CreateTestEntity(id int64) Entity {
 	e := MakeEntity("", []string{},
 		-10, 20, 0, 10, 10)
