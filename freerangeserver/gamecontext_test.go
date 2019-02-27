@@ -75,7 +75,6 @@ func TestExit(t *testing.T) {
 	closeLevelCallCount := 0
 	levelmanager.mockCloseLevel = func(level ILevel) {
 		closeLevelCallCount++
-
 	}
 
 	levelFactory := func(id int64, data []Entity) ILevel {

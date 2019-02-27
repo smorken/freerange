@@ -54,7 +54,7 @@ func TestGetLevel(t *testing.T) {
 	}
 	mockLevelFactoryCallCount := 0
 	mockLevelFactory := func(id int64, data []Entity) ILevel {
-		result := new(Level)
+		result := new(MockLevel)
 		mockLevelFactoryCallCount++
 		return result
 	}
@@ -78,5 +78,32 @@ func TestGetLevel(t *testing.T) {
 }
 
 func TestCloseLevel(t *testing.T) {
+	path := createTestLevelData(1)
+	d, _ := os.Getwd()
+	l := NewLevelManager(d)
+	defer os.Remove(path)
+	mockLevelFactory := func(id int64, data []Entity) ILevel {
+		result := new(MockLevel)
+		result.mockGetID = func() int64 {
+			return id
+		}
+		return result
+	}
+	mockEntityFactory := func(data map[string]interface{}) Entity {
+		entity := Entity{}
+		return entity
+	}
+	level := l.GetLevel(1, mockLevelFactory, mockEntityFactory)
+	if l.levelRefCount[1] != 1 {
+		t.Error("expected level reference increment")
+	}
+	if len(l.levels) != 1 {
+		t.Error("expected single level")
+	}
 
+	l.CloseLevel(level)
+	if len(l.levelRefCount) != 0 ||
+		len(l.levels) != 0 {
+		t.Error("expected empty level maps")
+	}
 }

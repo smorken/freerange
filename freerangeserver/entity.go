@@ -22,6 +22,7 @@ type Entity struct {
 	CameraChild      bool
 	CameraParent     bool
 	Zorder           int32
+	intersecting     []int64
 	clickAction      func(gameContext *GameContext)
 	onIntersectEnter func(gameContext *GameContext, otherEntity Entity)
 	onIntersectLeave func(gameContext *GameContext, otherEntity Entity)
@@ -33,8 +34,8 @@ func MakeEntity(Img string, Tags []string, Xposition int32, Yposition int32, Rot
 	Xsize int32, Ysize int32) Entity {
 	e := Entity{}
 	e.Rectangle = resolv.NewRectangle(Xposition, Yposition, Ysize, Xsize)
-	e.Rectangle.SetData(e)
-	e.Rectangle.SetTags(Tags...)
+	//e.Rectangle.SetData(e)
+	//e.Rectangle.SetTags(Tags...)
 	e.Img = Img
 	e.Speed = 0
 	e.Jump = 0

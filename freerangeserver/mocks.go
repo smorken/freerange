@@ -23,6 +23,7 @@ func (m *MockLevelViewPort) Refresh(level ILevel) RefreshResult {
 type MockLevel struct {
 	mockselect    func(int32, int32, int32, int32) []Entity
 	mockGetEntity func(id int64) Entity
+	mockGetID     func() int64
 }
 
 func (mock *MockLevel) Select(positionX int32, positionY int32, height int32, width int32) []Entity {
@@ -31,4 +32,8 @@ func (mock *MockLevel) Select(positionX int32, positionY int32, height int32, wi
 
 func (mock *MockLevel) GetEntity(id int64) Entity {
 	return mock.mockGetEntity(id)
+}
+
+func (mock *MockLevel) GetID() int64 {
+	return mock.mockGetID()
 }

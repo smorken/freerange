@@ -17,12 +17,13 @@ const BaseSharedEntityID int64 = 10000
 type ILevel interface {
 	Select(positionX int32, positionY int32, height int32, width int32) []Entity
 	GetEntity(id int64) Entity
+	GetID() int64
 }
 
 //Level is a game state, at least 1 player is in the level
 type Level struct {
 	*resolv.Space
-	ID              int64
+	id              int64
 	World           box2d.B2World
 	contactListener *ContactListener
 	nextID          int64
@@ -32,7 +33,7 @@ type Level struct {
 //NewLevel creates a new level instance, and the specified enties are added
 func NewLevel(id int64, entities []Entity) *Level {
 	l := new(Level)
-	l.ID = id
+	l.id = id
 	l.entities = make(map[int64]Entity)
 	l.nextID = BaseSharedEntityID //this needs to be read in from any serialized level data
 	l.Space = resolv.NewSpace()
@@ -84,6 +85,7 @@ func (level *Level) AddEntity(entity Entity) {
 	defer lock.Unlock()
 	entity.ID = level.nextID
 	level.nextID++
+	entity.Rectangle.SetData(entity.ID)
 	level.Space.AddShape(entity.Rectangle)
 	AddEntityBody(&level.World, &entity)
 	level.entities[entity.ID] = entity
@@ -94,5 +96,13 @@ func (level *Level) Step() {
 	velocityIterations := 6
 	positionIterations := 2
 	level.World.Step(timeStep, velocityIterations, positionIterations)
+	for _, entity := range level.entities {
+		if entity.onIntersectEnter != nil {
+			colliding := level.GetCollidingShapes(entity)
+			for i := 0; i < colliding.Length(); i++ {
+				colliding_id := colliding.Get(i).GetData().(int64)
 
+			}
+		}
+	}
 }
