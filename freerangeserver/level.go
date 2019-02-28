@@ -23,11 +23,12 @@ type ILevel interface {
 //Level is a game state, at least 1 player is in the level
 type Level struct {
 	*resolv.Space
-	id              int64
-	World           box2d.B2World
-	contactListener *ContactListener
-	nextID          int64
-	entities        map[int64]Entity
+	id                 int64
+	World              box2d.B2World
+	contactListener    *ContactListener
+	nextID             int64
+	entities           map[int64]Entity
+	intersectionMatrix map[int64]map[int64]interface{}
 }
 
 //NewLevel creates a new level instance, and the specified enties are added
@@ -91,18 +92,24 @@ func (level *Level) AddEntity(entity Entity) {
 	level.entities[entity.ID] = entity
 }
 
+func (level *Level) UpdateIntersectionMatrix(entity Entity) {
+	if entity.onIntersectEnter != nil {
+		entityIntersections, ok := level.intersectionMatrix[entity.ID]
+		colliding := level.GetCollidingShapes(entity)
+		for i := 0; i < colliding.Length(); i++ {
+			//case1 the colliding shape is already present in the intersection map
+			//case2 the colliding shape is not yet present add it and emit a on intersection enter event
+
+		}
+	}
+}
+
 func (level *Level) Step() {
 	timeStep := 1.0 / 60.0
 	velocityIterations := 6
 	positionIterations := 2
 	level.World.Step(timeStep, velocityIterations, positionIterations)
 	for _, entity := range level.entities {
-		if entity.onIntersectEnter != nil {
-			colliding := level.GetCollidingShapes(entity)
-			for i := 0; i < colliding.Length(); i++ {
-				colliding_id := colliding.Get(i).GetData().(int64)
-
-			}
-		}
+		level.UpdateIntersectionMatrix(entity)
 	}
 }
