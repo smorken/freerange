@@ -12,11 +12,11 @@ var lock = sync.RWMutex{}
 //BaseSharedEntityID is the first value
 //used in the shared (between clients) entity id space
 //values smaller than this are reserved
-const BaseSharedEntityID int64 = 10000
+const BaseSharedEntityID int32 = 10000
 
 type ILevel interface {
 	Select(positionX int32, positionY int32, height int32, width int32) []Entity
-	GetEntity(id int64) Entity
+	GetEntity(id int32) Entity
 	GetID() int64
 }
 
@@ -26,16 +26,16 @@ type Level struct {
 	id                 int64
 	World              box2d.B2World
 	contactListener    *ContactListener
-	nextID             int64
-	entities           map[int64]Entity
-	intersectionMatrix map[int64]map[int64]interface{}
+	nextID             int32
+	entities           map[int32]Entity
+	intersectionMatrix map[int64]interface{}
 }
 
 //NewLevel creates a new level instance, and the specified enties are added
 func NewLevel(id int64, entities []Entity) *Level {
 	l := new(Level)
 	l.id = id
-	l.entities = make(map[int64]Entity)
+	l.entities = make(map[int32]Entity)
 	l.nextID = BaseSharedEntityID //this needs to be read in from any serialized level data
 	l.Space = resolv.NewSpace()
 	gravity := box2d.B2Vec2{X: 0.0, Y: -9.8}
@@ -55,13 +55,13 @@ func (level *Level) Select(positionX int32, positionY int32, height int32, width
 	selection := level.GetCollidingShapes(rect)
 	result := []Entity{}
 	for i := 0; i < selection.Length(); i++ {
-		item := selection.Get(i).GetData().(Entity)
+		item := selection.Get(i).GetData().(int32)
 		result = append(result, item)
 	}
 	return result
 }
 
-func (level *Level) GetEntity(id int64) Entity {
+func (level *Level) GetEntity(id int32) Entity {
 	lock.RLock()
 	defer lock.RUnlock()
 	return level.entities[id]
@@ -69,7 +69,7 @@ func (level *Level) GetEntity(id int64) Entity {
 
 //DeleteEntity removes entitiy from level
 //collection, and destroys collider and physics body
-func (level *Level) DeleteEntity(id int64) {
+func (level *Level) DeleteEntity(id int32) {
 	lock.Lock()
 	defer lock.Unlock()
 	entity := level.entities[id]
@@ -94,7 +94,7 @@ func (level *Level) AddEntity(entity Entity) {
 
 func (level *Level) UpdateIntersectionMatrix(entity Entity) {
 	if entity.onIntersectEnter != nil {
-		entityIntersections, ok := level.intersectionMatrix[entity.ID]
+		//entityIntersections, ok := level.intersectionMatrix[entity.ID]
 		colliding := level.GetCollidingShapes(entity)
 		for i := 0; i < colliding.Length(); i++ {
 			//case1 the colliding shape is already present in the intersection map

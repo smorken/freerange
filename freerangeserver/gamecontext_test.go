@@ -145,7 +145,7 @@ func TestClickAction(t *testing.T) {
 	levelmanager := new(MockLevelManager)
 	mockLevel := new(MockLevel)
 	entityClickCount := 0
-	mockLevel.mockGetEntity = func(id int64) Entity {
+	mockLevel.mockGetEntity = func(id int32) Entity {
 		e := Entity{}
 		e.clickAction = func(g *GameContext) {
 			entityClickCount++

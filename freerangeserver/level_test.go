@@ -14,7 +14,7 @@ func TestNewLevel(t *testing.T) {
 
 	mockEntities := []Entity{physicsBodyEntity1, CreateTestEntity(0), physicsBodyEntity2}
 	l := NewLevel(1, mockEntities)
-	if l.nextID != BaseSharedEntityID+int64(len(mockEntities)) {
+	if l.nextID != BaseSharedEntityID+int32(len(mockEntities)) {
 		t.Error("nextID not incremented")
 	}
 	if len(l.entities) != len(mockEntities) {
@@ -67,7 +67,7 @@ func TestDeleteEntity(t *testing.T) {
 	physicsBodyEntity.Physics = true
 	mockEntities := []Entity{physicsBodyEntity, CreateTestEntity(0), physicsBodyEntity, CreateTestEntity(0)}
 	l := NewLevel(1, mockEntities)
-	deleteList := []int64{}
+	deleteList := []int32{}
 	for k := range l.entities {
 		deleteList = append(deleteList, k)
 	}
@@ -89,7 +89,7 @@ func TestDeleteEntity(t *testing.T) {
 func TestGetEntity(t *testing.T) {
 	mockEntities := []Entity{CreateTestEntity(0), CreateTestEntity(0), CreateTestEntity(0)}
 	l := NewLevel(1, mockEntities)
-	selectList := []int64{}
+	selectList := []int32{}
 	for k := range l.entities {
 		selectList = append(selectList, k)
 	}

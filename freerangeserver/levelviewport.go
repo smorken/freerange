@@ -3,6 +3,7 @@ package freerangeserver
 type ILevelViewPort interface {
 	Refresh(level ILevel) RefreshResult
 }
+
 //LevelViewPort is the subset of level data visible to a single client
 type LevelViewPort struct {
 	positionX           int32
@@ -11,12 +12,12 @@ type LevelViewPort struct {
 	height              int32
 	width               int32
 	//visible entities are the subset of level entities (shared between all clients) that are visible to the current client
-	visibleEntities map[int64]Position
+	visibleEntities map[int32]Position
 	//uiEntities are entities visible only to the current client
 	uiIEntities          []Entity
 	addedUIEntities      []Entity
-	destroyedUIEntityIDs []int64
-	nextUIEntityID       int64
+	destroyedUIEntityIDs []int32
+	nextUIEntityID       int32
 	//cameraParent is the entity on which the view port is centered
 	cameraParent *Entity
 }
@@ -32,13 +33,13 @@ func NewLevelViewPort(positionX int32, positionY int32, height int32, width int3
 	l.height = height
 	l.width = width
 	l.nextUIEntityID = 1
-	l.visibleEntities = make(map[int64]Position)
+	l.visibleEntities = make(map[int32]Position)
 	return l
 }
 
 //Position is the x, y coordinate for the specified entity id
 type Position struct {
-	ID int64
+	ID int32
 	X  int32
 	Y  int32
 }
@@ -46,7 +47,7 @@ type Position struct {
 //RefreshResult is data passed to client on viewport syncronization with level
 type RefreshResult struct {
 	created   []Entity
-	destroyed []int64
+	destroyed []int32
 	moved     []Position
 }
 
@@ -63,10 +64,10 @@ func (viewPort *LevelViewPort) Refresh(level ILevel) RefreshResult {
 		viewPort.getMoveList(visibleSet)}
 }
 
-func (viewPort *LevelViewPort) getVisibleSet(level ILevel) map[int64]Entity {
+func (viewPort *LevelViewPort) getVisibleSet(level ILevel) map[int32]Entity {
 
 	selection := level.Select(viewPort.positionX, viewPort.positionY, viewPort.height, viewPort.width)
-	result := map[int64]Entity{}
+	result := map[int32]Entity{}
 	for _, e := range selection {
 		result[e.ID] = e
 	}
@@ -79,9 +80,9 @@ func (viewPort *LevelViewPort) getVisibleSet(level ILevel) map[int64]Entity {
 //viewPort's visibleEntities set are returned as the destroy list.
 //This list of object are then destroyed client side.
 //(set difference of viewPort.visible - level.visible )
-func (viewPort *LevelViewPort) getDestroyList(visibleSet map[int64]Entity) []int64 {
+func (viewPort *LevelViewPort) getDestroyList(visibleSet map[int32]Entity) []int32 {
 
-	result := []int64{}
+	result := []int32{}
 
 	for id := range viewPort.visibleEntities {
 		if _, ok := visibleSet[id]; !ok {
@@ -100,7 +101,7 @@ func (viewPort *LevelViewPort) getDestroyList(visibleSet map[int64]Entity) []int
 //to the returned slice.(and stored in the viewPort's struct)
 // These object are then created client side.
 //(set difference of level.visible - viewPort.visible )
-func (viewPort *LevelViewPort) getCreateList(visibleSet map[int64]Entity) []Entity {
+func (viewPort *LevelViewPort) getCreateList(visibleSet map[int32]Entity) []Entity {
 
 	result := []Entity{}
 
@@ -117,7 +118,7 @@ func (viewPort *LevelViewPort) getCreateList(visibleSet map[int64]Entity) []Enti
 //getMoveList returns a list of updated entity positions by comparing
 //the x, y positions, and then updating the local viewport copy's positions
 //should be run after delete and create routines
-func (viewPort *LevelViewPort) getMoveList(visibleSet map[int64]Entity) []Position {
+func (viewPort *LevelViewPort) getMoveList(visibleSet map[int32]Entity) []Position {
 
 	result := []Position{}
 	if viewPort.positionInvalidated {
@@ -136,8 +137,8 @@ func (viewPort *LevelViewPort) getMoveList(visibleSet map[int64]Entity) []Positi
 	return result
 }
 
-func (viewPort *LevelViewPort) getUIDestroyList() []int64 {
-	result := []int64{}
+func (viewPort *LevelViewPort) getUIDestroyList() []int32 {
+	result := []int32{}
 	result = append(result, viewPort.destroyedUIEntityIDs...)
 	viewPort.destroyedUIEntityIDs = nil
 	return result

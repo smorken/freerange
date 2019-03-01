@@ -9,7 +9,7 @@ import (
 type Entity struct {
 	*resolv.Rectangle
 	Body             *box2d.B2Body
-	ID               int64
+	ID               int32
 	Img              string
 	Rotation         float64
 	Speed            float64
@@ -48,7 +48,7 @@ func MakeEntity(Img string, Tags []string, Xposition int32, Yposition int32, Rot
 	e.CameraChild = false
 	e.CameraParent = false
 	e.Zorder = 0
-	e.ID = -1
+	e.ID = 0
 	return e
 }
 

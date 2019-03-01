@@ -32,14 +32,14 @@ func (server *Server) CloseServer() {
 //message is the data sent periodically to the client
 type message struct {
 	create   []createMessage
-	destroy  []int64
+	destroy  []int32
 	position []Position
 }
 
 //createMessage is the data necessary for the client to create a new object to
 //render
 type createMessage struct {
-	id        int64
+	id        int32
 	xposition int32
 	yposition int32
 	img       string
@@ -82,9 +82,9 @@ func (server *Server) Reply(clientMessage []byte) []byte {
 		return serializeMessage(message)
 	} else if strings.Contains(clientMessageStr, "click") {
 		idStr := clientMessageStr[len("click"):len(clientMessageStr)]
-		id, err := strconv.ParseInt(idStr, 10, 64)
+		id, err := strconv.ParseInt(idStr, 10, 32)
 		check(err)
-		server.gamecontext.ClickAction(id)
+		server.gamecontext.ClickAction(int32(id))
 
 		return []byte("click")
 	} else {

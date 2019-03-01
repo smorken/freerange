@@ -40,12 +40,12 @@ func (gamecontext *GameContext) Exit() {
 		gamecontext.levelmanager.CloseLevel(gamecontext.level)
 	}
 }
-func (gamecontext *GameContext) Refresh() (created []Entity, destroyed []int64, moved []Position) {
+func (gamecontext *GameContext) Refresh() (created []Entity, destroyed []int32, moved []Position) {
 	result := gamecontext.levelViewPort.Refresh(gamecontext.level)
 	return result.created, result.destroyed, result.moved
 }
 
-func (gamecontext *GameContext) ClickAction(entityID int64) {
+func (gamecontext *GameContext) ClickAction(entityID int32) {
 	e := gamecontext.level.GetEntity(entityID)
 	if e.clickAction != nil {
 		e.clickAction(gamecontext)

@@ -2,7 +2,7 @@ package freerangeserver
 
 import "testing"
 
-func CreateTestEntity(id int64) Entity {
+func CreateTestEntity(id int32) Entity {
 	e := MakeEntity("", []string{},
 		-10, 20, 0, 10, 10)
 	e.ID = id
@@ -61,7 +61,7 @@ func TestRefreshWithMove(t *testing.T) {
 	if len(result.moved) != 2 {
 		t.Error("expected 2 move results")
 	}
-	resultMap := map[int64]Position{
+	resultMap := map[int32]Position{
 		result.moved[0].ID: result.moved[0],
 		result.moved[1].ID: result.moved[1]}
 
