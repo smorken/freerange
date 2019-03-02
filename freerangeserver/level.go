@@ -55,8 +55,8 @@ func (level *Level) Select(positionX int32, positionY int32, height int32, width
 	selection := level.GetCollidingShapes(rect)
 	result := []Entity{}
 	for i := 0; i < selection.Length(); i++ {
-		item := selection.Get(i).GetData().(int32)
-		result = append(result, item)
+		id := selection.Get(i).GetData().(int32)
+		result = append(result, level.GetEntity(id))
 	}
 	return result
 }
