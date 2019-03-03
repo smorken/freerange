@@ -92,14 +92,21 @@ func (level *Level) AddEntity(entity Entity) {
 	level.entities[entity.ID] = entity
 }
 
-func (level *Level) UpdateIntersectionMatrix(entity Entity) {
+func (level *Level) UpdateIntersectionMatrix(entity Entity, intersections map[int64]interface{}) {
 	if entity.onIntersectEnter != nil {
 		//entityIntersections, ok := level.intersectionMatrix[entity.ID]
 		colliding := level.GetCollidingShapes(entity)
 		for i := 0; i < colliding.Length(); i++ {
-			//case1 the colliding shape is already present in the intersection map
-			//case2 the colliding shape is not yet present add it and emit a on intersection enter event
-
+			otherEntityID := colliding.Get(i).GetData().(int32)
+			key := int64(0)
+			if entity.ID >= otherEntityID {
+				key = (int64(entity.ID) << 32) + int64(otherEntityID)
+			} else {
+				key = (int64(otherEntityID) << 32) + int64(entity.ID)
+			}
+			if _, ok := intersections[key]; !ok {
+				intersections[key] = nil
+			}
 		}
 	}
 }
@@ -109,7 +116,36 @@ func (level *Level) Step() {
 	velocityIterations := 6
 	positionIterations := 2
 	level.World.Step(timeStep, velocityIterations, positionIterations)
+	intersections := map[int64]interface{}{}
 	for _, entity := range level.entities {
-		level.UpdateIntersectionMatrix(entity)
+		level.UpdateIntersectionMatrix(entity, intersections)
+	}
+	//now for each value that occurs in the current intersection
+	//if the value does not yet occur in the level's matrix emit a onIntersectionEnter event
+	for k, _ := range intersections {
+		if _, ok := level.intersectionMatrix[k]; !ok {
+			e1 := level.entities[int32(k>>32)]
+			e2 := level.entities[int32(k)]
+			if e1.onIntersectEnter != nil {
+				e1.onIntersectEnter(level, e2)
+			}
+			if e2.onIntersectEnter != nil {
+				e2.onIntersectEnter(level, e1)
+			}
+		}
+	}
+	//for each value that occurs in the level's matrix, but not in the updated matrix
+	//emit an onintersection leave event
+	for k, _ := range level.intersectionMatrix {
+		if _, ok := intersections[k]; !ok {
+			e1 := level.entities[int32(k>>32)]
+			e2 := level.entities[int32(k)]
+			if e1.onIntersectLeave != nil {
+				e1.onIntersectLeave(level, e2)
+			}
+			if e2.onIntersectLeave != nil {
+				e2.onIntersectLeave(level, e1)
+			}
+		}
 	}
 }
