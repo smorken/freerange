@@ -25,7 +25,7 @@ type Entity struct {
 	intersecting     []int64
 	clickAction      func(gameContext *GameContext)
 	onIntersectEnter func(gameContext *GameContext, otherEntity Entity)
-	onIntersectLeave func(gameContext *GameContext, otherEntity Entity)
+	onIntersectExit  func(gameContext *GameContext, otherEntity Entity)
 	onCollision      func(gameContext *GameContext, otherEntity Entity)
 }
 
