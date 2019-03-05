@@ -115,12 +115,67 @@ func TestBuildIntersectionMatrix(t *testing.T) {
 
 	}
 	mockEntities[2].SetXY(14, 14)
+	mockEntities[2].onIntersectEnter = func(g *GameContext, e Entity) {
+
+	}
 	l := NewLevel(1, mockEntities)
 	mat := l.BuildIntersectionMatrix()
 	if len(mat) != 2 {
 		//entity 0 intersects with entity 1, but not entity 2.
 		//Entity 2 intersects with entity 1, but not entiy 0
 		t.Error("expected 2 intersection")
+	}
+
+}
+
+func TestEmitIntersectionEvents(t *testing.T) {
+
+	//test entities have size= 10
+	mockEntities := []Entity{CreateTestEntity(0), CreateTestEntity(0), CreateTestEntity(0)}
+	mockEntities[0].SetXY(0, 0)
+	e0EnterCount := 0
+	e0ExitCount := 0
+	mockEntities[0].onIntersectEnter = func(g *GameContext, e Entity) {
+		e0EnterCount++
+	}
+	mockEntities[0].onIntersectExit = func(g *GameContext, e Entity) {
+		e0ExitCount++
+	}
+	mockEntities[1].SetXY(5, 5)
+	e1EnterCount := 0
+	e1ExitCount := 0
+	mockEntities[1].onIntersectEnter = func(g *GameContext, e Entity) {
+		e1EnterCount++
+	}
+	mockEntities[1].onIntersectExit = func(g *GameContext, e Entity) {
+		e1ExitCount++
+	}
+	mockEntities[2].SetXY(14, 14)
+	e2EnterCount := 0
+	e2ExitCount := 0
+	mockEntities[2].onIntersectEnter = func(g *GameContext, e Entity) {
+		e2EnterCount++
+	}
+	mockEntities[2].onIntersectExit = func(g *GameContext, e Entity) {
+		e2ExitCount++
+	}
+	l := NewLevel(1, mockEntities)
+	mat := l.BuildIntersectionMatrix()
+	l.EmitIntersectionEvents(nil, mat)
+	if e0EnterCount != 1 || e1EnterCount != 2 || e2EnterCount != 1 {
+		//the second entity has 2 intersections
+		t.Error("incorrect number of enter events emitted")
+	}
+	l.intersectionMatrix = mat
+	l.DeleteEntity(l.nextID - 2) //delete the 2nd added entity, which removes the
+	//intersection pair e0,e1 and the intersection pair e1,e2
+	mat2 := l.BuildIntersectionMatrix()
+	if len(mat2) != 0 {
+		t.Error("expected no intersections")
+	}
+	l.EmitIntersectionEvents(nil, mat2)
+	if e0ExitCount != 1 || e1ExitCount != 0 || e2ExitCount != 1 {
+		t.Error("incorrect number of exit events emitted")
 	}
 
 }
