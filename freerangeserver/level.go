@@ -108,6 +108,9 @@ func (level *Level) BuildIntersectionMatrix() map[int64]interface{} {
 			colliding := level.GetCollidingShapes(entity)
 			for i := 0; i < colliding.Length(); i++ {
 				otherEntityID := colliding.Get(i).GetData().(int32)
+				if otherEntityID == entity.ID { //get colliding shapes returns the calling shape
+					continue
+				}
 				key := int64(0)
 				//always set the entity with the higher id value as the upper 32 bits
 				//of the key, so that each entity pair cannot have more than 1 key

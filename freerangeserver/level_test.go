@@ -101,3 +101,26 @@ func TestGetEntity(t *testing.T) {
 	}
 
 }
+
+func TestBuildIntersectionMatrix(t *testing.T) {
+
+	//test entities have size= 10
+	mockEntities := []Entity{CreateTestEntity(0), CreateTestEntity(0), CreateTestEntity(0)}
+	mockEntities[0].SetXY(0, 0)
+	mockEntities[0].onIntersectEnter = func(g *GameContext, e Entity) {
+
+	}
+	mockEntities[1].SetXY(5, 5)
+	mockEntities[1].onIntersectEnter = func(g *GameContext, e Entity) {
+
+	}
+	mockEntities[2].SetXY(14, 14)
+	l := NewLevel(1, mockEntities)
+	mat := l.BuildIntersectionMatrix()
+	if len(mat) != 2 {
+		//entity 0 intersects with entity 1, but not entity 2.
+		//Entity 2 intersects with entity 1, but not entiy 0
+		t.Error("expected 2 intersection")
+	}
+
+}
