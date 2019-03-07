@@ -1,5 +1,7 @@
 package freerangeserver
 
+type AssetFactory func() []byte
+
 type GameContext struct {
 	client               Client
 	levelmanager         ILevelManager
@@ -8,6 +10,7 @@ type GameContext struct {
 	levelViewPortFactory LevelViewPortFactory
 	levelFactory         LevelFactory
 	entityFactory        EntityFactory
+	assetFactory         AssetFactory
 }
 
 func NewGameContext(
@@ -15,13 +18,15 @@ func NewGameContext(
 	levelmanager ILevelManager,
 	levelFactory LevelFactory,
 	entityFactory EntityFactory,
-	levelViewPortFactory LevelViewPortFactory) *GameContext {
+	levelViewPortFactory LevelViewPortFactory,
+	assetFactory AssetFactory) *GameContext {
 	c := new(GameContext)
 	c.client = client
 	c.levelmanager = levelmanager
 	c.levelFactory = levelFactory
 	c.entityFactory = entityFactory
 	c.levelViewPortFactory = levelViewPortFactory
+	c.assetFactory = assetFactory
 	return c
 }
 
@@ -54,15 +59,18 @@ func (gamecontext *GameContext) ClickAction(entityID int32) {
 
 //LoadAssets loads the assets needed to render the game state
 func (gamecontext *GameContext) LoadAssets() []byte {
-	return []byte(`
-		{ 
-			"images": {
-				"bg": "https://twemoji.maxcdn.com/72x72/1f306.png",
-				"player": "https://twemoji.maxcdn.com/2/72x72/1f600.png",
-				"ground": "assets/platform.png",
-				"house": "https://twemoji.maxcdn.com/2/72x72/1f3d8.png",
-				"hospital": "https://twemoji.maxcdn.com/2/72x72/1f3e5.png",
-				"npc": "assets/face-positive/beaming face with smiling eyes.png"
-			}
-		}`)
+	return gamecontext.assetFactory()
+
+	/*[]byte(`
+	{
+		"images": {
+			"bg": "https://twemoji.maxcdn.com/72x72/1f306.png",
+			"player": "https://twemoji.maxcdn.com/2/72x72/1f600.png",
+			"ground": "assets/platform.png",
+			"house": "https://twemoji.maxcdn.com/2/72x72/1f3d8.png",
+			"hospital": "https://twemoji.maxcdn.com/2/72x72/1f3e5.png",
+			"npc": "assets/face-positive/beaming face with smiling eyes.png"
+		}
+	}`)
+	*/
 }

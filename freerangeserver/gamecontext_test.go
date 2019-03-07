@@ -13,13 +13,18 @@ func TestNewGameContext(t *testing.T) {
 	levelViewPortFactory := func(positionX int32, positionY int32, height int32, width int32) ILevelViewPort {
 		return nil
 	}
+
+	assetFactory := func() []byte {
+		return nil
+	}
 	client := Client{1, "", 10, 10}
-	g := NewGameContext(client, levelmanager, levelFactory, entityFactory, levelViewPortFactory)
+	g := NewGameContext(client, levelmanager, levelFactory, entityFactory, levelViewPortFactory, assetFactory)
 	if g.client.ID != 1 ||
 		g.levelmanager != levelmanager ||
 		g.levelFactory == nil ||
 		g.entityFactory == nil ||
-		g.levelViewPortFactory == nil {
+		g.levelViewPortFactory == nil ||
+		g.assetFactory == nil {
 		t.Error("values not assigned")
 	}
 }
@@ -48,8 +53,12 @@ func TestLoadLevel(t *testing.T) {
 	levelViewPortFactory := func(positionX int32, positionY int32, height int32, width int32) ILevelViewPort {
 		return mockLevelViewPort
 	}
+
+	assetFactory := func() []byte {
+		return nil
+	}
 	client := Client{}
-	g := NewGameContext(client, levelmanager, levelFactory, entityFactory, levelViewPortFactory)
+	g := NewGameContext(client, levelmanager, levelFactory, entityFactory, levelViewPortFactory, assetFactory)
 	g.LoadLevel(1)
 	if g.level != mockLevel {
 		t.Error("unexpected level")
@@ -87,8 +96,11 @@ func TestExit(t *testing.T) {
 	levelViewPortFactory := func(positionX int32, positionY int32, height int32, width int32) ILevelViewPort {
 		return mockLevelViewPort
 	}
+	assetFactory := func() []byte {
+		return nil
+	}
 	client := Client{}
-	g := NewGameContext(client, levelmanager, levelFactory, entityFactory, levelViewPortFactory)
+	g := NewGameContext(client, levelmanager, levelFactory, entityFactory, levelViewPortFactory, assetFactory)
 	g.Exit()
 	if closeLevelCallCount != 0 {
 		t.Error("expected no call to close level")
@@ -128,8 +140,11 @@ func TestRefresh(t *testing.T) {
 	levelViewPortFactory := func(positionX int32, positionY int32, height int32, width int32) ILevelViewPort {
 		return mockLevelViewPort
 	}
+	assetFactory := func() []byte {
+		return nil
+	}
 	client := Client{}
-	g := NewGameContext(client, levelmanager, levelFactory, entityFactory, levelViewPortFactory)
+	g := NewGameContext(client, levelmanager, levelFactory, entityFactory, levelViewPortFactory, assetFactory)
 	g.LoadLevel(1)
 	g.Refresh()
 	if mockRefreshCallCount != 1 {
@@ -168,23 +183,77 @@ func TestClickAction(t *testing.T) {
 		e := Entity{}
 		return e
 	}
-	mockRefreshCallCount := 0
+
 	mockLevelViewPort := new(MockLevelViewPort)
 	mockLevelViewPort.mockRefresh = func(ILevel) RefreshResult {
-		mockRefreshCallCount++
 		return RefreshResult{}
 	}
 	levelViewPortFactory := func(positionX int32, positionY int32, height int32, width int32) ILevelViewPort {
 		return mockLevelViewPort
 	}
+	assetFactory := func() []byte {
+		return nil
+	}
 	client := Client{}
-	g := NewGameContext(client, levelmanager, levelFactory, entityFactory, levelViewPortFactory)
+	g := NewGameContext(client, levelmanager, levelFactory, entityFactory, levelViewPortFactory, assetFactory)
 	g.LoadLevel(1)
 	g.ClickAction(1)
 	g.ClickAction(1)
 	g.ClickAction(1)
 	if entityClickCount != 3 {
 		t.Error("expected 3 calls to clickaction")
+	}
+
+}
+
+func TestLoadAssets(t *testing.T) {
+	levelmanager := new(MockLevelManager)
+	mockLevel := new(MockLevel)
+
+	mockLevel.mockGetEntity = func(id int32) Entity {
+		e := Entity{}
+		return e
+	}
+	levelmanager.mockGetLevel = func(int64, LevelFactory, EntityFactory) ILevel {
+		return mockLevel
+	}
+
+	levelmanager.mockCloseLevel = func(level ILevel) {
+
+	}
+
+	levelFactory := func(id int64, data []Entity) ILevel {
+		return nil
+	}
+	entityFactory := func(data map[string]interface{}) Entity {
+		e := Entity{}
+		return e
+	}
+
+	mockLevelViewPort := new(MockLevelViewPort)
+	mockLevelViewPort.mockRefresh = func(ILevel) RefreshResult {
+		return RefreshResult{}
+	}
+	levelViewPortFactory := func(positionX int32, positionY int32, height int32, width int32) ILevelViewPort {
+		return mockLevelViewPort
+	}
+	assetFactoryCallCount := 0
+	mockAssets := []byte("abc")
+	assetFactory := func() []byte {
+		assetFactoryCallCount++
+		return mockAssets
+	}
+	client := Client{}
+	g := NewGameContext(client, levelmanager, levelFactory, entityFactory, levelViewPortFactory, assetFactory)
+	assetBytes := g.LoadAssets()
+
+	if assetFactoryCallCount != 1 {
+		t.Error("expected 1 calls to assetFactory")
+	}
+	for i := 0; i < len(mockAssets); i++ {
+		if mockAssets[i] != assetBytes[i] {
+			t.Error("asset bytes not identical")
+		}
 	}
 
 }
