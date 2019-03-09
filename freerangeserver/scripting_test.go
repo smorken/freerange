@@ -1,10 +1,10 @@
 package freerangeserver
 
-import (
-	"testing"
+import "testing"
 
-	lua "github.com/yuin/gopher-lua"
-	//"github.com/yuin/gopher-lua"
+import (
+	"github.com/gopherjs/gopherjs/js"
+	"github.com/yuin/gopher-lua"
 )
 
 func TestLuaBasic(t *testing.T) {
@@ -25,6 +25,15 @@ func TestLuaBasic(t *testing.T) {
 		t.Error("incorrect number")
 	}
 	L.Pop(1) // remove received value
+}
+
+func TestGopherjsBasic(t *testing.T) {
+
+	js.Global.Set("a", 1)
+	result := js.Global.Get("a").Float()
+	if result != 1.0 {
+		t.Error("unexpected result")
+	}
 }
 
 // func TestGojaBasic(t *testing.T) {
