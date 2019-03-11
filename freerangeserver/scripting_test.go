@@ -1,9 +1,9 @@
 package freerangeserver
 
-import "testing"
-
 import (
-	"github.com/gopherjs/gopherjs/js"
+	"testing"
+
+	"github.com/robertkrimen/otto"
 	"github.com/yuin/gopher-lua"
 )
 
@@ -27,22 +27,58 @@ func TestLuaBasic(t *testing.T) {
 	L.Pop(1) // remove received value
 }
 
-func TestGopherjsBasic(t *testing.T) {
+func TestCallGoFromLua(t *testing.T) {
 
-	js.Global.Set("a", 1)
-	result := js.Global.Get("a").Float()
-	if result != 1.0 {
-		t.Error("unexpected result")
+	callCount := 0
+	Add := func(L *lua.LState) int {
+		a := L.Get(1).(lua.LNumber)
+		b := L.Get(2).(lua.LNumber)
+		L.Push(a + b)
+		callCount++
+		return 1
+	}
+
+	L := lua.NewState()
+	defer L.Close()
+	L.SetGlobal("CallAdd", L.NewFunction(Add)) /* Original lua_setglobal uses stack... */
+	if err := L.DoString(`CallAdd(1,2)`); err != nil {
+		panic(err)
+	}
+	if callCount != 1 {
+		t.Error("expected a call")
 	}
 }
 
-// func TestGojaBasic(t *testing.T) {
-// 	vm := goja.New()
-// 	v, err := vm.RunString("2 + 2")
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// 	if num := v.Export().(int64); num != 4 {
-// 		panic(num)
-// 	}
-// }
+func TestOttoBasic(t *testing.T) {
+	vm := otto.New()
+	vm.Run(`
+		abc = 2 + 2;
+		console.log("The value of abc is " + abc); // 4
+	`)
+	if value, err := vm.Get("abc"); err == nil {
+		if value_int, err := value.ToInteger(); err == nil {
+			if value_int != 4 {
+				t.Error("not 4")
+			}
+		}
+	}
+}
+
+func TestGoCallFromOtto(t *testing.T) {
+	vm := otto.New()
+	vm.Set("twoPlus", func(call otto.FunctionCall) otto.Value {
+		right, _ := call.Argument(0).ToInteger()
+		result, _ := vm.ToValue(2 + right)
+		return result
+	})
+
+	result, _ := vm.Run(`
+    
+    result = twoPlus(2.0); // 4
+	`)
+	i, _ := result.ToInteger()
+	if i != 4 {
+		t.Error("not 4")
+	}
+
+}
