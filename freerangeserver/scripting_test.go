@@ -74,7 +74,37 @@ func TestGoCallFromOtto(t *testing.T) {
 
 	result, _ := vm.Run(`
     
-    result = twoPlus(2.0); // 4
+    result = twoPlus(2.0) // 4
+	`)
+	i, _ := result.ToInteger()
+	if i != 4 {
+		t.Error("not 4")
+	}
+
+}
+
+type testStruct struct {
+	str    string
+	number float64
+}
+
+func TestPopulateGoStructFromOtto(t *testing.T) {
+	vm := otto.New()
+
+	populateEntity := func(data map[string]interface{}) testStruct {
+		ts := testStruct{data["str"].(string), data["number"].(float64)}
+		return ts
+	}
+
+	vm.Set("initialize", func(call otto.FunctionCall) otto.Value {
+
+		result, _ := vm.ToValue(2 + right)
+		return result
+	})
+
+	result, _ := vm.Run(`
+    
+    result = twoPlus(2.0) // 4
 	`)
 	i, _ := result.ToInteger()
 	if i != 4 {
