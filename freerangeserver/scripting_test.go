@@ -91,24 +91,28 @@ type testStruct struct {
 func TestPopulateGoStructFromOtto(t *testing.T) {
 	vm := otto.New()
 
-	populateEntity := func(data map[string]interface{}) testStruct {
-		ts := testStruct{data["str"].(string), data["number"].(float64)}
-		return ts
+	result := testStruct{}
+	populateEntity := func(data map[string]interface{}) {
+		result = testStruct{data["str"].(string), data["number"].(float64)}
 	}
 
 	vm.Set("initialize", func(call otto.FunctionCall) otto.Value {
+		arg := call.Argument(0)
+		obj := arg.Object()
+		data := map[string]interface{}{}
+		v1, _ := obj.Get("str")
+		v2, _ := obj.Get("number")
+		data["str"], _ = v1.ToString()
+		data["number"], _ = v2.ToFloat()
 
-		result, _ := vm.ToValue(2 + right)
-		return result
+		populateEntity(data)
+		return arg
 	})
 
-	result, _ := vm.Run(`
-    
-    result = twoPlus(2.0) // 4
+	vm.Run(`
+    result = initialize({"str":"a string", "number": 1.0})
 	`)
-	i, _ := result.ToInteger()
-	if i != 4 {
-		t.Error("not 4")
+	if result.number != 1.0 || result.str != "a string" {
+		t.Error("unexpected values")
 	}
-
 }
